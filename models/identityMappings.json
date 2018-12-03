@@ -1,0 +1,446 @@
+{
+  "apiVersion": "5.0.3.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/identityMappings",
+  "apis": [
+    {
+      "path": "/identityMappings",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Identity Mappings",
+          "notes": "",
+          "type": "IdentityMappingsView",
+          "nickname": "getIdentityMappingsCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Identity Mappings per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Identity Mapping with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "name",
+              "description": "Get a specific Identity Mapping by name (case-sensitive)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Identity Mapping attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create an Identity Mapping",
+          "notes": "",
+          "type": "IdentityMappingView",
+          "nickname": "addIdentityMappingCommand",
+          "parameters": [
+            {
+              "name": "IdentityMappings",
+              "description": "IdentityMapping to create",
+              "required": true,
+              "allowMultiple": false,
+              "type": "IdentityMappingView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/identityMappings/descriptors",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get descriptors for all supported Identity Mapping types",
+          "notes": "",
+          "type": "IdentityMappingDescriptorsView",
+          "nickname": "getIdentityMappingDescriptorsCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/identityMappings/descriptors/{identityMappingType}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get descriptor for an Identity Mapping type",
+          "notes": "",
+          "type": "IdentityMappingDescriptor",
+          "nickname": "getIdentityMappingDescriptorCommand",
+          "parameters": [
+            {
+              "name": "identityMappingType",
+              "description": "Identity Mapping descriptor to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/identityMappings/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete an Identity Mapping",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteIdentityMappingCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of IdentityMapping to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get an Identity Mapping",
+          "notes": "",
+          "type": "IdentityMappingView",
+          "nickname": "getIdentityMappingCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of identityMapping to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update an Identity Mapping",
+          "notes": "",
+          "type": "IdentityMappingView",
+          "nickname": "updateIdentityMappingCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of IdentityMapping to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "IdentityMappings",
+              "description": "IdentityMapping to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "IdentityMappingView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "ConfigurationParentField": {
+      "id": "ConfigurationParentField",
+      "description": "Configuration of the parent field.",
+      "required": [
+        "dependentFieldOptions",
+        "fieldName"
+      ],
+      "properties": {
+        "dependentFieldOptions": {
+          "type": "array",
+          "description": "The dependent field options attributes.",
+          "items": {
+            "$ref": "ConfigurationDependentFieldOption"
+          }
+        },
+        "fieldName": {
+          "type": "string",
+          "description": "The configuration parent field name."
+        }
+      }
+    },
+    "IdentityMappingsView": {
+      "id": "IdentityMappingsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of identity mappings.",
+          "items": {
+            "$ref": "IdentityMappingView"
+          }
+        }
+      }
+    },
+    "ConfigurationField": {
+      "id": "ConfigurationField",
+      "description": "Details for configuration in the administrator console.",
+      "required": [
+        "advanced",
+        "buttonGroup",
+        "default",
+        "deselectable",
+        "fields",
+        "help",
+        "label",
+        "name",
+        "options",
+        "parentField",
+        "required",
+        "type"
+      ],
+      "properties": {
+        "advanced": {
+          "type": "boolean",
+          "description": "Indicates that the configuration field is an advanced field or not."
+        },
+        "buttonGroup": {
+          "type": "string",
+          "description": "The name of group radio buttons that cooperate in a single selection."
+        },
+        "default": {
+          "type": "string",
+          "description": "The default value of the configuration field."
+        },
+        "deselectable": {
+          "type": "boolean",
+          "description": "Indicates that a radio button is able to be deselected."
+        },
+        "fields": {
+          "type": "array",
+          "description": "The list of configuration fields that the current configuration field is the parent of.",
+          "items": {
+            "$ref": "ConfigurationField"
+          }
+        },
+        "help": {
+          "$ref": "Help",
+          "description": "The help attributes of the configuration field."
+        },
+        "label": {
+          "type": "string",
+          "description": "The label of the configuration field."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the configuration field."
+        },
+        "options": {
+          "$ref": "java.util.Collection<com.pingidentity.pa.sdk.ui.ConfigurationOption>",
+          "description": "The available options for the select based configuration fields."
+        },
+        "parentField": {
+          "$ref": "ConfigurationParentField",
+          "description": "The parent field attributes."
+        },
+        "required": {
+          "type": "boolean",
+          "description": "Indicates that the configuration field value is required or not."
+        },
+        "type": {
+          "$ref": "ConfigurationType",
+          "description": "The type of the configuration field.",
+          "enum": [
+            "TEXT",
+            "TEXTAREA",
+            "TIME",
+            "SELECT",
+            "GROOVY",
+            "CONCEALED",
+            "LIST",
+            "TABLE",
+            "CHECKBOX",
+            "AUTOCOMPLETEOPEN",
+            "AUTOCOMPLETECLOSED",
+            "COMPOSITE",
+            "RADIO_BUTTON"
+          ]
+        }
+      }
+    },
+    "IdentityMappingDescriptor": {
+      "id": "IdentityMappingDescriptor",
+      "required": [
+        "className",
+        "configurationFields",
+        "label",
+        "type"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "The class name of the identity mapping."
+        },
+        "configurationFields": {
+          "type": "array",
+          "description": "The list of configuration fields of the identity mapping",
+          "items": {
+            "$ref": "ConfigurationField"
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "The label of the identity mapping."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of the identity mapping."
+        }
+      }
+    },
+    "IdentityMappingDescriptorsView": {
+      "id": "IdentityMappingDescriptorsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of identity mapping descriptors.",
+          "items": {
+            "$ref": "IdentityMappingDescriptor"
+          }
+        }
+      }
+    },
+    "ConfigurationOption": {
+      "id": "ConfigurationOption",
+      "description": "The configuration option attributes.",
+      "required": [
+        "category",
+        "label",
+        "value"
+      ],
+      "properties": {
+        "category": {
+          "$ref": "java.util.Optional<java.lang.String>",
+          "description": "The configuration option category."
+        },
+        "label": {
+          "type": "string",
+          "description": "The configuration option label."
+        },
+        "value": {
+          "type": "string",
+          "description": "The configuration option value."
+        }
+      }
+    },
+    "ConfigurationDependentFieldOption": {
+      "id": "ConfigurationDependentFieldOption",
+      "description": "Configuration of the dependent field option.",
+      "required": [
+        "options",
+        "value"
+      ],
+      "properties": {
+        "options": {
+          "type": "array",
+          "description": "The dependent field options.",
+          "items": {
+            "$ref": "ConfigurationOption"
+          }
+        },
+        "value": {
+          "type": "string",
+          "description": "The dependent field option value."
+        }
+      }
+    },
+    "Help": {
+      "id": "Help",
+      "description": "Configuration of the help context of a configuration field.",
+      "required": [
+        "content",
+        "title",
+        "url"
+      ],
+      "properties": {
+        "content": {
+          "type": "string",
+          "description": "The help content of the configuration field."
+        },
+        "title": {
+          "type": "string",
+          "description": "The help title of the configuration field."
+        },
+        "url": {
+          "type": "string",
+          "description": "The help URL for the configuration field."
+        }
+      }
+    },
+    "IdentityMappingView": {
+      "id": "IdentityMappingView",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "(sortable) The identity mapping's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The identity mapping's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The name of the identity mapping."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "enabled": true,
+      "agentCacheInvalidatedResponseDuration": 900,
+      "agentCacheInvalidatedExpiration": 1542751303352,
+      "lastModified": 1542750403352,
+      "requireHTTPS": true,
+      "name": "cheese",
+      "description": "",
+      "applicationType": "Web",
+      "defaultAuthType": "Web",
+      "destination": "Site",
+      "contextRoot": "/foo",
+      "realm": null,
+      "caseSensitivePath": false,
+      "webSessionId": 0,
+      "siteId": 1,
+      "agentId": 0,
+      "virtualHostIds": [
+        2
+      ],
+      "identityMappingIds": {
+        "Web": 0,
+        "API": 0
+      },
+      "accessValidatorId": 0,
+      "policy": {
+        "Web": [
+          {
+            "type": "Rule",
+            "id": 3
+          },
+          {
+            "type": "Rule",
+            "id": 2
+          }
+        ],
+        "API": []
+      }
+    }
+  ]
+}

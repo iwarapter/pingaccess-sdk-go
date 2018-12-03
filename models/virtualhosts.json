@@ -1,0 +1,238 @@
+{
+  "apiVersion": "5.0.3.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/virtualhosts",
+  "apis": [
+    {
+      "path": "/virtualhosts",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Virtual Hosts",
+          "notes": "",
+          "type": "VirtualHostsView",
+          "nickname": "getVirtualHostsCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Virtual Hosts per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Virtual Hosts with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "virtualHost",
+              "description": "Get a Virtual Host by hostname, port or both",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Virtual Host attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create a Virtual Host",
+          "notes": "",
+          "type": "VirtualHostView",
+          "nickname": "addVirtualHostCommand",
+          "parameters": [
+            {
+              "name": "VirtualHost",
+              "description": "Virtual Host to create",
+              "required": true,
+              "allowMultiple": false,
+              "type": "VirtualHostView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/virtualhosts/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete a Virtual Host",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteVirtualHostCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Virtual Host to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a Virtual Host",
+          "notes": "",
+          "type": "VirtualHost",
+          "nickname": "getVirtualHostCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Virtual Host to locate",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update a Virtual Host",
+          "notes": "",
+          "type": "VirtualHostView",
+          "nickname": "updateVirtualHostCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Virtual Host to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "VirtualHost",
+              "description": "Updated Virtual Host",
+              "required": true,
+              "allowMultiple": false,
+              "type": "VirtualHostView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "VirtualHostView": {
+      "id": "VirtualHostView",
+      "required": [
+        "host",
+        "port"
+      ],
+      "properties": {
+        "agentResourceCacheTTL": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) Indicates the number of seconds the Agent can cache resources for this application."
+        },
+        "host": {
+          "type": "string",
+          "description": "(sortable) The host name for the Virtual Host."
+        },
+        "keyPairId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Key pair assigned to Virtual Host used by SNI, If no key pair is assigned to a virtual host, ENGINE HTTPS Listener key pair will be used."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) The integer port number for the Virtual Host."
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Trusted Certificate Group assigned to Virtual Host for client certificate authentication."
+        }
+      }
+    },
+    "VirtualHostsView": {
+      "id": "VirtualHostsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "VirtualHostView"
+          }
+        }
+      }
+    },
+    "VirtualHost": {
+      "id": "VirtualHost",
+      "required": [
+        "id",
+        "agentResourceCacheTTL",
+        "host",
+        "keyPairId",
+        "port",
+        "trustedCertificateGroupId"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "agentResourceCacheTTL": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "host": {
+          "type": "string"
+        },
+        "keyPairId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    }
+  }
+}

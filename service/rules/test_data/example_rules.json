@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "className": "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
+      "id": 2,
+      "name": "demo",
+      "supportedDestinations": [
+        "Site",
+        "Agent"
+      ],
+      "configuration": {
+        "cidrNotation": "127.0.0.1/32",
+        "negate": false,
+        "overrideIpSource": false,
+        "headers": [],
+        "headerValueLocation": "LAST",
+        "fallbackToLastHopIp": true,
+        "errorResponseCode": 403,
+        "errorResponseStatusMsg": "Forbidden",
+        "errorResponseTemplateFile": "policy.error.page.template.html",
+        "errorResponseContentType": "text/html;charset=UTF-8"
+      }
+    },
+    {
+      "className": "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
+      "id": 3,
+      "name": "woot",
+      "supportedDestinations": [
+        "Site",
+        "Agent"
+      ],
+      "configuration": {
+        "cidrNotation": "127.0.0.1/32",
+        "negate": false,
+        "overrideIpSource": false,
+        "headers": [],
+        "headerValueLocation": "LAST",
+        "fallbackToLastHopIp": true,
+        "errorResponseCode": 403,
+        "errorResponseStatusMsg": "Forbidden",
+        "errorResponseTemplateFile": "policy.error.page.template.html",
+        "errorResponseContentType": "text/html;charset=UTF-8"
+      }
+    },
+    {
+      "className": "com.pingidentity.pa.policy.OAuthAttributeValuePolicyInterceptor",
+      "id": 4,
+      "name": "bar",
+      "supportedDestinations": [
+        "Site",
+        "Agent"
+      ],
+      "configuration": {
+        "oauthAttributeTable": [
+          {
+            "attributeName": "cheese",
+            "attributeValue": "woot"
+          }
+        ],
+        "negate": false,
+        "errorResponseCode": 403,
+        "errorResponseStatusMsg": "Forbidden",
+        "errorResponseTemplateFile": "oauth.error.json",
+        "errorResponseContentType": "application/json;charset=utf-8"
+      }
+    }
+  ]
+}

@@ -1,0 +1,634 @@
+{
+  "apiVersion": "5.0.3.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/applications",
+  "apis": [
+    {
+      "path": "/applications",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Applications",
+          "notes": "",
+          "type": "ApplicationsView",
+          "nickname": "getApplicationsCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "siteId",
+              "description": "Search for Applications with Site",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Applications per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "agentId",
+              "description": "Search for Applications with Agent",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "virtualHostId",
+              "description": "Search for Applications with Virtual Host",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Applications with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "name",
+              "description": "Get an Application by name",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Application attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Add an Application",
+          "notes": "",
+          "type": "ApplicationView",
+          "nickname": "addApplicationCommand",
+          "parameters": [
+            {
+              "name": "Application",
+              "description": "Application to add",
+              "required": true,
+              "allowMultiple": false,
+              "type": "ApplicationView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/resources",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Resources",
+          "notes": "",
+          "type": "ResourcesView",
+          "nickname": "getResourcesCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Resources per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/resources/methods",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get Application Resource Methods",
+          "notes": "",
+          "type": "MethodsView",
+          "nickname": "getApplicationsResourcesMethodsCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/applications/{applicationId}/resources/{resourceId}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete an Application Resource",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteApplicationResourceCommand",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "ID of Application",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "resourceId",
+              "description": "ID of the Resource to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get an Application Resource",
+          "notes": "",
+          "type": "ResourceView",
+          "nickname": "getApplicationResourceCommand",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "ID of Application",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "resourceId",
+              "description": "ID of the Resource to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update an Application Resource",
+          "notes": "",
+          "type": "ResourceView",
+          "nickname": "updateApplicationResourceCommand",
+          "parameters": [
+            {
+              "name": "applicationId",
+              "description": "ID of Application",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "resourceId",
+              "description": "ID of Resource to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "resource",
+              "description": "Resource to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "ResourceView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete an Application",
+          "notes": "",
+          "type": "ApplicationView",
+          "nickname": "deleteApplicationCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get an Application",
+          "notes": "",
+          "type": "ApplicationView",
+          "nickname": "getApplicationCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update an Application",
+          "notes": "",
+          "type": "ApplicationView",
+          "nickname": "updateApplicationCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "Application",
+              "description": "Application to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "ApplicationView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/{id}/resources",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get Resources for an Application",
+          "notes": "",
+          "type": "ResourceView",
+          "nickname": "getApplicationResourcesCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Resources per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "id",
+              "description": "ID of Application to get Resources for",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "name",
+              "description": "Get a Resource by name and application Id",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Resources with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Resource attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Add Resource to an Application",
+          "notes": "",
+          "type": "ResourceView",
+          "nickname": "addApplicationResourceCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to add Resource to",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "resource",
+              "description": "Resource to add",
+              "required": true,
+              "allowMultiple": false,
+              "type": "ResourceView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "ResourcesView": {
+      "id": "ResourcesView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "ResourceView"
+          }
+        }
+      }
+    },
+    "ApplicationView": {
+      "id": "ApplicationView",
+      "description": "An application.",
+      "required": [
+        "agentId",
+        "contextRoot",
+        "defaultAuthType",
+        "name",
+        "siteId",
+        "virtualHostIds"
+      ],
+      "properties": {
+        "accessValidatorId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Non-zero if the application is protected by an Authorization Server. Only applies to applications of type API."
+        },
+        "agentId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the agent associated with the application or zero if none."
+        },
+        "applicationType": {
+          "$ref": "ApplicationTypeView",
+          "description": "(sortable) The type of application.",
+          "enum": [
+            "Web",
+            "API",
+            "Dynamic"
+          ]
+        },
+        "caseSensitivePath": {
+          "type": "boolean",
+          "description": "(sortable) True if the path is case sensitive."
+        },
+        "contextRoot": {
+          "type": "string",
+          "description": "(sortable) The context root of the application."
+        },
+        "defaultAuthType": {
+          "$ref": "DefaultAuthTypeView",
+          "description": "For Web + API applications (dynamic) defaultAuthType selects the processing mode when a request: does not have a token (web session, OAuth bearer) or has both tokens.  This setting applies to all resources in the application except where overridden with defaultAuthTypeOverride. ",
+          "enum": [
+            "Web",
+            "API"
+          ]
+        },
+        "description": {
+          "type": "string",
+          "description": "(sortable) A description of the application."
+        },
+        "destination": {
+          "$ref": "DestinationView",
+          "description": "(sortable) The application destination type.",
+          "enum": [
+            "Site",
+            "Agent"
+          ]
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "(sortable) True if the application is enabled."
+        },
+        "identityMappingIds": {
+          "$ref": "Map[string,int]",
+          "description": "A map of Identity Mappings associated with the application. The key is 'Web' or 'API' and the value is an Identity Mapping ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The application name."
+        },
+        "policy": {
+          "$ref": "Map[string,List[PolicyItem]]",
+          "description": "A map of policy items associated with the application.  The key is 'Web' or 'API' and the value is a list of PolicyItems."
+        },
+        "realm": {
+          "type": "string",
+          "description": "(sortable) The OAuth realm associated with the application."
+        },
+        "requireHTTPS": {
+          "type": "boolean",
+          "description": "(sortable) True if the application requires HTTPS connections."
+        },
+        "siteId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the site associated with the application or zero if none."
+        },
+        "virtualHostIds": {
+          "type": "array",
+          "description": "An array of virtual host IDs associated with the application.",
+          "items": {
+            "type": "int"
+          }
+        },
+        "webSessionId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the web session associated with the application or zero if none."
+        }
+      }
+    },
+    "ResourceView": {
+      "id": "ResourceView",
+      "description": "A resource.",
+      "required": [
+        "defaultAuthTypeOverride",
+        "methods",
+        "name",
+        "pathPrefixes"
+      ],
+      "properties": {
+        "anonymous": {
+          "type": "boolean",
+          "description": "(sortable) True if the resource is anonymous."
+        },
+        "applicationId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The id of the associated application. This field is read-only."
+        },
+        "auditLevel": {
+          "type": "string",
+          "description": "= ['ON' or 'OFF']: (sortable) Indicates if audit logging is enabled for the resource."
+        },
+        "defaultAuthTypeOverride": {
+          "$ref": "DefaultAuthTypeView",
+          "description": "For Web + API applications (dynamic) defaultAuthType selects the processing mode when a request: does not have a token (web session, OAuth bearer) or has both tokens.  defaultAuthTypeOverride overrides the defaultAuthType at the application level for this resource.  A value of null indicates the resource should not override the defaultAuthType.",
+          "enum": [
+            "Web",
+            "API"
+          ]
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "(sortable) True if the resource is enabled."
+        },
+        "methods": {
+          "$ref": "Set",
+          "description": "An array of HTTP methods configured for the resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The name of the resource"
+        },
+        "pathPrefixes": {
+          "$ref": "Set",
+          "description": "An array of path prefixes for the resource",
+          "items": {
+            "type": "string"
+          }
+        },
+        "policy": {
+          "$ref": "Map[string,List[PolicyItem]]",
+          "description": "A map of policy items associated with the resource.  The key is 'Web' or 'API' and the value is a list of PolicyItems."
+        },
+        "rootResource": {
+          "type": "boolean",
+          "description": "(sortable) True if the resource is the root resource for the application"
+        }
+      }
+    },
+    "MethodsView": {
+      "id": "MethodsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "MethodView"
+          }
+        }
+      }
+    },
+    "ApplicationsView": {
+      "id": "ApplicationsView",
+      "description": "A collection of applications.",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "An array of applications.",
+          "items": {
+            "$ref": "ApplicationView"
+          }
+        }
+      }
+    },
+    "MethodView": {
+      "id": "MethodView",
+      "description": "HTTP Method",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "HTTP Method name"
+        }
+      }
+    }
+  }
+}
