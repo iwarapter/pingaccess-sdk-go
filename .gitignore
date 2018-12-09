@@ -1,2 +1,5 @@
 vendor
 *.out
+coverage.txt
+report.json
+.scannerwork/

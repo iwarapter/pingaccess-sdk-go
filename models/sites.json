@@ -1,0 +1,253 @@
+{
+  "apiVersion": "5.0.3.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/sites",
+  "apis": [
+    {
+      "path": "/sites",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Sites",
+          "notes": "",
+          "type": "SitesView",
+          "nickname": "getSitesCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Sites per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Sites with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "name",
+              "description": "Get a Site by name (case-sensitive)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Site attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Create a Site",
+          "notes": "",
+          "type": "SiteView",
+          "nickname": "addSiteCommand",
+          "parameters": [
+            {
+              "name": "Site",
+              "description": "Site to add",
+              "required": true,
+              "allowMultiple": false,
+              "type": "SiteView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/sites/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete a Site",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteSiteCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Site to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a Site",
+          "notes": "",
+          "type": "SiteView",
+          "nickname": "getSiteCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Site to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update a Site",
+          "notes": "",
+          "type": "SiteView",
+          "nickname": "updateSiteCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Site to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "Site",
+              "description": "Site to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "SiteView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "SitesView": {
+      "id": "SitesView",
+      "description": "A collection of sites items.",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of sites.",
+          "items": {
+            "$ref": "SiteView"
+          }
+        }
+      }
+    },
+    "SiteView": {
+      "id": "SiteView",
+      "description": "A site.",
+      "required": [
+        "name",
+        "targets"
+      ],
+      "properties": {
+        "availabilityProfileId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the availability profile associated with the site."
+        },
+        "expectedHostname": {
+          "type": "string",
+          "description": "(sortable) The name of the host expected in the site's certificate."
+        },
+        "keepAliveTimeout": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) The time, in milliseconds, that an HTTP persistent connection to the site can be idle before PingAccess closes the connection."
+        },
+        "loadBalancingStrategyId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the load balancing strategy associated with the site."
+        },
+        "maxConnections": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) The maximum number of HTTP persistent connections you want PingAccess to have open and maintain for the site. -1 indicates unlimited connections."
+        },
+        "maxWebSocketConnections": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) The maximum number of WebSocket connections you want PingAccess to have open and maintain for the site. -1 indicates unlimited connections."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The name of the site."
+        },
+        "secure": {
+          "type": "boolean",
+          "description": "(sortable) This field is true if the site expects HTTPS connections."
+        },
+        "sendPaCookie": {
+          "type": "boolean",
+          "description": "(sortable) This field is true if the PingAccess Token or OAuth Access Token should be included in the request to the site."
+        },
+        "siteAuthenticatorIds": {
+          "type": "array",
+          "description": "The IDs of the site authenticators associated with the site.",
+          "items": {
+            "type": "int"
+          }
+        },
+        "skipHostnameVerification": {
+          "type": "boolean",
+          "description": "(sortable) This field is true if the hostname verification of the site's certificate should be skipped."
+        },
+        "targets": {
+          "type": "array",
+          "description": "The {hostname}:{port} pairs for the hosts that make up the site.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the trusted certificate group associated with the site."
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "(sortable) True if a proxy should be used for HTTP or HTTPS requests."
+        },
+        "useTargetHostHeader": {
+          "type": "boolean",
+          "description": "(sortable) Setting this field to true causes PingAccess to adjust the Host header to the site's selected target host rather than the virtual host configured in the application."
+        }
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 )
@@ -74,6 +75,7 @@ type IdentityMappingDescriptorsView struct {
 type IdentityMappingView struct {
 	ClassName     string                 `json:"className"`
 	Configuration map[string]interface{} `json:"configuration"`
+	Id            int                    `json:"id",omitempty`
 	Name          string                 `json:"name"`
 }
 
@@ -101,9 +103,12 @@ func New(cfg *pingaccess.Config) *IdentityMappings {
 func (svc *IdentityMappings) GetIdentityMappingsCommand(input *GetIdentityMappingsCommandInput) (result *IdentityMappingsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -117,6 +122,7 @@ func (svc *IdentityMappings) GetIdentityMappingsCommand(input *GetIdentityMappin
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -139,12 +145,17 @@ type GetIdentityMappingsCommandInput struct {
 func (svc *IdentityMappings) AddIdentityMappingCommand(input *AddIdentityMappingCommandInput) (result *IdentityMappingView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -158,6 +169,7 @@ func (svc *IdentityMappings) AddIdentityMappingCommand(input *AddIdentityMapping
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -173,9 +185,12 @@ type AddIdentityMappingCommandInput struct {
 func (svc *IdentityMappings) GetIdentityMappingDescriptorsCommand() (result *IdentityMappingDescriptorsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings/descriptors")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -189,6 +204,7 @@ func (svc *IdentityMappings) GetIdentityMappingDescriptorsCommand() (result *Ide
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -200,9 +216,14 @@ func (svc *IdentityMappings) GetIdentityMappingDescriptorsCommand() (result *Ide
 func (svc *IdentityMappings) GetIdentityMappingDescriptorCommand(input *GetIdentityMappingDescriptorCommandInput) (result *IdentityMappingDescriptor, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings/descriptors/{identityMappingType}")
 
+	url = strings.Replace(url, "{identityMappingType}", input.Path.IdentityMappingType, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -216,6 +237,7 @@ func (svc *IdentityMappings) GetIdentityMappingDescriptorCommand(input *GetIdent
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -223,7 +245,7 @@ func (svc *IdentityMappings) GetIdentityMappingDescriptorCommand(input *GetIdent
 
 type GetIdentityMappingDescriptorCommandInput struct {
 	Path struct {
-		identityMappingType string
+		IdentityMappingType string
 	}
 }
 
@@ -233,13 +255,20 @@ type GetIdentityMappingDescriptorCommandInput struct {
 func (svc *IdentityMappings) DeleteIdentityMappingCommand(input *DeleteIdentityMappingCommandInput) (err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return err
 	}
+
+	_, err = http.DefaultClient.Do(req)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -250,7 +279,7 @@ func (svc *IdentityMappings) DeleteIdentityMappingCommand(input *DeleteIdentityM
 
 type DeleteIdentityMappingCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -260,9 +289,14 @@ type DeleteIdentityMappingCommandInput struct {
 func (svc *IdentityMappings) GetIdentityMappingCommand(input *GetIdentityMappingCommandInput) (result *IdentityMappingView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -276,6 +310,7 @@ func (svc *IdentityMappings) GetIdentityMappingCommand(input *GetIdentityMapping
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -283,7 +318,7 @@ func (svc *IdentityMappings) GetIdentityMappingCommand(input *GetIdentityMapping
 
 type GetIdentityMappingCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -293,12 +328,19 @@ type GetIdentityMappingCommandInput struct {
 func (svc *IdentityMappings) UpdateIdentityMappingCommand(input *UpdateIdentityMappingCommandInput) (result *IdentityMappingView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/identityMappings/{id}")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -312,6 +354,7 @@ func (svc *IdentityMappings) UpdateIdentityMappingCommand(input *UpdateIdentityM
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -320,6 +363,6 @@ func (svc *IdentityMappings) UpdateIdentityMappingCommand(input *UpdateIdentityM
 type UpdateIdentityMappingCommandInput struct {
 	Body IdentityMappingView
 	Path struct {
-		id string
+		Id string
 	}
 }

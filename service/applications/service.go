@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 )
@@ -26,6 +27,7 @@ type ApplicationView struct {
 	Description        string                 `json:"description",omitempty`
 	Destination        string                 `json:"destination",omitempty`
 	Enabled            bool                   `json:"enabled",omitempty`
+	Id                 int                    `json:"id",omitempty`
 	IdentityMappingIds map[string]int         `json:"identityMappingIds",omitempty`
 	Name               string                 `json:"name"`
 	Policy             map[string]interface{} `json:"policy",omitempty`
@@ -58,6 +60,7 @@ type ResourceView struct {
 	AuditLevel              string                 `json:"auditLevel",omitempty`
 	DefaultAuthTypeOverride string                 `json:"defaultAuthTypeOverride"`
 	Enabled                 bool                   `json:"enabled",omitempty`
+	Id                      int                    `json:"id",omitempty`
 	Methods                 []*string              `json:"methods"`
 	Name                    string                 `json:"name"`
 	PathPrefixes            []*string              `json:"pathPrefixes"`
@@ -89,9 +92,12 @@ func New(cfg *pingaccess.Config) *Applications {
 func (svc *Applications) GetApplicationsCommand(input *GetApplicationsCommandInput) (result *ApplicationsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -105,6 +111,7 @@ func (svc *Applications) GetApplicationsCommand(input *GetApplicationsCommandInp
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -130,12 +137,17 @@ type GetApplicationsCommandInput struct {
 func (svc *Applications) AddApplicationCommand(input *AddApplicationCommandInput) (result *ApplicationView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -149,6 +161,7 @@ func (svc *Applications) AddApplicationCommand(input *AddApplicationCommandInput
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -164,9 +177,12 @@ type AddApplicationCommandInput struct {
 func (svc *Applications) GetResourcesCommand(input *GetResourcesCommandInput) (result *ResourcesView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/resources")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -180,6 +196,7 @@ func (svc *Applications) GetResourcesCommand(input *GetResourcesCommandInput) (r
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -198,9 +215,12 @@ type GetResourcesCommandInput struct {
 func (svc *Applications) GetApplicationsResourcesMethodsCommand() (result *MethodsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/resources/methods")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -214,6 +234,7 @@ func (svc *Applications) GetApplicationsResourcesMethodsCommand() (result *Metho
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -225,13 +246,22 @@ func (svc *Applications) GetApplicationsResourcesMethodsCommand() (result *Metho
 func (svc *Applications) DeleteApplicationResourceCommand(input *DeleteApplicationResourceCommandInput) (err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{applicationId}/resources/{resourceId}")
 
+	url = strings.Replace(url, "{applicationId}", input.Path.ApplicationId, -1)
+
+	url = strings.Replace(url, "{resourceId}", input.Path.ResourceId, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return err
 	}
+
+	_, err = http.DefaultClient.Do(req)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -242,8 +272,8 @@ func (svc *Applications) DeleteApplicationResourceCommand(input *DeleteApplicati
 
 type DeleteApplicationResourceCommandInput struct {
 	Path struct {
-		applicationId string
-		resourceId    string
+		ApplicationId string
+		ResourceId    string
 	}
 }
 
@@ -253,9 +283,16 @@ type DeleteApplicationResourceCommandInput struct {
 func (svc *Applications) GetApplicationResourceCommand(input *GetApplicationResourceCommandInput) (result *ResourceView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{applicationId}/resources/{resourceId}")
 
+	url = strings.Replace(url, "{applicationId}", input.Path.ApplicationId, -1)
+
+	url = strings.Replace(url, "{resourceId}", input.Path.ResourceId, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -269,6 +306,7 @@ func (svc *Applications) GetApplicationResourceCommand(input *GetApplicationReso
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -276,8 +314,8 @@ func (svc *Applications) GetApplicationResourceCommand(input *GetApplicationReso
 
 type GetApplicationResourceCommandInput struct {
 	Path struct {
-		applicationId string
-		resourceId    string
+		ApplicationId string
+		ResourceId    string
 	}
 }
 
@@ -287,12 +325,21 @@ type GetApplicationResourceCommandInput struct {
 func (svc *Applications) UpdateApplicationResourceCommand(input *UpdateApplicationResourceCommandInput) (result *ResourceView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{applicationId}/resources/{resourceId}")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{applicationId}", input.Path.ApplicationId, -1)
+
+	url = strings.Replace(url, "{resourceId}", input.Path.ResourceId, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -306,6 +353,7 @@ func (svc *Applications) UpdateApplicationResourceCommand(input *UpdateApplicati
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -314,8 +362,8 @@ func (svc *Applications) UpdateApplicationResourceCommand(input *UpdateApplicati
 type UpdateApplicationResourceCommandInput struct {
 	Body ResourceView
 	Path struct {
-		applicationId string
-		resourceId    string
+		ApplicationId string
+		ResourceId    string
 	}
 }
 
@@ -325,9 +373,14 @@ type UpdateApplicationResourceCommandInput struct {
 func (svc *Applications) DeleteApplicationCommand(input *DeleteApplicationCommandInput) (result *ApplicationView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -341,6 +394,7 @@ func (svc *Applications) DeleteApplicationCommand(input *DeleteApplicationComman
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -348,7 +402,7 @@ func (svc *Applications) DeleteApplicationCommand(input *DeleteApplicationComman
 
 type DeleteApplicationCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -358,9 +412,14 @@ type DeleteApplicationCommandInput struct {
 func (svc *Applications) GetApplicationCommand(input *GetApplicationCommandInput) (result *ApplicationView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -374,6 +433,7 @@ func (svc *Applications) GetApplicationCommand(input *GetApplicationCommandInput
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -381,7 +441,7 @@ func (svc *Applications) GetApplicationCommand(input *GetApplicationCommandInput
 
 type GetApplicationCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -391,12 +451,19 @@ type GetApplicationCommandInput struct {
 func (svc *Applications) UpdateApplicationCommand(input *UpdateApplicationCommandInput) (result *ApplicationView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{id}")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -410,6 +477,7 @@ func (svc *Applications) UpdateApplicationCommand(input *UpdateApplicationComman
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -418,7 +486,7 @@ func (svc *Applications) UpdateApplicationCommand(input *UpdateApplicationComman
 type UpdateApplicationCommandInput struct {
 	Body ApplicationView
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -428,9 +496,14 @@ type UpdateApplicationCommandInput struct {
 func (svc *Applications) GetApplicationResourcesCommand(input *GetApplicationResourcesCommandInput) (result *ResourceView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{id}/resources")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -444,6 +517,7 @@ func (svc *Applications) GetApplicationResourcesCommand(input *GetApplicationRes
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -460,7 +534,7 @@ type GetApplicationResourcesCommandInput struct {
 	}
 
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -470,12 +544,19 @@ type GetApplicationResourcesCommandInput struct {
 func (svc *Applications) AddApplicationResourceCommand(input *AddApplicationResourceCommandInput) (result *ResourceView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/applications/{id}/resources")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -489,6 +570,7 @@ func (svc *Applications) AddApplicationResourceCommand(input *AddApplicationReso
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -497,6 +579,6 @@ func (svc *Applications) AddApplicationResourceCommand(input *AddApplicationReso
 type AddApplicationResourceCommandInput struct {
 	Body ResourceView
 	Path struct {
-		id string
+		Id string
 	}
 }

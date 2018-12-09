@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 )
@@ -74,6 +75,7 @@ type SiteAuthenticatorDescriptorsView struct {
 type SiteAuthenticatorView struct {
 	ClassName     string                 `json:"className"`
 	Configuration map[string]interface{} `json:"configuration"`
+	Id            int                    `json:"id",omitempty`
 	Name          string                 `json:"name"`
 }
 
@@ -101,9 +103,12 @@ func New(cfg *pingaccess.Config) *SiteAuthenticators {
 func (svc *SiteAuthenticators) GetSiteAuthenticatorsCommand(input *GetSiteAuthenticatorsCommandInput) (result *SiteAuthenticatorsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -117,6 +122,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorsCommand(input *GetSiteAuthen
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -139,12 +145,17 @@ type GetSiteAuthenticatorsCommandInput struct {
 func (svc *SiteAuthenticators) AddSiteAuthenticatorCommand(input *AddSiteAuthenticatorCommandInput) (result *SiteAuthenticatorView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -158,6 +169,7 @@ func (svc *SiteAuthenticators) AddSiteAuthenticatorCommand(input *AddSiteAuthent
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -173,9 +185,12 @@ type AddSiteAuthenticatorCommandInput struct {
 func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorsCommand() (result *SiteAuthenticatorDescriptorsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators/descriptors")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -189,6 +204,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorsCommand() (result 
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -200,9 +216,14 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorsCommand() (result 
 func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorCommand(input *GetSiteAuthenticatorDescriptorCommandInput) (result *SiteAuthenticatorDescriptor, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators/descriptors/{siteAuthenticatorType}")
 
+	url = strings.Replace(url, "{siteAuthenticatorType}", input.Path.SiteAuthenticatorType, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -216,6 +237,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorCommand(input *GetS
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -223,7 +245,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorDescriptorCommand(input *GetS
 
 type GetSiteAuthenticatorDescriptorCommandInput struct {
 	Path struct {
-		siteAuthenticatorType string
+		SiteAuthenticatorType string
 	}
 }
 
@@ -233,13 +255,20 @@ type GetSiteAuthenticatorDescriptorCommandInput struct {
 func (svc *SiteAuthenticators) DeleteSiteAuthenticatorCommand(input *DeleteSiteAuthenticatorCommandInput) (err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return err
 	}
+
+	_, err = http.DefaultClient.Do(req)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -250,7 +279,7 @@ func (svc *SiteAuthenticators) DeleteSiteAuthenticatorCommand(input *DeleteSiteA
 
 type DeleteSiteAuthenticatorCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -260,9 +289,14 @@ type DeleteSiteAuthenticatorCommandInput struct {
 func (svc *SiteAuthenticators) GetSiteAuthenticatorCommand(input *GetSiteAuthenticatorCommandInput) (result *SiteAuthenticatorView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -276,6 +310,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorCommand(input *GetSiteAuthent
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -283,7 +318,7 @@ func (svc *SiteAuthenticators) GetSiteAuthenticatorCommand(input *GetSiteAuthent
 
 type GetSiteAuthenticatorCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -293,12 +328,19 @@ type GetSiteAuthenticatorCommandInput struct {
 func (svc *SiteAuthenticators) UpdateSiteAuthenticatorCommand(input *UpdateSiteAuthenticatorCommandInput) (result *SiteAuthenticatorView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/siteAuthenticators/{id}")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -312,6 +354,7 @@ func (svc *SiteAuthenticators) UpdateSiteAuthenticatorCommand(input *UpdateSiteA
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -320,6 +363,6 @@ func (svc *SiteAuthenticators) UpdateSiteAuthenticatorCommand(input *UpdateSiteA
 type UpdateSiteAuthenticatorCommandInput struct {
 	Body SiteAuthenticatorView
 	Path struct {
-		id string
+		Id string
 	}
 }

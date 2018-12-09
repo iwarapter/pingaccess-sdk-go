@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 )
@@ -77,6 +78,7 @@ type RuleDescriptorsView struct {
 type RuleView struct {
 	ClassName             string                 `json:"className"`
 	Configuration         map[string]interface{} `json:"configuration"`
+	Id                    int                    `json:"id",omitempty`
 	Name                  string                 `json:"name"`
 	SupportedDestinations []*string              `json:"supportedDestinations",omitempty`
 }
@@ -105,9 +107,12 @@ func New(cfg *pingaccess.Config) *Rules {
 func (svc *Rules) GetRulesCommand(input *GetRulesCommandInput) (result *RulesView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -121,6 +126,7 @@ func (svc *Rules) GetRulesCommand(input *GetRulesCommandInput) (result *RulesVie
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -143,12 +149,17 @@ type GetRulesCommandInput struct {
 func (svc *Rules) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -162,6 +173,7 @@ func (svc *Rules) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, 
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -177,9 +189,12 @@ type AddRuleCommandInput struct {
 func (svc *Rules) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules/descriptors")
 
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -193,6 +208,7 @@ func (svc *Rules) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, err 
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -204,9 +220,14 @@ func (svc *Rules) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, err 
 func (svc *Rules) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandInput) (result *RuleDescriptor, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules/descriptors/{ruleType}")
 
+	url = strings.Replace(url, "{ruleType}", input.Path.RuleType, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -220,6 +241,7 @@ func (svc *Rules) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandInput)
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -227,7 +249,7 @@ func (svc *Rules) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandInput)
 
 type GetRuleDescriptorCommandInput struct {
 	Path struct {
-		ruleType string
+		RuleType string
 	}
 }
 
@@ -237,13 +259,20 @@ type GetRuleDescriptorCommandInput struct {
 func (svc *Rules) DeleteRuleCommand(input *DeleteRuleCommandInput) (err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return err
 	}
+
+	_, err = http.DefaultClient.Do(req)
 
 	if err != nil {
 		log.Println(err.Error())
@@ -254,7 +283,7 @@ func (svc *Rules) DeleteRuleCommand(input *DeleteRuleCommandInput) (err error) {
 
 type DeleteRuleCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -264,9 +293,14 @@ type DeleteRuleCommandInput struct {
 func (svc *Rules) GetRuleCommand(input *GetRuleCommandInput) (result *RuleView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules/{id}")
 
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
 	req, err := http.NewRequest("GET", url, nil)
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -280,6 +314,7 @@ func (svc *Rules) GetRuleCommand(input *GetRuleCommandInput) (result *RuleView, 
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -287,7 +322,7 @@ func (svc *Rules) GetRuleCommand(input *GetRuleCommandInput) (result *RuleView, 
 
 type GetRuleCommandInput struct {
 	Path struct {
-		id string
+		Id string
 	}
 }
 
@@ -297,12 +332,19 @@ type GetRuleCommandInput struct {
 func (svc *Rules) UpdateRuleCommand(input *UpdateRuleCommandInput) (result *RuleView, err error) {
 	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/rules/{id}")
 
-	b, err := json.Marshal(input)
-	log.Printf("[CLIENT] %s", b)
+	url = strings.Replace(url, "{id}", input.Path.Id, -1)
+
+	log.Printf("[CLIENT] URL: %s", url)
+
+	b, err := json.Marshal(input.Body)
+	log.Printf("[CLIENT] RequestBody: %s", b)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBuffer(b))
 	req.SetBasicAuth(svc.Config.Username, svc.Config.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
+
+	req.Header.Add("Content-Type", "application/json")
+
 	if err != nil {
 		log.Println(err.Error())
 		return result, err
@@ -316,6 +358,7 @@ func (svc *Rules) UpdateRuleCommand(input *UpdateRuleCommandInput) (result *Rule
 	} else {
 		defer resp.Body.Close()
 		respBody, _ := ioutil.ReadAll(resp.Body)
+		log.Printf("[CLIENT] ResponseBody: %v", string(respBody))
 		json.Unmarshal(respBody, &result)
 	}
 	return result, nil
@@ -324,6 +367,6 @@ func (svc *Rules) UpdateRuleCommand(input *UpdateRuleCommandInput) (result *Rule
 type UpdateRuleCommandInput struct {
 	Body RuleView
 	Path struct {
-		id string
+		Id string
 	}
 }

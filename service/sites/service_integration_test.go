@@ -1,6 +1,6 @@
 // +build integration
 
-package virtualhosts
+package sites
 
 import (
 	"crypto/tls"
@@ -25,28 +25,31 @@ func TestMain(m *testing.M) {
 	os.Exit(retCode)
 }
 
-func TestGetVirtualHostsCommand(t *testing.T) {
+func TestGetSitesCommand(t *testing.T) {
 	svc := New(config())
 
-	input := GetVirtualHostsCommandInput{}
-	results, _ := svc.GetVirtualHostsCommand(&input)
+	input := GetSitesCommandInput{}
+	results, _ := svc.GetSitesCommand(&input)
 	if len(results.Items) < 0 {
 		t.Errorf("Marshelled object should contain items")
 	}
 }
 
-func TestAddVirtualHostCommand(t *testing.T) {
+func TestAddSiteCommand(t *testing.T) {
 	svc := New(config())
 
-	input := AddVirtualHostCommandInput{
-		Body: VirtualHostView{
-			AgentResourceCacheTTL: 900,
-			Host:      "localhost",
-			KeyPairId: 0,
-			Port:      3000,
-			TrustedCertificateGroupId: 0,
-		}}
-	_, err := svc.AddVirtualHostCommand(&input)
+	targets := []*string{}
+	str := "localhost:1234"
+	targets = append(targets, &str)
+	input := AddSiteCommandInput{
+		Body: SiteView{
+			Name:                    "bar",
+			Targets:                 targets,
+			MaxConnections:          -1,
+			MaxWebSocketConnections: -1,
+		},
+	}
+	_, err := svc.AddSiteCommand(&input)
 	if err != nil {
 		t.Errorf("Unable to created execute command: %s", err.Error())
 	}

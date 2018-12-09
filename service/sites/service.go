@@ -1,4 +1,4 @@
-package virtualhosts
+package sites
 
 import (
 	"bytes"
@@ -12,53 +12,53 @@ import (
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 )
 
-type Virtualhosts struct {
+type Sites struct {
 	*pingaccess.Config
 }
 
-//VirtualHost
-type VirtualHost struct {
-	AgentResourceCacheTTL     int    `json:"agentResourceCacheTTL"`
-	Host                      string `json:"host"`
-	Id                        int    `json:"id",omitempty`
-	KeyPairId                 int    `json:"keyPairId"`
-	Port                      int    `json:"port"`
-	TrustedCertificateGroupId int    `json:"trustedCertificateGroupId"`
+//SiteView - A site.
+type SiteView struct {
+	AvailabilityProfileId     int       `json:"availabilityProfileId",omitempty`
+	ExpectedHostname          string    `json:"expectedHostname",omitempty`
+	Id                        int       `json:"id",omitempty`
+	KeepAliveTimeout          int       `json:"keepAliveTimeout",omitempty`
+	LoadBalancingStrategyId   int       `json:"loadBalancingStrategyId",omitempty`
+	MaxConnections            int       `json:"maxConnections",omitempty`
+	MaxWebSocketConnections   int       `json:"maxWebSocketConnections",omitempty`
+	Name                      string    `json:"name"`
+	Secure                    bool      `json:"secure",omitempty`
+	SendPaCookie              bool      `json:"sendPaCookie",omitempty`
+	SiteAuthenticatorIds      []*int    `json:"siteAuthenticatorIds",omitempty`
+	SkipHostnameVerification  bool      `json:"skipHostnameVerification",omitempty`
+	Targets                   []*string `json:"targets"`
+	TrustedCertificateGroupId int       `json:"trustedCertificateGroupId",omitempty`
+	UseProxy                  bool      `json:"useProxy",omitempty`
+	UseTargetHostHeader       bool      `json:"useTargetHostHeader",omitempty`
 }
 
-//VirtualHostView
-type VirtualHostView struct {
-	AgentResourceCacheTTL     int    `json:"agentResourceCacheTTL",omitempty`
-	Host                      string `json:"host"`
-	Id                        int    `json:"id",omitempty`
-	KeyPairId                 int    `json:"keyPairId",omitempty`
-	Port                      int    `json:"port"`
-	TrustedCertificateGroupId int    `json:"trustedCertificateGroupId",omitempty`
+//SitesView - A collection of sites items.
+type SitesView struct {
+	Items []*SiteView `json:"items"`
 }
 
-//VirtualHostsView
-type VirtualHostsView struct {
-	Items []*VirtualHostView `json:"items"`
-}
-
-// New creates a new instance of the Virtualhosts client with a config.
+// New creates a new instance of the Sites client with a config.
 //
 // Example:
-//     // Create a Virtualhosts client from just a config.
-//     svc := virtualhosts.New(cfg)
+//     // Create a Sites client from just a config.
+//     svc := sites.New(cfg)
 //
-func New(cfg *pingaccess.Config) *Virtualhosts {
-	svc := &Virtualhosts{
+func New(cfg *pingaccess.Config) *Sites {
+	svc := &Sites{
 		Config: cfg,
 	}
 	return svc
 }
 
-//GetVirtualHostsCommand - Get all Virtual Hosts
+//GetSitesCommand - Get all Sites
 //RequestType: GET
-//Input: input *GetVirtualHostsCommandInput
-func (svc *Virtualhosts) GetVirtualHostsCommand(input *GetVirtualHostsCommandInput) (result *VirtualHostsView, err error) {
-	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/virtualhosts")
+//Input: input *GetSitesCommandInput
+func (svc *Sites) GetSitesCommand(input *GetSitesCommandInput) (result *SitesView, err error) {
+	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/sites")
 
 	log.Printf("[CLIENT] URL: %s", url)
 
@@ -85,22 +85,22 @@ func (svc *Virtualhosts) GetVirtualHostsCommand(input *GetVirtualHostsCommandInp
 	return result, nil
 }
 
-type GetVirtualHostsCommandInput struct {
+type GetSitesCommandInput struct {
 	Params struct {
 		Page          int
 		NumberPerPage int
 		Filter        string
-		VirtualHost   string
+		Name          string
 		SortKey       string
 		Order         string
 	}
 }
 
-//AddVirtualHostCommand - Create a Virtual Host
+//AddSiteCommand - Create a Site
 //RequestType: POST
-//Input: input *AddVirtualHostCommandInput
-func (svc *Virtualhosts) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, err error) {
-	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/virtualhosts")
+//Input: input *AddSiteCommandInput
+func (svc *Sites) AddSiteCommand(input *AddSiteCommandInput) (result *SiteView, err error) {
+	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/sites")
 
 	log.Printf("[CLIENT] URL: %s", url)
 
@@ -132,15 +132,15 @@ func (svc *Virtualhosts) AddVirtualHostCommand(input *AddVirtualHostCommandInput
 	return result, nil
 }
 
-type AddVirtualHostCommandInput struct {
-	Body VirtualHostView
+type AddSiteCommandInput struct {
+	Body SiteView
 }
 
-//DeleteVirtualHostCommand - Delete a Virtual Host
+//DeleteSiteCommand - Delete a Site
 //RequestType: DELETE
-//Input: input *DeleteVirtualHostCommandInput
-func (svc *Virtualhosts) DeleteVirtualHostCommand(input *DeleteVirtualHostCommandInput) (err error) {
-	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/virtualhosts/{id}")
+//Input: input *DeleteSiteCommandInput
+func (svc *Sites) DeleteSiteCommand(input *DeleteSiteCommandInput) (err error) {
+	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/sites/{id}")
 
 	url = strings.Replace(url, "{id}", input.Path.Id, -1)
 
@@ -164,17 +164,17 @@ func (svc *Virtualhosts) DeleteVirtualHostCommand(input *DeleteVirtualHostComman
 	return nil
 }
 
-type DeleteVirtualHostCommandInput struct {
+type DeleteSiteCommandInput struct {
 	Path struct {
 		Id string
 	}
 }
 
-//GetVirtualHostCommand - Get a Virtual Host
+//GetSiteCommand - Get a Site
 //RequestType: GET
-//Input: input *GetVirtualHostCommandInput
-func (svc *Virtualhosts) GetVirtualHostCommand(input *GetVirtualHostCommandInput) (result *VirtualHost, err error) {
-	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/virtualhosts/{id}")
+//Input: input *GetSiteCommandInput
+func (svc *Sites) GetSiteCommand(input *GetSiteCommandInput) (result *SiteView, err error) {
+	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/sites/{id}")
 
 	url = strings.Replace(url, "{id}", input.Path.Id, -1)
 
@@ -203,17 +203,17 @@ func (svc *Virtualhosts) GetVirtualHostCommand(input *GetVirtualHostCommandInput
 	return result, nil
 }
 
-type GetVirtualHostCommandInput struct {
+type GetSiteCommandInput struct {
 	Path struct {
 		Id string
 	}
 }
 
-//UpdateVirtualHostCommand - Update a Virtual Host
+//UpdateSiteCommand - Update a Site
 //RequestType: PUT
-//Input: input *UpdateVirtualHostCommandInput
-func (svc *Virtualhosts) UpdateVirtualHostCommand(input *UpdateVirtualHostCommandInput) (result *VirtualHostView, err error) {
-	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/virtualhosts/{id}")
+//Input: input *UpdateSiteCommandInput
+func (svc *Sites) UpdateSiteCommand(input *UpdateSiteCommandInput) (result *SiteView, err error) {
+	url := fmt.Sprintf("%s%s", svc.Config.BaseURL, "/sites/{id}")
 
 	url = strings.Replace(url, "{id}", input.Path.Id, -1)
 
@@ -247,8 +247,8 @@ func (svc *Virtualhosts) UpdateVirtualHostCommand(input *UpdateVirtualHostComman
 	return result, nil
 }
 
-type UpdateVirtualHostCommandInput struct {
-	Body VirtualHostView
+type UpdateSiteCommandInput struct {
+	Body SiteView
 	Path struct {
 		Id string
 	}
