@@ -1,6 +1,4 @@
-// +build integration
-
-package rules
+package siteAuthenticators
 
 import (
 	"crypto/tls"
@@ -25,12 +23,12 @@ func TestMain(m *testing.M) {
 	os.Exit(retCode)
 }
 
-func TestGetRulesCommand(t *testing.T) {
+func TestGetSiteAuthenticatorsCommand(t *testing.T) {
 	svc := New(config())
 
-	input := GetRulesCommandInput{}
-	results, _ := svc.GetRulesCommand(&input)
-	if len(results.Items) != 5 {
-		t.Errorf("Marshelled object should contain items")
+	input := GetSiteAuthenticatorsCommandInput{}
+	results, _ := svc.GetSiteAuthenticatorsCommand(&input)
+	if len(results.Items) != 0 {
+		t.Errorf("Marshelled object should not contain items")
 	}
 }

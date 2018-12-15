@@ -3,11 +3,9 @@
 SERVICES = applications rules virtualhosts identityMappings siteAuthenticators sites
 
 test:
-	$(foreach var,$(SERVICES),go test ./service/$(var) -v -coverprofile=coverage-service-$(var).out && go tool cover -func=coverage-service-$(var).out;)
+	@rm report.json coverage.out
+	@go test ./... -v -coverprofile=coverage.out -json > report.json
 
-integration:
-	$(foreach var,$(SERVICES),go test ./service/$(var) -v --tags integration -coverprofile=coverage-service-integration-$(var).out && go tool cover -func=coverage-service-integration-$(var).out;)
-	
 install:
 	@go install ./...
 
@@ -22,6 +20,6 @@ sonar:
 		-Dsonar.sources=. \
 		-Dsonar.host.url=http://localhost:9001 \
 		-Dsonar.login=28d86a90f2e4ae9563b4501cbc99de7522219c88 \
-		-Dsonar.go.coverage.reportPaths=coverage.txt \
+		-Dsonar.go.coverage.reportPaths=coverage.out \
 		-Dsonar.go.tests.reportPaths=report.json \
 		-Dsonar.exclusions=vendor
