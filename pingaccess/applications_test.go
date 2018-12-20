@@ -11,7 +11,7 @@ func TestGetApplicationsCommand(t *testing.T) {
 
 	input := GetApplicationsCommandInput{}
 	results, _, _ := svc.Applications.GetApplicationsCommand(&input)
-	if len(results.Items) == 0 {
+	if results == nil {
 		t.Errorf("Marshelled object should contain items")
 	}
 }

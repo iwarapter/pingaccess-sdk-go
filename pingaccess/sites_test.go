@@ -9,7 +9,7 @@ func TestGetSitesCommand(t *testing.T) {
 
 	input := GetSitesCommandInput{}
 	results, _, _ := svc.Sites.GetSitesCommand(&input)
-	if len(results.Items) == 0 {
+	if results == nil {
 		t.Errorf("Marshelled object should contain items")
 	}
 }

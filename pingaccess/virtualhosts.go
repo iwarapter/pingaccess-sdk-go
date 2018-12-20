@@ -43,7 +43,7 @@ type GetVirtualHostsCommandInput struct {
 func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
 	path := "/virtualhosts"
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -122,7 +122,7 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}

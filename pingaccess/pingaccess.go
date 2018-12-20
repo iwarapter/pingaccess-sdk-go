@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -49,7 +50,6 @@ func NewClient(username string, password string, baseUrl *url.URL, httpClient *h
 func (c *Client) newRequest(method, path string, body interface{}) (*http.Request, error) {
 	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
 	u := c.BaseURL.ResolveReference(rel)
-	log.Printf("[CLIENT] METHOD: %s, URL: %s", method, u)
 	var buf io.ReadWriter
 	if body != nil {
 		buf = new(bytes.Buffer)
@@ -73,6 +73,13 @@ func (c *Client) newRequest(method, path string, body interface{}) (*http.Reques
 
 func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 	log.Println("[CLIENT] executing request")
+	log.Printf("[CLIENT] METHOD: %s", req.Method)
+	log.Printf("[CLIENT] URL: %s", req.URL.String())
+	if req.Body != nil {
+		defer req.Body.Close()
+		body, _ := ioutil.ReadAll(req.Body)
+		log.Printf("[CLIENT] BODY: %s", body)
+	}
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
