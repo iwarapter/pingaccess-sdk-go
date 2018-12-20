@@ -1,6 +1,7 @@
 # Makefile
 
-SERVICES = applications rules virtualhosts identityMappings siteAuthenticators sites
+# SERVICES = applications rules virtualhosts identityMappings siteAuthenticators sites
+SERVICES := $(shell find models -name '*.json')
 
 test:
 	@rm report.json coverage.out
@@ -11,7 +12,7 @@ install:
 
 generate:
 	@find service/ ! -name '*_test.go' ! -name '*.json' -type f -exec rm -f {} +
-	$(foreach var,$(SERVICES),/Users/iwarapter/golang-learning/terraform-provider-pingaccess/bin/pingaccess-sdk-go-gen-cli models/$(var).json;)
+	@/Users/iwarapter/golang-learning/terraform-provider-pingaccess/bin/pingaccess-sdk-go-gen-cli $(SERVICES)
 	@go fmt ./...
 
 sonar:
