@@ -12,7 +12,7 @@ install:
 
 generate:
 	@find pingaccess/ ! -name '*_test.go' ! -name 'pingaccess.go' ! -name '*.json' -type f -exec rm -f {} +
-	@/Users/iwarapter/golang-learning/terraform-provider-pingaccess/bin/pingaccess-sdk-go-gen-cli $(SERVICES)
+	@$$GOPATH/bin/pingaccess-sdk-go-gen-cli $(SERVICES)
 	@go fmt ./...
 
 sonar:

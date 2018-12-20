@@ -23,10 +23,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
 	if resp1.StatusCode != 200 {
-		defer resp1.Body.Close()
-		body, _ := ioutil.ReadAll(resp1.Body)
-		t.Errorf("Response Code: %d", resp1.StatusCode)
-		t.Errorf("Invalid response code: %s", body)
+		t.Errorf("Invalid response code: %d", resp1.StatusCode)
 	}
 	if result1 == nil {
 		t.Errorf("Unable the marshall results")

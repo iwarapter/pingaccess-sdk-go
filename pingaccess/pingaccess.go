@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -65,7 +64,6 @@ func (c *Client) newRequest(method, path string, body interface{}) (*http.Reques
 	if body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
-	req.Header.Set("Accept", "application/json")
 	req.SetBasicAuth(c.Username, c.Password)
 	req.Header.Add("X-Xsrf-Header", "PingAccess")
 	return req, nil
@@ -75,11 +73,7 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 	log.Println("[CLIENT] executing request")
 	log.Printf("[CLIENT] METHOD: %s", req.Method)
 	log.Printf("[CLIENT] URL: %s", req.URL.String())
-	if req.Body != nil {
-		defer req.Body.Close()
-		body, _ := ioutil.ReadAll(req.Body)
-		log.Printf("[CLIENT] BODY: %s", body)
-	}
+
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
