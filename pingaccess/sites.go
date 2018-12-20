@@ -43,7 +43,7 @@ type GetSitesCommandInput struct {
 func (s *SitesService) AddSiteCommand(input *AddSiteCommandInput) (result *SiteView, resp *http.Response, err error) {
 	path := "/sites"
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -122,7 +122,7 @@ func (s *SitesService) UpdateSiteCommand(input *UpdateSiteCommandInput) (result 
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}

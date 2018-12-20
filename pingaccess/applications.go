@@ -46,7 +46,7 @@ type GetApplicationsCommandInput struct {
 func (s *ApplicationsService) AddApplicationCommand(input *AddApplicationCommandInput) (result *ApplicationView, resp *http.Response, err error) {
 	path := "/applications"
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -178,7 +178,7 @@ func (s *ApplicationsService) UpdateApplicationResourceCommand(input *UpdateAppl
 
 	path = strings.Replace(path, "{resourceId}", input.Path.ResourceId, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -261,7 +261,7 @@ func (s *ApplicationsService) UpdateApplicationCommand(input *UpdateApplicationC
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -325,7 +325,7 @@ func (s *ApplicationsService) AddApplicationResourceCommand(input *AddApplicatio
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}

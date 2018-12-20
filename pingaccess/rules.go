@@ -43,7 +43,7 @@ type GetRulesCommandInput struct {
 func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
 	path := "/rules"
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -168,7 +168,7 @@ func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result 
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}

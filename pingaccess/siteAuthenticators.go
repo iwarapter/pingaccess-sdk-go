@@ -43,7 +43,7 @@ type GetSiteAuthenticatorsCommandInput struct {
 func (s *SiteAuthenticatorsService) AddSiteAuthenticatorCommand(input *AddSiteAuthenticatorCommandInput) (result *SiteAuthenticatorView, resp *http.Response, err error) {
 	path := "/siteAuthenticators"
 
-	req, err := s.client.newRequest("POST", path, nil)
+	req, err := s.client.newRequest("POST", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -168,7 +168,7 @@ func (s *SiteAuthenticatorsService) UpdateSiteAuthenticatorCommand(input *Update
 
 	path = strings.Replace(path, "{id}", input.Path.Id, -1)
 
-	req, err := s.client.newRequest("PUT", path, nil)
+	req, err := s.client.newRequest("PUT", path, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}

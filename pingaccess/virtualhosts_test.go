@@ -12,10 +12,10 @@ func TestVirtualHostsMethods(t *testing.T) {
 	// add a new virtualhost
 	input1 := AddVirtualHostCommandInput{
 		Body: VirtualHostView{
-			AgentResourceCacheTTL: 900,
-			Host:      "localhost",
-			KeyPairId: 0,
-			Port:      3000,
+			AgentResourceCacheTTL:     900,
+			Host:                      "localhost",
+			KeyPairId:                 0,
+			Port:                      3000,
 			TrustedCertificateGroupId: 0,
 		}}
 	result1, resp1, err1 := svc.Virtualhosts.AddVirtualHostCommand(&input1)
@@ -56,10 +56,10 @@ func TestVirtualHostsMethods(t *testing.T) {
 			Id: id,
 		},
 		Body: VirtualHostView{
-			AgentResourceCacheTTL: 900,
-			Host:      "localhost",
-			KeyPairId: 0,
-			Port:      3001,
+			AgentResourceCacheTTL:     900,
+			Host:                      "localhost",
+			KeyPairId:                 0,
+			Port:                      3001,
 			TrustedCertificateGroupId: 0,
 		}}
 	result3, resp3, err3 := svc.Virtualhosts.UpdateVirtualHostCommand(&input3)
