@@ -132,7 +132,7 @@ type RuleDescriptor struct {
 	ClassName            string                `json:"className"`
 	ConfigurationFields  []*ConfigurationField `json:"configurationFields"`
 	Label                string                `json:"label"`
-	Modes                string                `json:"modes"`
+	Modes                []string              `json:"modes"`
 	Type                 string                `json:"type"`
 }
 
