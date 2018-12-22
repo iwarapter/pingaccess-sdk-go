@@ -2,24 +2,24 @@ package pingaccess
 
 //ApplicationView - An application.
 type ApplicationView struct {
-	AccessValidatorId  int                    `json:"accessValidatorId",omitempty`
+	AccessValidatorId  int                    `json:"accessValidatorId,omitempty"`
 	AgentId            int                    `json:"agentId"`
-	ApplicationType    string                 `json:"applicationType",omitempty`
-	CaseSensitivePath  bool                   `json:"caseSensitivePath",omitempty`
+	ApplicationType    string                 `json:"applicationType,omitempty"`
+	CaseSensitivePath  bool                   `json:"caseSensitivePath,omitempty"`
 	ContextRoot        string                 `json:"contextRoot"`
 	DefaultAuthType    string                 `json:"defaultAuthType"`
-	Description        string                 `json:"description",omitempty`
-	Destination        string                 `json:"destination",omitempty`
-	Enabled            bool                   `json:"enabled",omitempty`
-	Id                 int                    `json:"id",omitempty`
-	IdentityMappingIds map[string]int         `json:"identityMappingIds",omitempty`
+	Description        string                 `json:"description,omitempty"`
+	Destination        string                 `json:"destination,omitempty"`
+	Enabled            bool                   `json:"enabled,omitempty"`
+	Id                 int                    `json:"id,omitempty"`
+	IdentityMappingIds map[string]int         `json:"identityMappingIds,omitempty"`
 	Name               string                 `json:"name"`
-	Policy             map[string]interface{} `json:"policy",omitempty`
-	Realm              string                 `json:"realm",omitempty`
-	RequireHTTPS       bool                   `json:"requireHTTPS",omitempty`
+	Policy             map[string]interface{} `json:"policy,omitempty"`
+	Realm              string                 `json:"realm,omitempty"`
+	RequireHTTPS       bool                   `json:"requireHTTPS,omitempty"`
 	SiteId             int                    `json:"siteId"`
 	VirtualHostIds     []int                  `json:"virtualHostIds"`
-	WebSessionId       int                    `json:"webSessionId",omitempty`
+	WebSessionId       int                    `json:"webSessionId,omitempty"`
 }
 
 //ApplicationsView - A collection of applications.
@@ -69,6 +69,12 @@ type Help struct {
 	Url     string `json:"url"`
 }
 
+//HiddenFieldView
+type HiddenFieldView struct {
+	EncryptedValue string `json:"encryptedValue,omitempty"`
+	Value          string `json:"value,omitempty"`
+}
+
 //IdentityMappingDescriptor
 type IdentityMappingDescriptor struct {
 	ClassName           string                `json:"className"`
@@ -86,7 +92,7 @@ type IdentityMappingDescriptorsView struct {
 type IdentityMappingView struct {
 	ClassName     string                 `json:"className"`
 	Configuration map[string]interface{} `json:"configuration"`
-	Id            int                    `json:"id",omitempty`
+	Id            int                    `json:"id,omitempty"`
 	Name          string                 `json:"name"`
 }
 
@@ -111,19 +117,25 @@ type MethodsView struct {
 	Items []*MethodView `json:"items"`
 }
 
+//OAuthClientCredentialsView
+type OAuthClientCredentialsView struct {
+	ClientId     string          `json:"clientId"`
+	ClientSecret HiddenFieldView `json:"clientSecret,omitempty"`
+}
+
 //ResourceView - A resource.
 type ResourceView struct {
-	Anonymous               bool                   `json:"anonymous",omitempty`
-	ApplicationId           int                    `json:"applicationId",omitempty`
-	AuditLevel              string                 `json:"auditLevel",omitempty`
+	Anonymous               bool                   `json:"anonymous,omitempty"`
+	ApplicationId           int                    `json:"applicationId,omitempty"`
+	AuditLevel              string                 `json:"auditLevel,omitempty"`
 	DefaultAuthTypeOverride string                 `json:"defaultAuthTypeOverride"`
-	Enabled                 bool                   `json:"enabled",omitempty`
-	Id                      int                    `json:"id",omitempty`
+	Enabled                 bool                   `json:"enabled,omitempty"`
+	Id                      int                    `json:"id,omitempty"`
 	Methods                 []*string              `json:"methods"`
 	Name                    string                 `json:"name"`
 	PathPrefixes            []*string              `json:"pathPrefixes"`
-	Policy                  map[string]interface{} `json:"policy",omitempty`
-	RootResource            bool                   `json:"rootResource",omitempty`
+	Policy                  map[string]interface{} `json:"policy,omitempty"`
+	RootResource            bool                   `json:"rootResource,omitempty"`
 }
 
 //ResourcesView
@@ -159,11 +171,11 @@ type RuleSetSuccessCriteriaView struct {
 
 //RuleSetView
 type RuleSetView struct {
-	ElementType     string `json:"elementType",omitempty`
-	Id              int    `json:"id",omitempty`
+	ElementType     string `json:"elementType,omitempty"`
+	Id              int    `json:"id,omitempty"`
 	Name            string `json:"name"`
 	Policy          []int  `json:"policy"`
-	SuccessCriteria string `json:"successCriteria",omitempty`
+	SuccessCriteria string `json:"successCriteria,omitempty"`
 }
 
 //RuleSetsView
@@ -175,9 +187,9 @@ type RuleSetsView struct {
 type RuleView struct {
 	ClassName             string                 `json:"className"`
 	Configuration         map[string]interface{} `json:"configuration"`
-	Id                    int                    `json:"id",omitempty`
+	Id                    int                    `json:"id,omitempty"`
 	Name                  string                 `json:"name"`
-	SupportedDestinations []*string              `json:"supportedDestinations",omitempty`
+	SupportedDestinations []*string              `json:"supportedDestinations,omitempty"`
 }
 
 //RulesView
@@ -202,7 +214,7 @@ type SiteAuthenticatorDescriptorsView struct {
 type SiteAuthenticatorView struct {
 	ClassName     string                 `json:"className"`
 	Configuration map[string]interface{} `json:"configuration"`
-	Id            int                    `json:"id",omitempty`
+	Id            int                    `json:"id,omitempty"`
 	Name          string                 `json:"name"`
 }
 
@@ -213,22 +225,22 @@ type SiteAuthenticatorsView struct {
 
 //SiteView - A site.
 type SiteView struct {
-	AvailabilityProfileId     int      `json:"availabilityProfileId",omitempty`
-	ExpectedHostname          string   `json:"expectedHostname",omitempty`
-	Id                        int      `json:"id",omitempty`
-	KeepAliveTimeout          int      `json:"keepAliveTimeout",omitempty`
-	LoadBalancingStrategyId   int      `json:"loadBalancingStrategyId",omitempty`
-	MaxConnections            int      `json:"maxConnections",omitempty`
-	MaxWebSocketConnections   int      `json:"maxWebSocketConnections",omitempty`
+	AvailabilityProfileId     int      `json:"availabilityProfileId,omitempty"`
+	ExpectedHostname          string   `json:"expectedHostname,omitempty"`
+	Id                        int      `json:"id,omitempty"`
+	KeepAliveTimeout          int      `json:"keepAliveTimeout,omitempty"`
+	LoadBalancingStrategyId   int      `json:"loadBalancingStrategyId,omitempty"`
+	MaxConnections            int      `json:"maxConnections,omitempty"`
+	MaxWebSocketConnections   int      `json:"maxWebSocketConnections,omitempty"`
 	Name                      string   `json:"name"`
-	Secure                    bool     `json:"secure",omitempty`
-	SendPaCookie              bool     `json:"sendPaCookie",omitempty`
-	SiteAuthenticatorIds      []int    `json:"siteAuthenticatorIds",omitempty`
-	SkipHostnameVerification  bool     `json:"skipHostnameVerification",omitempty`
+	Secure                    bool     `json:"secure,omitempty"`
+	SendPaCookie              bool     `json:"sendPaCookie,omitempty"`
+	SiteAuthenticatorIds      []int    `json:"siteAuthenticatorIds,omitempty"`
+	SkipHostnameVerification  bool     `json:"skipHostnameVerification,omitempty"`
 	Targets                   []string `json:"targets"`
-	TrustedCertificateGroupId int      `json:"trustedCertificateGroupId",omitempty`
-	UseProxy                  bool     `json:"useProxy",omitempty`
-	UseTargetHostHeader       bool     `json:"useTargetHostHeader",omitempty`
+	TrustedCertificateGroupId int      `json:"trustedCertificateGroupId,omitempty"`
+	UseProxy                  bool     `json:"useProxy,omitempty"`
+	UseTargetHostHeader       bool     `json:"useTargetHostHeader,omitempty"`
 }
 
 //SitesView - A collection of sites items.
@@ -240,7 +252,7 @@ type SitesView struct {
 type VirtualHost struct {
 	AgentResourceCacheTTL     int    `json:"agentResourceCacheTTL"`
 	Host                      string `json:"host"`
-	Id                        int    `json:"id",omitempty`
+	Id                        int    `json:"id,omitempty"`
 	KeyPairId                 int    `json:"keyPairId"`
 	Port                      int    `json:"port"`
 	TrustedCertificateGroupId int    `json:"trustedCertificateGroupId"`
@@ -248,15 +260,44 @@ type VirtualHost struct {
 
 //VirtualHostView
 type VirtualHostView struct {
-	AgentResourceCacheTTL     int    `json:"agentResourceCacheTTL",omitempty`
+	AgentResourceCacheTTL     int    `json:"agentResourceCacheTTL,omitempty"`
 	Host                      string `json:"host"`
-	Id                        int    `json:"id",omitempty`
-	KeyPairId                 int    `json:"keyPairId",omitempty`
+	Id                        int    `json:"id,omitempty"`
+	KeyPairId                 int    `json:"keyPairId,omitempty"`
 	Port                      int    `json:"port"`
-	TrustedCertificateGroupId int    `json:"trustedCertificateGroupId",omitempty`
+	TrustedCertificateGroupId int    `json:"trustedCertificateGroupId,omitempty"`
 }
 
 //VirtualHostsView
 type VirtualHostsView struct {
 	Items []*VirtualHostView `json:"items"`
+}
+
+//WebSessionView
+type WebSessionView struct {
+	Audience                      string                     `json:"audience"`
+	CacheUserAttributes           bool                       `json:"cacheUserAttributes,omitempty"`
+	ClientCredentials             OAuthClientCredentialsView `json:"clientCredentials"`
+	CookieDomain                  string                     `json:"cookieDomain,omitempty"`
+	CookieType                    string                     `json:"cookieType,omitempty"`
+	EnableRefreshUser             bool                       `json:"enableRefreshUser,omitempty"`
+	HttpOnlyCookie                bool                       `json:"httpOnlyCookie,omitempty"`
+	Id                            int                        `json:"id,omitempty"`
+	IdleTimeoutInMinutes          int                        `json:"idleTimeoutInMinutes,omitempty"`
+	Name                          string                     `json:"name"`
+	OidcLoginType                 string                     `json:"oidcLoginType,omitempty"`
+	PfsessionStateCacheInSeconds  int                        `json:"pfsessionStateCacheInSeconds,omitempty"`
+	RefreshUserInfoClaimsInterval int                        `json:"refreshUserInfoClaimsInterval,omitempty"`
+	RequestPreservationType       string                     `json:"requestPreservationType,omitempty"`
+	RequestProfile                bool                       `json:"requestProfile,omitempty"`
+	SecureCookie                  bool                       `json:"secureCookie,omitempty"`
+	SendRequestedUrlToProvider    bool                       `json:"sendRequestedUrlToProvider,omitempty"`
+	SessionTimeoutInMinutes       int                        `json:"sessionTimeoutInMinutes,omitempty"`
+	ValidateSessionIsAlive        bool                       `json:"validateSessionIsAlive,omitempty"`
+	WebStorageType                string                     `json:"webStorageType,omitempty"`
+}
+
+//WebSessionsView
+type WebSessionsView struct {
+	Items []*WebSessionView `json:"items"`
 }

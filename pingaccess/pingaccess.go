@@ -23,6 +23,7 @@ type Client struct {
 	SiteAuthenticators *SiteAuthenticatorsService
 	Sites              *SitesService
 	Virtualhosts       *VirtualhostsService
+	WebSessions        *WebSessionsService
 }
 
 type service struct {
@@ -45,6 +46,7 @@ func NewClient(username string, password string, baseUrl *url.URL, httpClient *h
 	c.SiteAuthenticators = &SiteAuthenticatorsService{client: c}
 	c.Sites = &SitesService{client: c}
 	c.Virtualhosts = &VirtualhostsService{client: c}
+	c.WebSessions = &WebSessionsService{client: c}
 	return c
 }
 
