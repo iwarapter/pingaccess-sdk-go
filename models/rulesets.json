@@ -1,0 +1,276 @@
+{
+  "apiVersion": "5.0.3.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/rulesets",
+  "apis": [
+    {
+      "path": "/rulesets",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Rule Sets",
+          "notes": "",
+          "type": "RuleSetsView",
+          "nickname": "getRuleSetsCommand",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Rule Sets per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Rule Set with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "name",
+              "description": "Get a specific Rule Set by name (case-sensitive)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Rule Set attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Add a Rule Set",
+          "notes": "",
+          "type": "RuleSetView",
+          "nickname": "addRuleSetCommand",
+          "parameters": [
+            {
+              "name": "RuleSet",
+              "description": "Rule Set to add",
+              "required": true,
+              "allowMultiple": false,
+              "type": "RuleSetView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/rulesets/elementTypes",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Rule Set Element Types",
+          "notes": "",
+          "type": "RuleSetElementTypesView",
+          "nickname": "getRuleSetElementTypesCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/rulesets/successCriteria",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Success Criteria",
+          "notes": "",
+          "type": "RuleSetSuccessCriteriaView",
+          "nickname": "getRuleSetSuccessCriteriaCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/rulesets/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete a Rule Set",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteRuleSetCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Rule Set to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a Rule Set",
+          "notes": "",
+          "type": "RuleSetView",
+          "nickname": "getRuleSetCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Rule Set to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update a Rule Set",
+          "notes": "",
+          "type": "RuleSetView",
+          "nickname": "updateRuleSetCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Rule Set to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "RuleSet",
+              "description": "Rule Set to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "RuleSetView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "RuleSetView": {
+      "id": "RuleSetView",
+      "required": [
+        "name",
+        "policy"
+      ],
+      "properties": {
+        "elementType": {
+          "$ref": "RuleSetElementType",
+          "enum": [
+            "Rule",
+            "RuleSet"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The ruleset's name."
+        },
+        "policy": {
+          "type": "array",
+          "description": "The list of policy ids assigned to the ruleset.",
+          "items": {
+            "type": "int"
+          }
+        },
+        "successCriteria": {
+          "$ref": "SuccessCriteria",
+          "description": "(sortable) The ruleset's success criteria.",
+          "enum": [
+            "SuccessIfAllSucceed",
+            "SuccessIfAnyOneSucceeds"
+          ]
+        }
+      }
+    },
+    "RuleSetSuccessCriteriaView": {
+      "id": "RuleSetSuccessCriteriaView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "ItemView"
+          }
+        }
+      }
+    },
+    "RuleSetElementTypesView": {
+      "id": "RuleSetElementTypesView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "ItemView"
+          }
+        }
+      }
+    },
+    "ItemView": {
+      "id": "ItemView",
+      "required": [
+        "description",
+        "name"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "A description of the item."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the item."
+        }
+      }
+    },
+    "RuleSetsView": {
+      "id": "RuleSetsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of rulesets.",
+          "items": {
+            "$ref": "RuleSetView"
+          }
+        }
+      }
+    }
+  }
+}

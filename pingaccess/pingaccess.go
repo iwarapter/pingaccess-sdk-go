@@ -19,6 +19,7 @@ type Client struct {
 	Applications       *ApplicationsService
 	IdentityMappings   *IdentityMappingsService
 	Rules              *RulesService
+	Rulesets           *RulesetsService
 	SiteAuthenticators *SiteAuthenticatorsService
 	Sites              *SitesService
 	Virtualhosts       *VirtualhostsService
@@ -40,6 +41,7 @@ func NewClient(username string, password string, baseUrl *url.URL, httpClient *h
 	c.Applications = &ApplicationsService{client: c}
 	c.IdentityMappings = &IdentityMappingsService{client: c}
 	c.Rules = &RulesService{client: c}
+	c.Rulesets = &RulesetsService{client: c}
 	c.SiteAuthenticators = &SiteAuthenticatorsService{client: c}
 	c.Sites = &SitesService{client: c}
 	c.Virtualhosts = &VirtualhostsService{client: c}

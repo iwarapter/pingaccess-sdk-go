@@ -8,15 +8,11 @@ import (
 func TestSitesMethods(t *testing.T) {
 	svc := config()
 
-	targets := []*string{}
-	str := "localhost:1234"
-	targets = append(targets, &str)
-
 	// add a new site
 	input1 := AddSiteCommandInput{
 		Body: SiteView{
 			Name:                    "bar",
-			Targets:                 targets,
+			Targets:                 []string{"localhost:1234"},
 			MaxConnections:          -1,
 			MaxWebSocketConnections: -1,
 		}}
@@ -46,8 +42,6 @@ func TestSitesMethods(t *testing.T) {
 	id := strconv.Itoa(result1.Id)
 
 	//update the site
-	str2 := "localhost:1235"
-	targets = append(targets, &str2)
 	input3 := UpdateSiteCommandInput{
 		Path: struct {
 			Id string
@@ -56,7 +50,7 @@ func TestSitesMethods(t *testing.T) {
 		},
 		Body: SiteView{
 			Name:                    "bar",
-			Targets:                 targets,
+			Targets:                 []string{"localhost:1234", "localhost:1235"},
 			MaxConnections:          -1,
 			MaxWebSocketConnections: -1,
 		}}
@@ -85,7 +79,7 @@ func TestSitesMethods(t *testing.T) {
 	if resp4.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp4.StatusCode)
 	}
-	if *result4.Targets[0] != *input3.Body.Targets[0] {
+	if result4.Targets[0] != input3.Body.Targets[0] {
 		t.Errorf("Failed to get site")
 	}
 

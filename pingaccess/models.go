@@ -18,7 +18,7 @@ type ApplicationView struct {
 	Realm              string                 `json:"realm",omitempty`
 	RequireHTTPS       bool                   `json:"requireHTTPS",omitempty`
 	SiteId             int                    `json:"siteId"`
-	VirtualHostIds     []*int                 `json:"virtualHostIds"`
+	VirtualHostIds     []int                  `json:"virtualHostIds"`
 	WebSessionId       int                    `json:"webSessionId",omitempty`
 }
 
@@ -95,6 +95,12 @@ type IdentityMappingsView struct {
 	Items []*IdentityMappingView `json:"items"`
 }
 
+//ItemView
+type ItemView struct {
+	Description string `json:"description"`
+	Name        string `json:"name"`
+}
+
 //MethodView - HTTP Method
 type MethodView struct {
 	Name string `json:"name"`
@@ -141,6 +147,30 @@ type RuleDescriptorsView struct {
 	Items []*RuleDescriptor `json:"items"`
 }
 
+//RuleSetElementTypesView
+type RuleSetElementTypesView struct {
+	Items []*ItemView `json:"items"`
+}
+
+//RuleSetSuccessCriteriaView
+type RuleSetSuccessCriteriaView struct {
+	Items []*ItemView `json:"items"`
+}
+
+//RuleSetView
+type RuleSetView struct {
+	ElementType     string `json:"elementType",omitempty`
+	Id              int    `json:"id",omitempty`
+	Name            string `json:"name"`
+	Policy          []int  `json:"policy"`
+	SuccessCriteria string `json:"successCriteria",omitempty`
+}
+
+//RuleSetsView
+type RuleSetsView struct {
+	Items []*RuleSetView `json:"items"`
+}
+
 //RuleView
 type RuleView struct {
 	ClassName             string                 `json:"className"`
@@ -183,22 +213,22 @@ type SiteAuthenticatorsView struct {
 
 //SiteView - A site.
 type SiteView struct {
-	AvailabilityProfileId     int       `json:"availabilityProfileId",omitempty`
-	ExpectedHostname          string    `json:"expectedHostname",omitempty`
-	Id                        int       `json:"id",omitempty`
-	KeepAliveTimeout          int       `json:"keepAliveTimeout",omitempty`
-	LoadBalancingStrategyId   int       `json:"loadBalancingStrategyId",omitempty`
-	MaxConnections            int       `json:"maxConnections",omitempty`
-	MaxWebSocketConnections   int       `json:"maxWebSocketConnections",omitempty`
-	Name                      string    `json:"name"`
-	Secure                    bool      `json:"secure",omitempty`
-	SendPaCookie              bool      `json:"sendPaCookie",omitempty`
-	SiteAuthenticatorIds      []*int    `json:"siteAuthenticatorIds",omitempty`
-	SkipHostnameVerification  bool      `json:"skipHostnameVerification",omitempty`
-	Targets                   []*string `json:"targets"`
-	TrustedCertificateGroupId int       `json:"trustedCertificateGroupId",omitempty`
-	UseProxy                  bool      `json:"useProxy",omitempty`
-	UseTargetHostHeader       bool      `json:"useTargetHostHeader",omitempty`
+	AvailabilityProfileId     int      `json:"availabilityProfileId",omitempty`
+	ExpectedHostname          string   `json:"expectedHostname",omitempty`
+	Id                        int      `json:"id",omitempty`
+	KeepAliveTimeout          int      `json:"keepAliveTimeout",omitempty`
+	LoadBalancingStrategyId   int      `json:"loadBalancingStrategyId",omitempty`
+	MaxConnections            int      `json:"maxConnections",omitempty`
+	MaxWebSocketConnections   int      `json:"maxWebSocketConnections",omitempty`
+	Name                      string   `json:"name"`
+	Secure                    bool     `json:"secure",omitempty`
+	SendPaCookie              bool     `json:"sendPaCookie",omitempty`
+	SiteAuthenticatorIds      []int    `json:"siteAuthenticatorIds",omitempty`
+	SkipHostnameVerification  bool     `json:"skipHostnameVerification",omitempty`
+	Targets                   []string `json:"targets"`
+	TrustedCertificateGroupId int      `json:"trustedCertificateGroupId",omitempty`
+	UseProxy                  bool     `json:"useProxy",omitempty`
+	UseTargetHostHeader       bool     `json:"useTargetHostHeader",omitempty`
 }
 
 //SitesView - A collection of sites items.

@@ -46,8 +46,8 @@ func TestRuleMethods(t *testing.T) {
 	// add a new rule
 	input1 := AddRuleCommandInput{
 		Body: RuleView{
-			ClassName: "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
-			Name:      "woottest",
+			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
+			Name:                  "woottest",
 			SupportedDestinations: destinations,
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
@@ -96,8 +96,8 @@ func TestRuleMethods(t *testing.T) {
 			Id: id,
 		},
 		Body: RuleView{
-			ClassName: "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
-			Name:      "woottest",
+			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
+			Name:                  "woottest",
 			SupportedDestinations: destinations,
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
