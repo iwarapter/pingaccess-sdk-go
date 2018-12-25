@@ -2,9 +2,106 @@ package pingaccess
 
 import (
 	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"strconv"
 	"testing"
 )
+
+func TestWebSessionsRequestQueryParamsAreUsed(t *testing.T) {
+	// Start a local HTTP server
+	dat, _ := ioutil.ReadFile("test_data/example_websessions.json")
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Test request parameters
+		equals(t, req.URL.String(), "/pa-admin-api/v3/webSessions?filter=demo&name=demo2&numberPerPage=1&order=ASC&page=1&sortKey=audience")
+		// Send response to be tested
+		rw.Write(dat)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+	url, _ := url.Parse(server.URL)
+	svc := NewClient("Administrator", "2Access2", url, nil)
+
+	input1 := GetWebSessionsCommandInput{
+		Page:          "1",
+		NumberPerPage: "1",
+		Filter:        "demo",
+		Name:          "demo2",
+		SortKey:       "audience",
+		Order:         "ASC",
+	}
+
+	result1, resp1, err1 := svc.WebSessions.GetWebSessionsCommand(&input1)
+	if err1 != nil {
+		t.Errorf("Unable to execute command: %s", err1.Error())
+	}
+	if resp1.StatusCode != 200 {
+		t.Errorf("Invalid response code: %d", resp1.StatusCode)
+	}
+	if result1 == nil {
+		t.Errorf("Unable the marshall results")
+	}
+
+}
+
+func TestInvalidInputsCreateErrors(t *testing.T) {
+	// Start a local HTTP server
+	dat := []byte(`{"error": "Invalid order 'ASCII'.  Value must be 'ASC' or 'DESC'."}`)
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Test request parameters
+		equals(t, req.URL.String(), "/pa-admin-api/v3/webSessions?order=ASCII")
+		// Send response to be tested
+		rw.WriteHeader(http.StatusBadRequest)
+		rw.Write(dat)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+	url, _ := url.Parse(server.URL)
+	svc := NewClient("Administrator", "2Access2", url, nil)
+
+	input1 := GetWebSessionsCommandInput{
+		Order: "ASCII",
+	}
+
+	result1, resp1, err1 := svc.WebSessions.GetWebSessionsCommand(&input1)
+	if err1 != nil {
+		t.Errorf("Unable to execute command: %s", err1.Error())
+	}
+	if resp1.StatusCode != 400 {
+		t.Errorf("Invalid response code: %d", resp1.StatusCode)
+	}
+	if result1 == nil {
+		t.Errorf("Unable the marshall results")
+	}
+
+}
+
+func TestWebSessionsErrorHandling(t *testing.T) {
+	url, _ := url.Parse("wrong")
+	svc := NewClient("Administrator", "2Access2", url, nil)
+
+	_, _, err := svc.WebSessions.GetWebSessionsCommand(&GetWebSessionsCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.WebSessions.AddWebSessionCommand(&AddWebSessionCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, err = svc.WebSessions.DeleteWebSessionCommand(&DeleteWebSessionCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.WebSessions.GetWebSessionCommand(&GetWebSessionCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.WebSessions.UpdateWebSessionCommand(&UpdateWebSessionCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+}
 
 func TestWebSessionsMethods(t *testing.T) {
 	svc := config()
@@ -50,11 +147,7 @@ func TestWebSessionsMethods(t *testing.T) {
 
 	//update the websession
 	input3 := UpdateWebSessionCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: WebSessionView{
 			Audience: "some_new_random_folk",
 			Name:     "my_test_websession",
@@ -78,11 +171,8 @@ func TestWebSessionsMethods(t *testing.T) {
 
 	//get the websession and check the update
 	input4 := GetWebSessionCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.WebSessions.GetWebSessionCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to delete websession: %s", err4)
@@ -96,11 +186,8 @@ func TestWebSessionsMethods(t *testing.T) {
 
 	//delete our initial websession
 	input5 := DeleteWebSessionCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.WebSessions.DeleteWebSessionCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete websession: %s", err5)

@@ -1,7 +1,9 @@
 package pingaccess
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -12,8 +14,28 @@ type RulesService service
 //Input: input *GetRulesCommandInput
 func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (result *RulesView, resp *http.Response, err error) {
 	path := "/rules"
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	q := rel.Query()
+	if input.Page != "" {
+		q.Set("page", input.Page)
+	}
+	if input.NumberPerPage != "" {
+		q.Set("numberPerPage", input.NumberPerPage)
+	}
+	if input.Filter != "" {
+		q.Set("filter", input.Filter)
+	}
+	if input.Name != "" {
+		q.Set("name", input.Name)
+	}
+	if input.SortKey != "" {
+		q.Set("sortKey", input.SortKey)
+	}
+	if input.Order != "" {
+		q.Set("order", input.Order)
+	}
+	rel.RawQuery = q.Encode()
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -27,14 +49,12 @@ func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (result *Rul
 }
 
 type GetRulesCommandInput struct {
-	Params struct {
-		Page          int
-		NumberPerPage int
-		Filter        string
-		Name          string
-		SortKey       string
-		Order         string
-	}
+	Page          string
+	NumberPerPage string
+	Filter        string
+	Name          string
+	SortKey       string
+	Order         string
 }
 
 //AddRuleCommand - Add a Rule
@@ -42,8 +62,8 @@ type GetRulesCommandInput struct {
 //Input: input *AddRuleCommandInput
 func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
 	path := "/rules"
-
-	req, err := s.client.newRequest("POST", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -65,8 +85,8 @@ type AddRuleCommandInput struct {
 //Input:
 func (s *RulesService) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, resp *http.Response, err error) {
 	path := "/rules/descriptors"
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -84,10 +104,10 @@ func (s *RulesService) GetRuleDescriptorsCommand() (result *RuleDescriptorsView,
 //Input: input *GetRuleDescriptorCommandInput
 func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandInput) (result *RuleDescriptor, resp *http.Response, err error) {
 	path := "/rules/descriptors/{ruleType}"
+	path = strings.Replace(path, "{ruleType}", input.RuleType, -1)
 
-	path = strings.Replace(path, "{ruleType}", input.Path.RuleType, -1)
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -101,9 +121,7 @@ func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandI
 }
 
 type GetRuleDescriptorCommandInput struct {
-	Path struct {
-		RuleType string
-	}
+	RuleType string
 }
 
 //DeleteRuleCommand - Delete a Rule
@@ -111,10 +129,10 @@ type GetRuleDescriptorCommandInput struct {
 //Input: input *DeleteRuleCommandInput
 func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *http.Response, err error) {
 	path := "/rules/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("DELETE", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -128,9 +146,7 @@ func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *h
 }
 
 type DeleteRuleCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //GetRuleCommand - Get a Rule
@@ -138,10 +154,10 @@ type DeleteRuleCommandInput struct {
 //Input: input *GetRuleCommandInput
 func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
 	path := "/rules/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -155,9 +171,7 @@ func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (result *RuleV
 }
 
 type GetRuleCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //UpdateRuleCommand - Update a Rule
@@ -165,10 +179,10 @@ type GetRuleCommandInput struct {
 //Input: input *UpdateRuleCommandInput
 func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
 	path := "/rules/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("PUT", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -183,7 +197,5 @@ func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result 
 
 type UpdateRuleCommandInput struct {
 	Body RuleView
-	Path struct {
-		Id string
-	}
+	Id   string
 }

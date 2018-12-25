@@ -20,11 +20,7 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 	}
 
 	input2 := GetIdentityMappingDescriptorCommandInput{
-		Path: struct {
-			IdentityMappingType string
-		}{
-			IdentityMappingType: "jwtidentitymapping",
-		},
+		IdentityMappingType: "jwtidentitymapping",
 	}
 	result2, resp2, err2 := svc.IdentityMappings.GetIdentityMappingDescriptorCommand(&input2)
 	if err2 != nil {
@@ -84,11 +80,7 @@ func TestIdentityMappingMethods(t *testing.T) {
 
 	//update the identity mapping
 	input3 := UpdateIdentityMappingCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: IdentityMappingView{
 			ClassName: "com.pingidentity.pa.identitymappings.HeaderIdentityMapping",
 			Name:      "woot",
@@ -116,11 +108,8 @@ func TestIdentityMappingMethods(t *testing.T) {
 
 	//get the identity mapping and check the update
 	input4 := GetIdentityMappingCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.IdentityMappings.GetIdentityMappingCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get identity mapping: %s", err4)
@@ -134,11 +123,8 @@ func TestIdentityMappingMethods(t *testing.T) {
 
 	//delete our initial identity mapping
 	input5 := DeleteIdentityMappingCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.IdentityMappings.DeleteIdentityMappingCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete identity mapping: %s", err5)

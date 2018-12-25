@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "id": 10,
+      "name": "demo1",
+      "oidcLoginType": "Code",
+      "requestProfile": true,
+      "validateSessionIsAlive": false,
+      "cacheUserAttributes": false,
+      "enableRefreshUser": true,
+      "sendRequestedUrlToProvider": true,
+      "refreshUserInfoClaimsInterval": 60,
+      "requestPreservationType": "POST",
+      "webStorageType": "SessionStorage",
+      "clientCredentials": {
+        "clientId": "me",
+        "clientSecret": {
+          "encryptedValue": "OBF:JWE:eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2Iiwia2lkIjoiTU14amVDams2UlFzRDR2bCJ9..qkhPhIDpILIjiojImqGlIw.o_tRjh2wYX6EWvBnxUJp8g.O171a3nhSOK4z_Y1T2Cqjw"
+        }
+      },
+      "audience": "me",
+      "cookieDomain": "",
+      "cookieType": "Signed",
+      "httpOnlyCookie": true,
+      "secureCookie": true,
+      "idleTimeoutInMinutes": 60,
+      "sessionTimeoutInMinutes": 240,
+      "pfsessionStateCacheInSeconds": 60
+    },
+    {
+      "id": 11,
+      "name": "demo2",
+      "oidcLoginType": "Code",
+      "requestProfile": true,
+      "validateSessionIsAlive": false,
+      "cacheUserAttributes": false,
+      "enableRefreshUser": true,
+      "sendRequestedUrlToProvider": true,
+      "refreshUserInfoClaimsInterval": 60,
+      "requestPreservationType": "POST",
+      "webStorageType": "SessionStorage",
+      "clientCredentials": {
+        "clientId": "me2",
+        "clientSecret": {
+          "encryptedValue": "OBF:JWE:eyJhbGciOiJkaXIiLCJlbmMiOiJBMTI4Q0JDLUhTMjU2Iiwia2lkIjoiTU14amVDams2UlFzRDR2bCJ9..FLRcOnfgbnzgEQ8Ob281qg.g5ziD9PzuD7CY2JP1Kifdw.mKAhXCYlmguAbaiurLCX2A"
+        }
+      },
+      "audience": "me2",
+      "cookieDomain": "",
+      "cookieType": "Signed",
+      "httpOnlyCookie": true,
+      "secureCookie": true,
+      "idleTimeoutInMinutes": 60,
+      "sessionTimeoutInMinutes": 240,
+      "pfsessionStateCacheInSeconds": 60
+    }
+  ]
+}

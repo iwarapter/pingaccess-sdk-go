@@ -1,7 +1,9 @@
 package pingaccess
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -12,8 +14,28 @@ type VirtualhostsService service
 //Input: input *GetVirtualHostsCommandInput
 func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsCommandInput) (result *VirtualHostsView, resp *http.Response, err error) {
 	path := "/virtualhosts"
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	q := rel.Query()
+	if input.Page != "" {
+		q.Set("page", input.Page)
+	}
+	if input.NumberPerPage != "" {
+		q.Set("numberPerPage", input.NumberPerPage)
+	}
+	if input.Filter != "" {
+		q.Set("filter", input.Filter)
+	}
+	if input.VirtualHost != "" {
+		q.Set("virtualHost", input.VirtualHost)
+	}
+	if input.SortKey != "" {
+		q.Set("sortKey", input.SortKey)
+	}
+	if input.Order != "" {
+		q.Set("order", input.Order)
+	}
+	rel.RawQuery = q.Encode()
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -27,14 +49,12 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 }
 
 type GetVirtualHostsCommandInput struct {
-	Params struct {
-		Page          int
-		NumberPerPage int
-		Filter        string
-		VirtualHost   string
-		SortKey       string
-		Order         string
-	}
+	Page          string
+	NumberPerPage string
+	Filter        string
+	VirtualHost   string
+	SortKey       string
+	Order         string
 }
 
 //AddVirtualHostCommand - Create a Virtual Host
@@ -42,8 +62,8 @@ type GetVirtualHostsCommandInput struct {
 //Input: input *AddVirtualHostCommandInput
 func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
 	path := "/virtualhosts"
-
-	req, err := s.client.newRequest("POST", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -65,10 +85,10 @@ type AddVirtualHostCommandInput struct {
 //Input: input *DeleteVirtualHostCommandInput
 func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostCommandInput) (resp *http.Response, err error) {
 	path := "/virtualhosts/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("DELETE", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -82,9 +102,7 @@ func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostC
 }
 
 type DeleteVirtualHostCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //GetVirtualHostCommand - Get a Virtual Host
@@ -92,10 +110,10 @@ type DeleteVirtualHostCommandInput struct {
 //Input: input *GetVirtualHostCommandInput
 func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommandInput) (result *VirtualHost, resp *http.Response, err error) {
 	path := "/virtualhosts/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -109,9 +127,7 @@ func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommand
 }
 
 type GetVirtualHostCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //UpdateVirtualHostCommand - Update a Virtual Host
@@ -119,10 +135,10 @@ type GetVirtualHostCommandInput struct {
 //Input: input *UpdateVirtualHostCommandInput
 func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
 	path := "/virtualhosts/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("PUT", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -137,7 +153,5 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 
 type UpdateVirtualHostCommandInput struct {
 	Body VirtualHostView
-	Path struct {
-		Id string
-	}
+	Id   string
 }

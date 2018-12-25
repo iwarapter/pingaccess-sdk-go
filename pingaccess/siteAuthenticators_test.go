@@ -20,11 +20,7 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 	}
 
 	input2 := GetSiteAuthenticatorDescriptorCommandInput{
-		Path: struct {
-			SiteAuthenticatorType string
-		}{
-			SiteAuthenticatorType: "mutualtlssiteauthenticator",
-		},
+		SiteAuthenticatorType: "mutualtlssiteauthenticator",
 	}
 	result2, resp2, err2 := svc.SiteAuthenticators.GetSiteAuthenticatorDescriptorCommand(&input2)
 	if err2 != nil {
@@ -77,11 +73,7 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 
 	//update the site authenticator
 	input3 := UpdateSiteAuthenticatorCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: SiteAuthenticatorView{
 			ClassName: "com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator",
 			Name:      "matls",
@@ -102,11 +94,8 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 
 	//get the site authenticator and check the update
 	input4 := GetSiteAuthenticatorCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.SiteAuthenticators.GetSiteAuthenticatorCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get site authenticator: %s", err4)
@@ -120,11 +109,8 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 
 	//delete our initial site authenticator
 	input5 := DeleteSiteAuthenticatorCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.SiteAuthenticators.DeleteSiteAuthenticatorCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete site authenticator: %s", err5)

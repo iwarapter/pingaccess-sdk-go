@@ -3,7 +3,6 @@ package pingaccess
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -50,9 +49,8 @@ func NewClient(username string, password string, baseUrl *url.URL, httpClient *h
 	return c
 }
 
-func (c *Client) newRequest(method, path string, body interface{}) (*http.Request, error) {
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
-	u := c.BaseURL.ResolveReference(rel)
+func (c *Client) newRequest(method string, path *url.URL, body interface{}) (*http.Request, error) {
+	u := c.BaseURL.ResolveReference(path)
 	var buf io.ReadWriter
 	if body != nil {
 		buf = new(bytes.Buffer)

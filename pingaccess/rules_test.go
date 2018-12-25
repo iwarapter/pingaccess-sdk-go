@@ -20,11 +20,7 @@ func TestRuleDescriptors(t *testing.T) {
 	}
 
 	input2 := GetRuleDescriptorCommandInput{
-		Path: struct {
-			RuleType string
-		}{
-			RuleType: "authnreq",
-		},
+		RuleType: "authnreq",
 	}
 	result2, resp2, err2 := svc.Rules.GetRuleDescriptorCommand(&input2)
 	if err2 != nil {
@@ -90,11 +86,7 @@ func TestRuleMethods(t *testing.T) {
 
 	//update the rule
 	input3 := UpdateRuleCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: RuleView{
 			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
 			Name:                  "woottest",
@@ -125,11 +117,8 @@ func TestRuleMethods(t *testing.T) {
 
 	//get the rule and check the update
 	input4 := GetRuleCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.Rules.GetRuleCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get rule: %s", err4)
@@ -143,11 +132,8 @@ func TestRuleMethods(t *testing.T) {
 
 	//delete our initial rule
 	input5 := DeleteRuleCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.Rules.DeleteRuleCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete rule: %s", err5)

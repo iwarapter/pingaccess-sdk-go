@@ -73,11 +73,7 @@ func TestRuleSetMethods(t *testing.T) {
 
 	//update the rule
 	input3 := UpdateRuleSetCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: RuleSetView{
 			Name:            "new-rule-set-test",
 			SuccessCriteria: "SuccessIfAnyOneSucceeds",
@@ -97,11 +93,8 @@ func TestRuleSetMethods(t *testing.T) {
 
 	//get the rule and check the update
 	input4 := GetRuleSetCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.Rulesets.GetRuleSetCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get rule: %s", err4)
@@ -115,11 +108,8 @@ func TestRuleSetMethods(t *testing.T) {
 
 	//delete our initial rule
 	input5 := DeleteRuleSetCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.Rulesets.DeleteRuleSetCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete rule: %s", err5)

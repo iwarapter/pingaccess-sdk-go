@@ -1,10 +1,74 @@
 package pingaccess
 
 import (
+	"io/ioutil"
+	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"strconv"
 	"testing"
 )
 
+func TestSitesRequestQueryParamsAreUsed(t *testing.T) {
+	// Start a local HTTP server
+	dat, _ := ioutil.ReadFile("test_data/example_websessions.json")
+	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// Test request parameters
+		equals(t, req.URL.String(), "/pa-admin-api/v3/sites?filter=demo&name=demo2&numberPerPage=1&order=ASC&page=1&sortKey=audience")
+		// Send response to be tested
+		rw.Write(dat)
+	}))
+	// Close the server when test finishes
+	defer server.Close()
+	url, _ := url.Parse(server.URL)
+	svc := NewClient("Administrator", "2Access2", url, nil)
+
+	input1 := GetSitesCommandInput{
+		Page:          "1",
+		NumberPerPage: "1",
+		Filter:        "demo",
+		Name:          "demo2",
+		SortKey:       "audience",
+		Order:         "ASC",
+	}
+
+	result1, resp1, err1 := svc.Sites.GetSitesCommand(&input1)
+	if err1 != nil {
+		t.Errorf("Unable to execute command: %s", err1.Error())
+	}
+	if resp1.StatusCode != 200 {
+		t.Errorf("Invalid response code: %d", resp1.StatusCode)
+	}
+	if result1 == nil {
+		t.Errorf("Unable the marshall results")
+	}
+
+}
+func TestVSitesErrorHandling(t *testing.T) {
+	url, _ := url.Parse("wrong")
+	svc := NewClient("Administrator", "2Access2", url, nil)
+
+	_, _, err := svc.Sites.GetSitesCommand(&GetSitesCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.Sites.AddSiteCommand(&AddSiteCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, err = svc.Sites.DeleteSiteCommand(&DeleteSiteCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.Sites.GetSiteCommand(&GetSiteCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+	_, _, err = svc.Sites.UpdateSiteCommand(&UpdateSiteCommandInput{})
+	if err == nil {
+		t.Errorf("This should go bang")
+	}
+}
 func TestSitesMethods(t *testing.T) {
 	svc := config()
 
@@ -43,11 +107,7 @@ func TestSitesMethods(t *testing.T) {
 
 	//update the site
 	input3 := UpdateSiteCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		},
+		Id: id,
 		Body: SiteView{
 			Name:                    "bar",
 			Targets:                 []string{"localhost:1234", "localhost:1235"},
@@ -67,11 +127,8 @@ func TestSitesMethods(t *testing.T) {
 
 	//get the site and check the update
 	input4 := GetSiteCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	result4, resp4, err4 := svc.Sites.GetSiteCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get site: %s", err4)
@@ -85,11 +142,8 @@ func TestSitesMethods(t *testing.T) {
 
 	//delete our initial site
 	input5 := DeleteSiteCommandInput{
-		Path: struct {
-			Id string
-		}{
-			Id: id,
-		}}
+		Id: id,
+	}
 	resp5, err5 := svc.Sites.DeleteSiteCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete site: %s", err5)

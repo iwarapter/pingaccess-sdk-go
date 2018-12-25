@@ -1,7 +1,9 @@
 package pingaccess
 
 import (
+	"fmt"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -12,8 +14,28 @@ type IdentityMappingsService service
 //Input: input *GetIdentityMappingsCommandInput
 func (s *IdentityMappingsService) GetIdentityMappingsCommand(input *GetIdentityMappingsCommandInput) (result *IdentityMappingsView, resp *http.Response, err error) {
 	path := "/identityMappings"
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	q := rel.Query()
+	if input.Page != "" {
+		q.Set("page", input.Page)
+	}
+	if input.NumberPerPage != "" {
+		q.Set("numberPerPage", input.NumberPerPage)
+	}
+	if input.Filter != "" {
+		q.Set("filter", input.Filter)
+	}
+	if input.Name != "" {
+		q.Set("name", input.Name)
+	}
+	if input.SortKey != "" {
+		q.Set("sortKey", input.SortKey)
+	}
+	if input.Order != "" {
+		q.Set("order", input.Order)
+	}
+	rel.RawQuery = q.Encode()
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -27,14 +49,12 @@ func (s *IdentityMappingsService) GetIdentityMappingsCommand(input *GetIdentityM
 }
 
 type GetIdentityMappingsCommandInput struct {
-	Params struct {
-		Page          int
-		NumberPerPage int
-		Filter        string
-		Name          string
-		SortKey       string
-		Order         string
-	}
+	Page          string
+	NumberPerPage string
+	Filter        string
+	Name          string
+	SortKey       string
+	Order         string
 }
 
 //AddIdentityMappingCommand - Create an Identity Mapping
@@ -42,8 +62,8 @@ type GetIdentityMappingsCommandInput struct {
 //Input: input *AddIdentityMappingCommandInput
 func (s *IdentityMappingsService) AddIdentityMappingCommand(input *AddIdentityMappingCommandInput) (result *IdentityMappingView, resp *http.Response, err error) {
 	path := "/identityMappings"
-
-	req, err := s.client.newRequest("POST", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -65,8 +85,8 @@ type AddIdentityMappingCommandInput struct {
 //Input:
 func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result *IdentityMappingDescriptorsView, resp *http.Response, err error) {
 	path := "/identityMappings/descriptors"
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -84,10 +104,10 @@ func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result
 //Input: input *GetIdentityMappingDescriptorCommandInput
 func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *GetIdentityMappingDescriptorCommandInput) (result *IdentityMappingDescriptor, resp *http.Response, err error) {
 	path := "/identityMappings/descriptors/{identityMappingType}"
+	path = strings.Replace(path, "{identityMappingType}", input.IdentityMappingType, -1)
 
-	path = strings.Replace(path, "{identityMappingType}", input.Path.IdentityMappingType, -1)
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -101,9 +121,7 @@ func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *Get
 }
 
 type GetIdentityMappingDescriptorCommandInput struct {
-	Path struct {
-		IdentityMappingType string
-	}
+	IdentityMappingType string
 }
 
 //DeleteIdentityMappingCommand - Delete an Identity Mapping
@@ -111,10 +129,10 @@ type GetIdentityMappingDescriptorCommandInput struct {
 //Input: input *DeleteIdentityMappingCommandInput
 func (s *IdentityMappingsService) DeleteIdentityMappingCommand(input *DeleteIdentityMappingCommandInput) (resp *http.Response, err error) {
 	path := "/identityMappings/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("DELETE", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -128,9 +146,7 @@ func (s *IdentityMappingsService) DeleteIdentityMappingCommand(input *DeleteIden
 }
 
 type DeleteIdentityMappingCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //GetIdentityMappingCommand - Get an Identity Mapping
@@ -138,10 +154,10 @@ type DeleteIdentityMappingCommandInput struct {
 //Input: input *GetIdentityMappingCommandInput
 func (s *IdentityMappingsService) GetIdentityMappingCommand(input *GetIdentityMappingCommandInput) (result *IdentityMappingView, resp *http.Response, err error) {
 	path := "/identityMappings/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("GET", path, nil)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -155,9 +171,7 @@ func (s *IdentityMappingsService) GetIdentityMappingCommand(input *GetIdentityMa
 }
 
 type GetIdentityMappingCommandInput struct {
-	Path struct {
-		Id string
-	}
+	Id string
 }
 
 //UpdateIdentityMappingCommand - Update an Identity Mapping
@@ -165,10 +179,10 @@ type GetIdentityMappingCommandInput struct {
 //Input: input *UpdateIdentityMappingCommandInput
 func (s *IdentityMappingsService) UpdateIdentityMappingCommand(input *UpdateIdentityMappingCommandInput) (result *IdentityMappingView, resp *http.Response, err error) {
 	path := "/identityMappings/{id}"
+	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	path = strings.Replace(path, "{id}", input.Path.Id, -1)
-
-	req, err := s.client.newRequest("PUT", path, input.Body)
+	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -183,7 +197,5 @@ func (s *IdentityMappingsService) UpdateIdentityMappingCommand(input *UpdateIden
 
 type UpdateIdentityMappingCommandInput struct {
 	Body IdentityMappingView
-	Path struct {
-		Id string
-	}
+	Id   string
 }
