@@ -131,9 +131,9 @@ type ResourceView struct {
 	DefaultAuthTypeOverride string                 `json:"defaultAuthTypeOverride"`
 	Enabled                 bool                   `json:"enabled,omitempty"`
 	Id                      int                    `json:"id,omitempty"`
-	Methods                 []*string              `json:"methods"`
+	Methods                 []string               `json:"methods"`
 	Name                    string                 `json:"name"`
-	PathPrefixes            []*string              `json:"pathPrefixes"`
+	PathPrefixes            []string               `json:"pathPrefixes"`
 	Policy                  map[string]interface{} `json:"policy,omitempty"`
 	RootResource            bool                   `json:"rootResource,omitempty"`
 }
@@ -189,7 +189,7 @@ type RuleView struct {
 	Configuration         map[string]interface{} `json:"configuration"`
 	Id                    int                    `json:"id,omitempty"`
 	Name                  string                 `json:"name"`
-	SupportedDestinations []*string              `json:"supportedDestinations,omitempty"`
+	SupportedDestinations []string               `json:"supportedDestinations,omitempty"`
 }
 
 //RulesView

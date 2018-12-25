@@ -37,14 +37,12 @@ func TestRuleDescriptors(t *testing.T) {
 func TestRuleMethods(t *testing.T) {
 	svc := config()
 
-	str := "localhost:1234"
-	destinations := []*string{&str}
 	// add a new rule
 	input1 := AddRuleCommandInput{
 		Body: RuleView{
 			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
 			Name:                  "woottest",
-			SupportedDestinations: destinations,
+			SupportedDestinations: []string{"localhost:1234"},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
 				"negate":                    false,
@@ -90,7 +88,7 @@ func TestRuleMethods(t *testing.T) {
 		Body: RuleView{
 			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
 			Name:                  "woottest",
-			SupportedDestinations: destinations,
+			SupportedDestinations: []string{"localhost:1234"},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
 				"negate":                    false,
