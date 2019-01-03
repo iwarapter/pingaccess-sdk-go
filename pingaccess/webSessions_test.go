@@ -21,7 +21,7 @@ func TestWebSessionsRequestQueryParamsAreUsed(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetWebSessionsCommandInput{
 		Page:          "1",
@@ -58,7 +58,7 @@ func TestInvalidInputsCreateErrors(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetWebSessionsCommandInput{
 		Order: "ASCII",
@@ -79,7 +79,7 @@ func TestInvalidInputsCreateErrors(t *testing.T) {
 
 func TestWebSessionsErrorHandling(t *testing.T) {
 	url, _ := url.Parse("wrong")
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	_, _, err := svc.WebSessions.GetWebSessionsCommand(&GetWebSessionsCommandInput{})
 	if err == nil {
@@ -104,17 +104,18 @@ func TestWebSessionsErrorHandling(t *testing.T) {
 }
 
 func TestWebSessionsMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new websession
 	input1 := AddWebSessionCommandInput{
 		Body: WebSessionView{
-			Audience: "some_random_folk",
-			Name:     "my_test_websession",
+			Audience: String("some_random_folk"),
+			Name:     String("my_test_websession"),
 			ClientCredentials: OAuthClientCredentialsView{
-				ClientId: "my_client",
+				ClientId: String("my_client"),
 				ClientSecret: HiddenFieldView{
-					Value: "my_secret",
+					Value: String("my_secret"),
 				},
 			},
 		}}
@@ -143,18 +144,18 @@ func TestWebSessionsMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the websession
 	input3 := UpdateWebSessionCommandInput{
 		Id: id,
 		Body: WebSessionView{
-			Audience: "some_new_random_folk",
-			Name:     "my_test_websession",
+			Audience: String("some_new_random_folk"),
+			Name:     String("my_test_websession"),
 			ClientCredentials: OAuthClientCredentialsView{
-				ClientId: "my_client",
+				ClientId: String("my_client"),
 				ClientSecret: HiddenFieldView{
-					Value: "my_secret",
+					Value: String("my_secret"),
 				},
 			},
 		}}
@@ -165,7 +166,7 @@ func TestWebSessionsMethods(t *testing.T) {
 	if resp3.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp3.StatusCode)
 	}
-	if result3.Audience != input3.Body.Audience {
+	if *result3.Audience != *input3.Body.Audience {
 		t.Errorf("Failed to update websession")
 	}
 
@@ -180,7 +181,7 @@ func TestWebSessionsMethods(t *testing.T) {
 	if resp4.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp4.StatusCode)
 	}
-	if result4.Audience != input3.Body.Audience {
+	if *result4.Audience != *input3.Body.Audience {
 		t.Errorf("Failed to update websession")
 	}
 

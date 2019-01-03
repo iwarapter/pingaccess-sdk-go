@@ -14,7 +14,7 @@ type VirtualhostsService service
 //Input: input *GetVirtualHostsCommandInput
 func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsCommandInput) (result *VirtualHostsView, resp *http.Response, err error) {
 	path := "/virtualhosts"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -62,7 +62,7 @@ type GetVirtualHostsCommandInput struct {
 //Input: input *AddVirtualHostCommandInput
 func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
 	path := "/virtualhosts"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -87,7 +87,7 @@ func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostC
 	path := "/virtualhosts/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommand
 	path := "/virtualhosts/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -137,7 +137,7 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 	path := "/virtualhosts/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

@@ -14,7 +14,7 @@ type SiteAuthenticatorsService service
 //Input: input *GetSiteAuthenticatorsCommandInput
 func (s *SiteAuthenticatorsService) GetSiteAuthenticatorsCommand(input *GetSiteAuthenticatorsCommandInput) (result *SiteAuthenticatorsView, resp *http.Response, err error) {
 	path := "/siteAuthenticators"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -62,7 +62,7 @@ type GetSiteAuthenticatorsCommandInput struct {
 //Input: input *AddSiteAuthenticatorCommandInput
 func (s *SiteAuthenticatorsService) AddSiteAuthenticatorCommand(input *AddSiteAuthenticatorCommandInput) (result *SiteAuthenticatorView, resp *http.Response, err error) {
 	path := "/siteAuthenticators"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -85,7 +85,7 @@ type AddSiteAuthenticatorCommandInput struct {
 //Input:
 func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorsCommand() (result *SiteAuthenticatorDescriptorsView, resp *http.Response, err error) {
 	path := "/siteAuthenticators/descriptors"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -106,7 +106,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorCommand(input 
 	path := "/siteAuthenticators/descriptors/{siteAuthenticatorType}"
 	path = strings.Replace(path, "{siteAuthenticatorType}", input.SiteAuthenticatorType, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -131,7 +131,7 @@ func (s *SiteAuthenticatorsService) DeleteSiteAuthenticatorCommand(input *Delete
 	path := "/siteAuthenticators/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorCommand(input *GetSiteAu
 	path := "/siteAuthenticators/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -181,7 +181,7 @@ func (s *SiteAuthenticatorsService) UpdateSiteAuthenticatorCommand(input *Update
 	path := "/siteAuthenticators/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

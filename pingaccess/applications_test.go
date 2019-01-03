@@ -21,7 +21,7 @@ func TestApplicationsRequestQueryParamsAreUsed(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetApplicationsCommandInput{
 		Page:          "1",
@@ -60,7 +60,7 @@ func TestGetApplicationResourcesCommandQueryParamsAreUsed(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetApplicationResourcesCommandInput{
 		Page:          "1",
@@ -87,7 +87,7 @@ func TestGetApplicationResourcesCommandQueryParamsAreUsed(t *testing.T) {
 
 func TestVApplicationsErrorHandling(t *testing.T) {
 	url, _ := url.Parse("wrong")
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	_, _, err := svc.Applications.GetApplicationsCommand(&GetApplicationsCommandInput{})
 	if err == nil {
@@ -120,7 +120,8 @@ func TestVApplicationsErrorHandling(t *testing.T) {
 }
 
 func TestGetApplicationsCommand(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	input := GetApplicationsCommandInput{}
 	results, _, _ := svc.Applications.GetApplicationsCommand(&input)

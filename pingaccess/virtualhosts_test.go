@@ -21,7 +21,7 @@ func TestVirtualhostsRequestQueryParamsAreUsed(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetVirtualHostsCommandInput{
 		Page:          "1",
@@ -46,7 +46,7 @@ func TestVirtualhostsRequestQueryParamsAreUsed(t *testing.T) {
 }
 func TestVirtualhostsErrorHandling(t *testing.T) {
 	url, _ := url.Parse("wrong")
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	_, _, err := svc.Virtualhosts.GetVirtualHostsCommand(&GetVirtualHostsCommandInput{})
 	if err == nil {
@@ -71,16 +71,17 @@ func TestVirtualhostsErrorHandling(t *testing.T) {
 }
 
 func TestVirtualHostsMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new virtualhost
 	input1 := AddVirtualHostCommandInput{
 		Body: VirtualHostView{
-			AgentResourceCacheTTL:     900,
-			Host:                      "localhost",
-			KeyPairId:                 0,
-			Port:                      3000,
-			TrustedCertificateGroupId: 0,
+			AgentResourceCacheTTL:     Int(900),
+			Host:                      String("localhost"),
+			KeyPairId:                 Int(0),
+			Port:                      Int(3000),
+			TrustedCertificateGroupId: Int(0),
 		}}
 	result1, resp1, err1 := svc.Virtualhosts.AddVirtualHostCommand(&input1)
 	if err1 != nil {
@@ -107,17 +108,17 @@ func TestVirtualHostsMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the virtualhost
 	input3 := UpdateVirtualHostCommandInput{
 		Id: id,
 		Body: VirtualHostView{
-			AgentResourceCacheTTL:     900,
-			Host:                      "localhost",
-			KeyPairId:                 0,
-			Port:                      3001,
-			TrustedCertificateGroupId: 0,
+			AgentResourceCacheTTL:     Int(900),
+			Host:                      String("localhost"),
+			KeyPairId:                 Int(0),
+			Port:                      Int(3001),
+			TrustedCertificateGroupId: Int(0),
 		}}
 	result3, resp3, err3 := svc.Virtualhosts.UpdateVirtualHostCommand(&input3)
 	if err3 != nil {
@@ -126,7 +127,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 	if resp3.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp3.StatusCode)
 	}
-	if result3.Port != input3.Body.Port {
+	if *result3.Port != *input3.Body.Port {
 		t.Errorf("Failed to update virtualhost")
 	}
 
@@ -141,7 +142,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 	if resp4.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp4.StatusCode)
 	}
-	if result4.Port != input3.Body.Port {
+	if *result4.Port != *input3.Body.Port {
 		t.Errorf("Failed to update virtualhost")
 	}
 

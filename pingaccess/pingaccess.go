@@ -13,6 +13,7 @@ type Client struct {
 	Username   string
 	Password   string
 	BaseURL    *url.URL
+	Context    string
 	httpClient *http.Client
 
 	Applications       *ApplicationsService
@@ -29,7 +30,7 @@ type service struct {
 	client *Client
 }
 
-func NewClient(username string, password string, baseUrl *url.URL, httpClient *http.Client) *Client {
+func NewClient(username string, password string, baseUrl *url.URL, context string, httpClient *http.Client) *Client {
 	if httpClient == nil {
 		httpClient = http.DefaultClient
 	}
@@ -37,6 +38,7 @@ func NewClient(username string, password string, baseUrl *url.URL, httpClient *h
 	c.Username = username
 	c.Password = password
 	c.BaseURL = baseUrl
+	c.Context = context
 
 	c.Applications = &ApplicationsService{client: c}
 	c.IdentityMappings = &IdentityMappingsService{client: c}
@@ -96,3 +98,19 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 	}
 	return resp, err
 }
+
+// Bool is a helper routine that allocates a new bool value
+// to store v and returns a pointer to it.
+func Bool(v bool) *bool { return &v }
+
+// Int is a helper routine that allocates a new int value
+// to store v and returns a pointer to it.
+func Int(v int) *int { return &v }
+
+// Int64 is a helper routine that allocates a new int64 value
+// to store v and returns a pointer to it.
+func Int64(v int64) *int64 { return &v }
+
+// String is a helper routine that allocates a new string value
+// to store v and returns a pointer to it.
+func String(v string) *string { return &v }

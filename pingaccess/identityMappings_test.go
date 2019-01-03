@@ -1,12 +1,14 @@
 package pingaccess
 
 import (
+	"net/url"
 	"strconv"
 	"testing"
 )
 
 func TestIdentityMappingDescriptors(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	result1, resp1, err1 := svc.IdentityMappings.GetIdentityMappingDescriptorsCommand()
 	if err1 != nil {
@@ -29,19 +31,20 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 	if resp2.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp2.StatusCode)
 	}
-	if result2.ClassName != "com.pingidentity.pa.identitymappings.JwtIdentityMapping" {
+	if *result2.ClassName != "com.pingidentity.pa.identitymappings.JwtIdentityMapping" {
 		t.Errorf("Unable the marshall results")
 	}
 }
 
 func TestIdentityMappingMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new identity mapping
 	input1 := AddIdentityMappingCommandInput{
 		Body: IdentityMappingView{
-			ClassName: "com.pingidentity.pa.identitymappings.HeaderIdentityMapping",
-			Name:      "woot",
+			ClassName: String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
+			Name:      String("woot"),
 			Configuration: map[string]interface{}{
 				"attributeHeaderMappings": []interface{}{
 					map[string]interface{}{
@@ -76,14 +79,14 @@ func TestIdentityMappingMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the identity mapping
 	input3 := UpdateIdentityMappingCommandInput{
 		Id: id,
 		Body: IdentityMappingView{
-			ClassName: "com.pingidentity.pa.identitymappings.HeaderIdentityMapping",
-			Name:      "woot",
+			ClassName: String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
+			Name:      String("woot"),
 			Configuration: map[string]interface{}{
 				"attributeHeaderMappings": []interface{}{
 					map[string]interface{}{

@@ -1,12 +1,14 @@
 package pingaccess
 
 import (
+	"net/url"
 	"strconv"
 	"testing"
 )
 
 func TestSiteAuthenticatorDescriptors(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	result1, resp1, err1 := svc.SiteAuthenticators.GetSiteAuthenticatorDescriptorsCommand()
 	if err1 != nil {
@@ -29,19 +31,20 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 	if resp2.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp2.StatusCode)
 	}
-	if result2.ClassName != "com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator" {
+	if *result2.ClassName != "com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator" {
 		t.Errorf("Unable the marshall results")
 	}
 }
 
 func TestSiteAuthenticatorMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new site authenticator
 	input1 := AddSiteAuthenticatorCommandInput{
 		Body: SiteAuthenticatorView{
-			ClassName: "com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator",
-			Name:      "matls",
+			ClassName: String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
+			Name:      String("matls"),
 			Configuration: map[string]interface{}{
 				"keyPairId": "2",
 			},
@@ -69,14 +72,14 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the site authenticator
 	input3 := UpdateSiteAuthenticatorCommandInput{
 		Id: id,
 		Body: SiteAuthenticatorView{
-			ClassName: "com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator",
-			Name:      "matls",
+			ClassName: String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
+			Name:      String("matls"),
 			Configuration: map[string]interface{}{
 				"keyPairId": "3",
 			},

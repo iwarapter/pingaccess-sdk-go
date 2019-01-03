@@ -14,7 +14,7 @@ type RulesService service
 //Input: input *GetRulesCommandInput
 func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (result *RulesView, resp *http.Response, err error) {
 	path := "/rules"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -62,7 +62,7 @@ type GetRulesCommandInput struct {
 //Input: input *AddRuleCommandInput
 func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
 	path := "/rules"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -85,7 +85,7 @@ type AddRuleCommandInput struct {
 //Input:
 func (s *RulesService) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, resp *http.Response, err error) {
 	path := "/rules/descriptors"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -106,7 +106,7 @@ func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandI
 	path := "/rules/descriptors/{ruleType}"
 	path = strings.Replace(path, "{ruleType}", input.RuleType, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -131,7 +131,7 @@ func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *h
 	path := "/rules/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (result *RuleV
 	path := "/rules/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -181,7 +181,7 @@ func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result 
 	path := "/rules/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

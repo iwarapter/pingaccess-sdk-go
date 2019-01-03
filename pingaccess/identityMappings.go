@@ -14,7 +14,7 @@ type IdentityMappingsService service
 //Input: input *GetIdentityMappingsCommandInput
 func (s *IdentityMappingsService) GetIdentityMappingsCommand(input *GetIdentityMappingsCommandInput) (result *IdentityMappingsView, resp *http.Response, err error) {
 	path := "/identityMappings"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -62,7 +62,7 @@ type GetIdentityMappingsCommandInput struct {
 //Input: input *AddIdentityMappingCommandInput
 func (s *IdentityMappingsService) AddIdentityMappingCommand(input *AddIdentityMappingCommandInput) (result *IdentityMappingView, resp *http.Response, err error) {
 	path := "/identityMappings"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -85,7 +85,7 @@ type AddIdentityMappingCommandInput struct {
 //Input:
 func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result *IdentityMappingDescriptorsView, resp *http.Response, err error) {
 	path := "/identityMappings/descriptors"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -106,7 +106,7 @@ func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *Get
 	path := "/identityMappings/descriptors/{identityMappingType}"
 	path = strings.Replace(path, "{identityMappingType}", input.IdentityMappingType, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -131,7 +131,7 @@ func (s *IdentityMappingsService) DeleteIdentityMappingCommand(input *DeleteIden
 	path := "/identityMappings/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -156,7 +156,7 @@ func (s *IdentityMappingsService) GetIdentityMappingCommand(input *GetIdentityMa
 	path := "/identityMappings/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -181,7 +181,7 @@ func (s *IdentityMappingsService) UpdateIdentityMappingCommand(input *UpdateIden
 	path := "/identityMappings/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

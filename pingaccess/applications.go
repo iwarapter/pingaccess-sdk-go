@@ -14,7 +14,7 @@ type ApplicationsService service
 //Input: input *GetApplicationsCommandInput
 func (s *ApplicationsService) GetApplicationsCommand(input *GetApplicationsCommandInput) (result *ApplicationsView, resp *http.Response, err error) {
 	path := "/applications"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -74,7 +74,7 @@ type GetApplicationsCommandInput struct {
 //Input: input *AddApplicationCommandInput
 func (s *ApplicationsService) AddApplicationCommand(input *AddApplicationCommandInput) (result *ApplicationView, resp *http.Response, err error) {
 	path := "/applications"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -97,7 +97,7 @@ type AddApplicationCommandInput struct {
 //Input: input *GetResourcesCommandInput
 func (s *ApplicationsService) GetResourcesCommand(input *GetResourcesCommandInput) (result *ResourcesView, resp *http.Response, err error) {
 	path := "/applications/resources"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -129,7 +129,7 @@ type GetResourcesCommandInput struct {
 //Input:
 func (s *ApplicationsService) GetApplicationsResourcesMethodsCommand() (result *MethodsView, resp *http.Response, err error) {
 	path := "/applications/resources/methods"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -152,7 +152,7 @@ func (s *ApplicationsService) DeleteApplicationResourceCommand(input *DeleteAppl
 
 	path = strings.Replace(path, "{resourceId}", input.ResourceId, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -180,7 +180,7 @@ func (s *ApplicationsService) GetApplicationResourceCommand(input *GetApplicatio
 
 	path = strings.Replace(path, "{resourceId}", input.ResourceId, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -208,7 +208,7 @@ func (s *ApplicationsService) UpdateApplicationResourceCommand(input *UpdateAppl
 
 	path = strings.Replace(path, "{resourceId}", input.ResourceId, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -235,7 +235,7 @@ func (s *ApplicationsService) DeleteApplicationCommand(input *DeleteApplicationC
 	path := "/applications/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -260,7 +260,7 @@ func (s *ApplicationsService) GetApplicationCommand(input *GetApplicationCommand
 	path := "/applications/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -285,7 +285,7 @@ func (s *ApplicationsService) UpdateApplicationCommand(input *UpdateApplicationC
 	path := "/applications/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -311,7 +311,7 @@ func (s *ApplicationsService) GetApplicationResourcesCommand(input *GetApplicati
 	path := "/applications/{id}/resources"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -363,7 +363,7 @@ func (s *ApplicationsService) AddApplicationResourceCommand(input *AddApplicatio
 	path := "/applications/{id}/resources"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

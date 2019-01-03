@@ -1,12 +1,14 @@
 package pingaccess
 
 import (
+	"net/url"
 	"strconv"
 	"testing"
 )
 
 func TestRuleSetElementTypes(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	result1, resp1, err1 := svc.Rulesets.GetRuleSetElementTypesCommand()
 	if err1 != nil {
@@ -21,7 +23,8 @@ func TestRuleSetElementTypes(t *testing.T) {
 }
 
 func TestRuleSetSuccessCriteria(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	result, resp, err := svc.Rulesets.GetRuleSetSuccessCriteriaCommand()
 	if err != nil {
@@ -36,13 +39,14 @@ func TestRuleSetSuccessCriteria(t *testing.T) {
 }
 
 func TestRuleSetMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	input1 := AddRuleSetCommandInput{
 		Body: RuleSetView{
-			Name:            "new-rule-set-test",
-			SuccessCriteria: "SuccessIfAllSucceed",
-			ElementType:     "Rule",
+			Name:            String("new-rule-set-test"),
+			SuccessCriteria: String("SuccessIfAllSucceed"),
+			ElementType:     String("Rule"),
 			Policy:          []int{2},
 		}}
 
@@ -69,15 +73,15 @@ func TestRuleSetMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the rule
 	input3 := UpdateRuleSetCommandInput{
 		Id: id,
 		Body: RuleSetView{
-			Name:            "new-rule-set-test",
-			SuccessCriteria: "SuccessIfAnyOneSucceeds",
-			ElementType:     "Rule",
+			Name:            String("new-rule-set-test"),
+			SuccessCriteria: String("SuccessIfAnyOneSucceeds"),
+			ElementType:     String("Rule"),
 			Policy:          []int{2},
 		}}
 	result3, resp3, err3 := svc.Rulesets.UpdateRuleSetCommand(&input3)
@@ -87,8 +91,8 @@ func TestRuleSetMethods(t *testing.T) {
 	if resp3.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp3.StatusCode)
 	}
-	if result3.SuccessCriteria != input3.Body.SuccessCriteria {
-		t.Errorf("Failed to update rule, expected: %s got: %s", result3.SuccessCriteria, input3.Body.SuccessCriteria)
+	if *result3.SuccessCriteria != *input3.Body.SuccessCriteria {
+		t.Errorf("Failed to update rule, expected: %s got: %s", *result3.SuccessCriteria, *input3.Body.SuccessCriteria)
 	}
 
 	//get the rule and check the update
@@ -102,7 +106,7 @@ func TestRuleSetMethods(t *testing.T) {
 	if resp4.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp4.StatusCode)
 	}
-	if result4.SuccessCriteria != input3.Body.SuccessCriteria {
+	if *result4.SuccessCriteria != *input3.Body.SuccessCriteria {
 		t.Errorf("Failed to get rule")
 	}
 

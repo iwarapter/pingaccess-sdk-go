@@ -11,10 +11,9 @@ import (
 	"testing"
 )
 
-func config() *Client {
+func config(url *url.URL) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-	url, _ := url.Parse("https://localhost:9000/")
-	return NewClient("Administrator", "2Access2", url, nil)
+	return NewClient("Administrator", "2Access2", url, "/pa-admin-api/v3", nil)
 }
 
 // assert fails the test if the condition is false.

@@ -21,7 +21,7 @@ func TestSitesRequestQueryParamsAreUsed(t *testing.T) {
 	// Close the server when test finishes
 	defer server.Close()
 	url, _ := url.Parse(server.URL)
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	input1 := GetSitesCommandInput{
 		Page:          "1",
@@ -46,7 +46,7 @@ func TestSitesRequestQueryParamsAreUsed(t *testing.T) {
 }
 func TestVSitesErrorHandling(t *testing.T) {
 	url, _ := url.Parse("wrong")
-	svc := NewClient("Administrator", "2Access2", url, nil)
+	svc := config(url)
 
 	_, _, err := svc.Sites.GetSitesCommand(&GetSitesCommandInput{})
 	if err == nil {
@@ -70,15 +70,16 @@ func TestVSitesErrorHandling(t *testing.T) {
 	}
 }
 func TestSitesMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new site
 	input1 := AddSiteCommandInput{
 		Body: SiteView{
-			Name:                    "bar",
+			Name:                    String("bar"),
 			Targets:                 []string{"localhost:1234"},
-			MaxConnections:          -1,
-			MaxWebSocketConnections: -1,
+			MaxConnections:          Int(-1),
+			MaxWebSocketConnections: Int(-1),
 		}}
 	result1, resp1, err1 := svc.Sites.AddSiteCommand(&input1)
 	if err1 != nil {
@@ -103,16 +104,16 @@ func TestSitesMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the site
 	input3 := UpdateSiteCommandInput{
 		Id: id,
 		Body: SiteView{
-			Name:                    "bar",
+			Name:                    String("bar"),
 			Targets:                 []string{"localhost:1234", "localhost:1235"},
-			MaxConnections:          -1,
-			MaxWebSocketConnections: -1,
+			MaxConnections:          Int(-1),
+			MaxWebSocketConnections: Int(-1),
 		}}
 	result3, resp3, err3 := svc.Sites.UpdateSiteCommand(&input3)
 	if err3 != nil {

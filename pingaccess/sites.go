@@ -14,7 +14,7 @@ type SitesService service
 //Input: input *GetSitesCommandInput
 func (s *SitesService) GetSitesCommand(input *GetSitesCommandInput) (result *SitesView, resp *http.Response, err error) {
 	path := "/sites"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
 		q.Set("page", input.Page)
@@ -62,7 +62,7 @@ type GetSitesCommandInput struct {
 //Input: input *AddSiteCommandInput
 func (s *SitesService) AddSiteCommand(input *AddSiteCommandInput) (result *SiteView, resp *http.Response, err error) {
 	path := "/sites"
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
 		return nil, nil, err
@@ -87,7 +87,7 @@ func (s *SitesService) DeleteSiteCommand(input *DeleteSiteCommandInput) (resp *h
 	path := "/sites/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("DELETE", rel, nil)
 	if err != nil {
 		return nil, err
@@ -112,7 +112,7 @@ func (s *SitesService) GetSiteCommand(input *GetSiteCommandInput) (result *SiteV
 	path := "/sites/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
 		return nil, nil, err
@@ -137,7 +137,7 @@ func (s *SitesService) UpdateSiteCommand(input *UpdateSiteCommandInput) (result 
 	path := "/sites/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
-	rel := &url.URL{Path: fmt.Sprintf("pa-admin-api/v3%s", path)}
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("PUT", rel, input.Body)
 	if err != nil {
 		return nil, nil, err

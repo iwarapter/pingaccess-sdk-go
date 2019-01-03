@@ -1,12 +1,14 @@
 package pingaccess
 
 import (
+	"net/url"
 	"strconv"
 	"testing"
 )
 
 func TestRuleDescriptors(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	result1, resp1, err1 := svc.Rules.GetRuleDescriptorsCommand()
 	if err1 != nil {
@@ -29,19 +31,20 @@ func TestRuleDescriptors(t *testing.T) {
 	if resp2.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp2.StatusCode)
 	}
-	if result2.ClassName != "com.pingidentity.pa.policy.authnreq.AuthenticationRequirementsPolicyInterceptor" {
+	if *result2.ClassName != "com.pingidentity.pa.policy.authnreq.AuthenticationRequirementsPolicyInterceptor" {
 		t.Errorf("Unable the marshall results")
 	}
 }
 
 func TestRuleMethods(t *testing.T) {
-	svc := config()
+	url, _ := url.Parse("https://localhost:9000")
+	svc := config(url)
 
 	// add a new rule
 	input1 := AddRuleCommandInput{
 		Body: RuleView{
-			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
-			Name:                  "woottest",
+			ClassName:             String("com.pingidentity.pa.policy.CIDRPolicyInterceptor"),
+			Name:                  String("woottest"),
 			SupportedDestinations: []string{"localhost:1234"},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
@@ -80,14 +83,14 @@ func TestRuleMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(result1.Id)
+	id := strconv.Itoa(*result1.Id)
 
 	//update the rule
 	input3 := UpdateRuleCommandInput{
 		Id: id,
 		Body: RuleView{
-			ClassName:             "com.pingidentity.pa.policy.CIDRPolicyInterceptor",
-			Name:                  "woottest",
+			ClassName:             String("com.pingidentity.pa.policy.CIDRPolicyInterceptor"),
+			Name:                  String("woottest"),
 			SupportedDestinations: []string{"localhost:1234"},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
