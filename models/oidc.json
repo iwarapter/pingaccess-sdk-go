@@ -2,83 +2,40 @@
   "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/identityMappings",
+  "resourcePath": "/oidc",
   "apis": [
     {
-      "path": "/identityMappings",
+      "path": "/oidc/provider",
       "operations": [
         {
-          "method": "GET",
-          "summary": "Get all Identity Mappings",
+          "method": "DELETE",
+          "summary": "Resets the OpenID Connect Provider configuration to default values",
           "notes": "",
-          "type": "IdentityMappingsView",
-          "nickname": "getIdentityMappingsCommand",
-          "parameters": [
-            {
-              "name": "page",
-              "description": "Page number to retrieve",
-              "required": false,
-              "allowMultiple": false,
-              "type": "integer",
-              "format": "int32",
-              "paramType": "query"
-            },
-            {
-              "name": "numberPerPage",
-              "description": "Number of Identity Mappings per page",
-              "required": false,
-              "allowMultiple": false,
-              "type": "integer",
-              "format": "int32",
-              "paramType": "query"
-            },
-            {
-              "name": "filter",
-              "description": "Search for Identity Mapping with name matching filter text",
-              "required": false,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "query"
-            },
-            {
-              "name": "name",
-              "description": "Get a specific Identity Mapping by name (case-sensitive)",
-              "required": false,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "query"
-            },
-            {
-              "name": "sortKey",
-              "description": "A comma separated list of Identity Mapping attributes (keys) to be used to sort the results",
-              "required": false,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "query"
-            },
-            {
-              "name": "order",
-              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
-              "required": false,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "query"
-            }
-          ]
+          "type": "void",
+          "nickname": "deleteOIDCProviderCommand",
+          "parameters": []
         },
         {
-          "method": "POST",
-          "summary": "Create an Identity Mapping",
+          "method": "GET",
+          "summary": "Get the OpenID Connect Provider configuration",
           "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "addIdentityMappingCommand",
+          "type": "OIDCProviderView",
+          "nickname": "getOIDCProviderCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the OpenID Connect Provider configuration",
+          "notes": "",
+          "type": "OIDCProviderView",
+          "nickname": "updateOIDCProviderCommand",
           "parameters": [
             {
-              "name": "IdentityMappings",
-              "description": "IdentityMapping to create",
+              "name": "OpenIDConnectProvider",
+              "description": "OpenID Connect Provider configuration",
               "required": true,
               "allowMultiple": false,
-              "type": "IdentityMappingView",
+              "type": "OIDCProviderView",
               "paramType": "body"
             }
           ]
@@ -86,32 +43,32 @@
       ]
     },
     {
-      "path": "/identityMappings/descriptors",
+      "path": "/oidc/provider/descriptors",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptors for all supported Identity Mapping types",
+          "summary": "Get descriptors for all OIDC Provider plugins",
           "notes": "",
           "type": "DescriptorsView",
-          "nickname": "getIdentityMappingDescriptorsCommand",
+          "nickname": "getOIDCProviderPluginDescriptorsCommand",
           "parameters": []
         }
       ]
     },
     {
-      "path": "/identityMappings/descriptors/{identityMappingType}",
+      "path": "/oidc/provider/descriptors/{pluginType}",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptor for an Identity Mapping type",
+          "summary": "Get a descriptor for a OIDC Provider plugin",
           "notes": "",
           "type": "DescriptorView",
-          "nickname": "getIdentityMappingDescriptorCommand",
+          "nickname": "getOIDCProviderPluginDescriptorCommand",
           "parameters": [
             {
-              "name": "identityMappingType",
-              "description": "Identity Mapping descriptor to retrieve",
-              "required": false,
+              "name": "pluginType",
+              "description": "OIDC Provider plugin descriptor to retrieve",
+              "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
@@ -121,71 +78,38 @@
       ]
     },
     {
-      "path": "/identityMappings/{id}",
+      "path": "/oidc/provider/metadata",
       "operations": [
         {
-          "method": "DELETE",
-          "summary": "Delete an Identity Mapping",
-          "notes": "",
-          "type": "void",
-          "nickname": "deleteIdentityMappingCommand",
-          "parameters": [
-            {
-              "name": "id",
-              "description": "ID of IdentityMapping to delete",
-              "required": true,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "path"
-            }
-          ]
-        },
-        {
           "method": "GET",
-          "summary": "Get an Identity Mapping",
+          "summary": "Get the OpenID Connect Provider configuration",
           "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "getIdentityMappingCommand",
-          "parameters": [
-            {
-              "name": "id",
-              "description": "ID of identityMapping to get",
-              "required": true,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "path"
-            }
-          ]
-        },
-        {
-          "method": "PUT",
-          "summary": "Update an Identity Mapping",
-          "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "updateIdentityMappingCommand",
-          "parameters": [
-            {
-              "name": "id",
-              "description": "ID of IdentityMapping to update",
-              "required": true,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "path"
-            },
-            {
-              "name": "IdentityMappings",
-              "description": "IdentityMapping to update",
-              "required": true,
-              "allowMultiple": false,
-              "type": "IdentityMappingView",
-              "paramType": "body"
-            }
-          ]
+          "type": "OIDCProviderMetadata",
+          "nickname": "getOIDCProviderMetadataCommand",
+          "parameters": []
         }
       ]
     }
   ],
   "models": {
+    "QueryParameterView": {
+      "id": "QueryParameterView",
+      "description": "A name-value pair of custom query parameters.",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the query parameter."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the query parameter."
+        }
+      }
+    },
     "ConfigurationParentField": {
       "id": "ConfigurationParentField",
       "description": "Configuration of the parent field.",
@@ -207,18 +131,113 @@
         }
       }
     },
-    "IdentityMappingsView": {
-      "id": "IdentityMappingsView",
+    "OIDCProviderMetadata": {
+      "id": "OIDCProviderMetadata",
       "required": [
-        "items"
+        "authorization_endpoint",
+        "claim_types_supported",
+        "claims_parameter_supported",
+        "claims_supported",
+        "code_challenge_methods_supported",
+        "end_session_endpoint",
+        "id_token_signing_alg_values_supported",
+        "issuer",
+        "jwks_uri",
+        "request_parameter_supported",
+        "request_uri_parameter_supported",
+        "response_modes_supported",
+        "response_types_supported",
+        "revocation_endpoint",
+        "scopes_supported",
+        "subject_types_supported",
+        "token_endpoint",
+        "token_endpoint_auth_methods_supported",
+        "userinfo_endpoint"
       ],
       "properties": {
-        "items": {
+        "authorization_endpoint": {
+          "type": "string"
+        },
+        "claim_types_supported": {
           "type": "array",
-          "description": "The actual list of identity mappings.",
           "items": {
-            "$ref": "IdentityMappingView"
+            "type": "string"
           }
+        },
+        "claims_parameter_supported": {
+          "type": "boolean"
+        },
+        "claims_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code_challenge_methods_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "end_session_endpoint": {
+          "type": "string"
+        },
+        "id_token_signing_alg_values_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "jwks_uri": {
+          "type": "string"
+        },
+        "request_parameter_supported": {
+          "type": "boolean"
+        },
+        "request_uri_parameter_supported": {
+          "type": "boolean"
+        },
+        "response_modes_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "response_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "revocation_endpoint": {
+          "type": "string"
+        },
+        "scopes_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subject_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "token_endpoint": {
+          "type": "string"
+        },
+        "token_endpoint_auth_methods_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userinfo_endpoint": {
+          "type": "string"
         }
       }
     },
@@ -305,6 +324,23 @@
             "COMPOSITE",
             "RADIO_BUTTON"
           ]
+        }
+      }
+    },
+    "OIDCProviderPluginView": {
+      "id": "OIDCProviderPluginView",
+      "required": [
+        "className",
+        "configuration"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "The class name of the OpenID Connect provider plugin."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The OpenID Connect provider plugin's configuration data."
         }
       }
     },
@@ -420,25 +456,50 @@
         }
       }
     },
-    "IdentityMappingView": {
-      "id": "IdentityMappingView",
+    "OIDCProviderView": {
+      "id": "OIDCProviderView",
+      "description": "The third-party OpenID Connect provider configuration.",
       "required": [
-        "className",
-        "configuration",
-        "name"
+        "issuer"
       ],
       "properties": {
-        "className": {
+        "auditLevel": {
           "type": "string",
-          "description": "(sortable) The identity mapping's class name."
+          "description": "Enable to record requests to third-party OpenID Connect provider to the audit store."
         },
-        "configuration": {
-          "$ref": "Map[string,java.lang.Object]",
-          "description": "The identity mapping's configuration data."
-        },
-        "name": {
+        "description": {
           "type": "string",
-          "description": "(sortable) The name of the identity mapping."
+          "description": "The description of the third-party OpenID Connect provider."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "The issuer of the third-party OpenID Connect provider."
+        },
+        "plugin": {
+          "$ref": "OIDCProviderPluginView"
+        },
+        "queryParameters": {
+          "type": "array",
+          "description": "The query parameters used by the authentication request to third-party OpenID Connect provider.",
+          "items": {
+            "$ref": "QueryParameterView"
+          }
+        },
+        "requestSupportedScopesOnly": {
+          "type": "boolean",
+          "description": "Specifies whether the scopes in an access request should be limited to those advertised in the OIDC metadata."
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The group of certificates to use when authenticating to third-party OpenID Connect provider."
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "True if a proxy should be used for HTTP or HTTPS requests."
+        },
+        "useSlo": {
+          "type": "boolean"
         }
       }
     }

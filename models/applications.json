@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.0.3.3",
+  "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/applications",
@@ -139,6 +139,38 @@
               "type": "integer",
               "format": "int32",
               "paramType": "query"
+            },
+            {
+              "name": "name",
+              "description": "Get Resources by name",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Resources with name matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Resource attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
             }
           ]
         }
@@ -234,7 +266,7 @@
               "paramType": "path"
             },
             {
-              "name": "resource",
+              "name": "Resource",
               "description": "Resource to update",
               "required": true,
               "allowMultiple": false,
@@ -316,7 +348,7 @@
           "method": "GET",
           "summary": "Get Resources for an Application",
           "notes": "",
-          "type": "ResourceView",
+          "type": "ResourcesView",
           "nickname": "getApplicationResourcesCommand",
           "parameters": [
             {
@@ -395,12 +427,34 @@
               "paramType": "path"
             },
             {
-              "name": "resource",
+              "name": "Resource",
               "description": "Resource to add",
               "required": true,
               "allowMultiple": false,
               "type": "ResourceView",
               "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/{id}/resources/autoOrder",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Computes an automatic, intelligent resource ordering for an Application.",
+          "notes": "",
+          "type": "ResourceOrderView",
+          "nickname": "getResourceAutoOrderCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to compute resource ordering for",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
             }
           ]
         }
@@ -431,6 +485,7 @@
         "defaultAuthType",
         "name",
         "siteId",
+        "spaSupportEnabled",
         "virtualHostIds"
       ],
       "properties": {
@@ -489,6 +544,10 @@
           "$ref": "Map[string,int]",
           "description": "A map of Identity Mappings associated with the application. The key is 'Web' or 'API' and the value is an Identity Mapping ID."
         },
+        "manualOrderingEnabled": {
+          "type": "boolean",
+          "description": "Enable explicit, manual ordering of application resources and permit regex path patterns."
+        },
         "name": {
           "type": "string",
           "description": "(sortable) The application name."
@@ -505,10 +564,21 @@
           "type": "boolean",
           "description": "(sortable) True if the application requires HTTPS connections."
         },
+        "resourceOrder": {
+          "type": "array",
+          "description": "The explicit resource order defined when manual ordering is enabled. Each existing resource ID must be represented. (Required when 'manualOrderingEnabled' is true.)",
+          "items": {
+            "type": "int"
+          }
+        },
         "siteId": {
           "type": "integer",
           "format": "int32",
           "description": "The ID of the site associated with the application or zero if none."
+        },
+        "spaSupportEnabled": {
+          "type": "boolean",
+          "description": "Enable SPA support."
         },
         "virtualHostIds": {
           "type": "array",
@@ -524,14 +594,51 @@
         }
       }
     },
+    "PathPatternView": {
+      "id": "PathPatternView",
+      "description": "A pattern for matching request URI paths.",
+      "required": [
+        "pattern",
+        "type"
+      ],
+      "properties": {
+        "pattern": {
+          "type": "string",
+          "description": "The path-matching pattern, relative to the Application context root (interpreted according to the pattern 'type')."
+        },
+        "type": {
+          "$ref": "PathPatternType",
+          "description": "The pattern syntax type.",
+          "enum": [
+            "WILDCARD",
+            "REGEX"
+          ]
+        }
+      }
+    },
+    "ResourceOrderView": {
+      "id": "ResourceOrderView",
+      "description": "Specifies an ordering of Application Resources.",
+      "required": [
+        "resourceIds"
+      ],
+      "properties": {
+        "resourceIds": {
+          "type": "array",
+          "description": "An ordered list of Resource IDs (integers).",
+          "items": {
+            "type": "int"
+          }
+        }
+      }
+    },
     "ResourceView": {
       "id": "ResourceView",
       "description": "A resource.",
       "required": [
         "defaultAuthTypeOverride",
         "methods",
-        "name",
-        "pathPrefixes"
+        "name"
       ],
       "properties": {
         "anonymous": {
@@ -570,9 +677,16 @@
           "type": "string",
           "description": "(sortable) The name of the resource"
         },
+        "pathPatterns": {
+          "type": "array",
+          "description": "A list of one or more request path-matching patterns",
+          "items": {
+            "$ref": "PathPatternView"
+          }
+        },
         "pathPrefixes": {
-          "$ref": "Set",
-          "description": "An array of path prefixes for the resource",
+          "type": "array",
+          "description": "An array of path prefixes for the resource (DEPRECATED - to be removed in a future release; please use 'pathPatterns' instead)",
           "items": {
             "type": "string"
           }
@@ -584,6 +698,10 @@
         "rootResource": {
           "type": "boolean",
           "description": "(sortable) True if the resource is the root resource for the application"
+        },
+        "unprotected": {
+          "type": "boolean",
+          "description": "(sortable) True if the resource is unprotected."
         }
       }
     },

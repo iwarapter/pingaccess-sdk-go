@@ -1,0 +1,111 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/license",
+  "apis": [
+    {
+      "path": "/license",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the License File",
+          "notes": "",
+          "type": "LicenseView",
+          "nickname": "getLicenseCommand",
+          "parameters": []
+        },
+        {
+          "method": "POST",
+          "summary": "Import a License",
+          "notes": "",
+          "type": "LicenseView",
+          "nickname": "importLicenseCommand",
+          "parameters": [
+            {
+              "name": "License File",
+              "description": "License to import",
+              "required": true,
+              "allowMultiple": false,
+              "type": "LicenseImportDocView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "LicenseView": {
+      "id": "LicenseView",
+      "required": [
+        "id",
+        "enforcementType",
+        "expirationDate",
+        "issueDate",
+        "maxApplications",
+        "name",
+        "organization",
+        "product",
+        "tier",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID value from the license file."
+        },
+        "enforcementType": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The enforcement type value from the license file."
+        },
+        "expirationDate": {
+          "type": "string",
+          "description": "The expiration date value from the license file."
+        },
+        "issueDate": {
+          "type": "string",
+          "description": "The issue date value from the license file."
+        },
+        "maxApplications": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name value from the license file.  Name is required if the organization value is not set."
+        },
+        "organization": {
+          "type": "string",
+          "description": "The organization value from the license file."
+        },
+        "product": {
+          "type": "string",
+          "description": "The Ping Identity product value from the license file."
+        },
+        "tier": {
+          "type": "string",
+          "description": "The tier value from the license file."
+        },
+        "version": {
+          "type": "string",
+          "description": "The Ping Identity product version from the license file."
+        }
+      }
+    },
+    "LicenseImportDocView": {
+      "id": "LicenseImportDocView",
+      "required": [
+        "fileData"
+      ],
+      "properties": {
+        "fileData": {
+          "type": "string",
+          "description": "The base64-encoded license file."
+        }
+      }
+    }
+  }
+}

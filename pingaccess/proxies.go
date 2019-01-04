@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type VirtualhostsService service
+type ProxiesService service
 
-//GetVirtualHostsCommand - Get all Virtual Hosts
+//GetProxiesCommand - Get all Proxies
 //RequestType: GET
-//Input: input *GetVirtualHostsCommandInput
-func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsCommandInput) (result *VirtualHostsView, resp *http.Response, err error) {
-	path := "/virtualhosts"
+//Input: input *GetProxiesCommandInput
+func (s *ProxiesService) GetProxiesCommand(input *GetProxiesCommandInput) (result *HttpClientProxyView, resp *http.Response, err error) {
+	path := "/proxies"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
@@ -25,8 +25,8 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 	if input.Filter != "" {
 		q.Set("filter", input.Filter)
 	}
-	if input.VirtualHost != "" {
-		q.Set("virtualHost", input.VirtualHost)
+	if input.Name != "" {
+		q.Set("name", input.Name)
 	}
 	if input.SortKey != "" {
 		q.Set("sortKey", input.SortKey)
@@ -48,20 +48,20 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 
 }
 
-type GetVirtualHostsCommandInput struct {
+type GetProxiesCommandInput struct {
 	Page          string
 	NumberPerPage string
 	Filter        string
-	VirtualHost   string
+	Name          string
 	SortKey       string
 	Order         string
 }
 
-//AddVirtualHostCommand - Create a Virtual Host
+//AddProxyCommand - Create a Proxy
 //RequestType: POST
-//Input: input *AddVirtualHostCommandInput
-func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts"
+//Input: input *AddProxyCommandInput
+func (s *ProxiesService) AddProxyCommand(input *AddProxyCommandInput) (result *HttpClientProxyView, resp *http.Response, err error) {
+	path := "/proxies"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
@@ -76,15 +76,15 @@ func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommand
 
 }
 
-type AddVirtualHostCommandInput struct {
-	Body VirtualHostView
+type AddProxyCommandInput struct {
+	Body HttpClientProxyView
 }
 
-//DeleteVirtualHostCommand - Delete a Virtual Host
+//DeleteProxyCommand - Delete a Proxy
 //RequestType: DELETE
-//Input: input *DeleteVirtualHostCommandInput
-func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostCommandInput) (resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *DeleteProxyCommandInput
+func (s *ProxiesService) DeleteProxyCommand(input *DeleteProxyCommandInput) (resp *http.Response, err error) {
+	path := "/proxies/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -101,15 +101,15 @@ func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostC
 
 }
 
-type DeleteVirtualHostCommandInput struct {
+type DeleteProxyCommandInput struct {
 	Id string
 }
 
-//GetVirtualHostCommand - Get a Virtual Host
+//GetProxyCommand - Get a Proxy
 //RequestType: GET
-//Input: input *GetVirtualHostCommandInput
-func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *GetProxyCommandInput
+func (s *ProxiesService) GetProxyCommand(input *GetProxyCommandInput) (result *HttpClientProxyView, resp *http.Response, err error) {
+	path := "/proxies/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -126,15 +126,15 @@ func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommand
 
 }
 
-type GetVirtualHostCommandInput struct {
+type GetProxyCommandInput struct {
 	Id string
 }
 
-//UpdateVirtualHostCommand - Update a Virtual Host
+//UpdateProxyCommand - Update a Proxy
 //RequestType: PUT
-//Input: input *UpdateVirtualHostCommandInput
-func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *UpdateProxyCommandInput
+func (s *ProxiesService) UpdateProxyCommand(input *UpdateProxyCommandInput) (result *HttpClientProxyView, resp *http.Response, err error) {
+	path := "/proxies/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -151,7 +151,7 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 
 }
 
-type UpdateVirtualHostCommandInput struct {
-	Body VirtualHostView
+type UpdateProxyCommandInput struct {
+	Body HttpClientProxyView
 	Id   string
 }

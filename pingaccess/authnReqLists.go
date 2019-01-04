@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type VirtualhostsService service
+type AuthnReqListsService service
 
-//GetVirtualHostsCommand - Get all Virtual Hosts
+//GetAuthnReqListsCommand - Get all Authentication Requirement Lists
 //RequestType: GET
-//Input: input *GetVirtualHostsCommandInput
-func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsCommandInput) (result *VirtualHostsView, resp *http.Response, err error) {
-	path := "/virtualhosts"
+//Input: input *GetAuthnReqListsCommandInput
+func (s *AuthnReqListsService) GetAuthnReqListsCommand(input *GetAuthnReqListsCommandInput) (result *AuthnReqListsView, resp *http.Response, err error) {
+	path := "/authnReqLists"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
@@ -25,8 +25,8 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 	if input.Filter != "" {
 		q.Set("filter", input.Filter)
 	}
-	if input.VirtualHost != "" {
-		q.Set("virtualHost", input.VirtualHost)
+	if input.Name != "" {
+		q.Set("name", input.Name)
 	}
 	if input.SortKey != "" {
 		q.Set("sortKey", input.SortKey)
@@ -48,20 +48,20 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 
 }
 
-type GetVirtualHostsCommandInput struct {
+type GetAuthnReqListsCommandInput struct {
 	Page          string
 	NumberPerPage string
 	Filter        string
-	VirtualHost   string
+	Name          string
 	SortKey       string
 	Order         string
 }
 
-//AddVirtualHostCommand - Create a Virtual Host
+//AddAuthnReqListCommand - Add an Authentication Requirement List
 //RequestType: POST
-//Input: input *AddVirtualHostCommandInput
-func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts"
+//Input: input *AddAuthnReqListCommandInput
+func (s *AuthnReqListsService) AddAuthnReqListCommand(input *AddAuthnReqListCommandInput) (result *AuthnReqListView, resp *http.Response, err error) {
+	path := "/authnReqLists"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
@@ -76,15 +76,15 @@ func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommand
 
 }
 
-type AddVirtualHostCommandInput struct {
-	Body VirtualHostView
+type AddAuthnReqListCommandInput struct {
+	Body AuthnReqListView
 }
 
-//DeleteVirtualHostCommand - Delete a Virtual Host
+//DeleteAuthnReqListCommand - Delete an Authentication Requirement List
 //RequestType: DELETE
-//Input: input *DeleteVirtualHostCommandInput
-func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostCommandInput) (resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *DeleteAuthnReqListCommandInput
+func (s *AuthnReqListsService) DeleteAuthnReqListCommand(input *DeleteAuthnReqListCommandInput) (resp *http.Response, err error) {
+	path := "/authnReqLists/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -101,15 +101,15 @@ func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostC
 
 }
 
-type DeleteVirtualHostCommandInput struct {
+type DeleteAuthnReqListCommandInput struct {
 	Id string
 }
 
-//GetVirtualHostCommand - Get a Virtual Host
+//GetAuthnReqListCommand - Get an Authentication Requirement List
 //RequestType: GET
-//Input: input *GetVirtualHostCommandInput
-func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *GetAuthnReqListCommandInput
+func (s *AuthnReqListsService) GetAuthnReqListCommand(input *GetAuthnReqListCommandInput) (result *AuthnReqListView, resp *http.Response, err error) {
+	path := "/authnReqLists/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -126,15 +126,15 @@ func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommand
 
 }
 
-type GetVirtualHostCommandInput struct {
+type GetAuthnReqListCommandInput struct {
 	Id string
 }
 
-//UpdateVirtualHostCommand - Update a Virtual Host
+//UpdateAuthnReqListCommand - Update an Authentication Requirement List
 //RequestType: PUT
-//Input: input *UpdateVirtualHostCommandInput
-func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostCommandInput) (result *VirtualHostView, resp *http.Response, err error) {
-	path := "/virtualhosts/{id}"
+//Input: input *UpdateAuthnReqListCommandInput
+func (s *AuthnReqListsService) UpdateAuthnReqListCommand(input *UpdateAuthnReqListCommandInput) (result *AuthnReqListView, resp *http.Response, err error) {
+	path := "/authnReqLists/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -151,7 +151,7 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 
 }
 
-type UpdateVirtualHostCommandInput struct {
-	Body VirtualHostView
+type UpdateAuthnReqListCommandInput struct {
+	Body AuthnReqListView
 	Id   string
 }

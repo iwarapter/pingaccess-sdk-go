@@ -7,13 +7,13 @@ import (
 	"strings"
 )
 
-type RulesService service
+type RejectionHandlersService service
 
-//GetRulesCommand - Get all Rules
+//GetRejectionHandlersCommand - Get all Rejection Handlers
 //RequestType: GET
-//Input: input *GetRulesCommandInput
-func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (result *RulesView, resp *http.Response, err error) {
-	path := "/rules"
+//Input: input *GetRejectionHandlersCommandInput
+func (s *RejectionHandlersService) GetRejectionHandlersCommand(input *GetRejectionHandlersCommandInput) (result *RejectionHandlersView, resp *http.Response, err error) {
+	path := "/rejectionHandlers"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	q := rel.Query()
 	if input.Page != "" {
@@ -48,7 +48,7 @@ func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (result *Rul
 
 }
 
-type GetRulesCommandInput struct {
+type GetRejectionHandlersCommandInput struct {
 	Page          string
 	NumberPerPage string
 	Filter        string
@@ -57,11 +57,11 @@ type GetRulesCommandInput struct {
 	Order         string
 }
 
-//AddRuleCommand - Add a Rule
+//AddRejectionHandlerCommand - Create a Rejection Handler
 //RequestType: POST
-//Input: input *AddRuleCommandInput
-func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
-	path := "/rules"
+//Input: input *AddRejectionHandlerCommandInput
+func (s *RejectionHandlersService) AddRejectionHandlerCommand(input *AddRejectionHandlerCommandInput) (result *RejectionHandlerView, resp *http.Response, err error) {
+	path := "/rejectionHandlers"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("POST", rel, input.Body)
 	if err != nil {
@@ -76,15 +76,15 @@ func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (result *RuleV
 
 }
 
-type AddRuleCommandInput struct {
-	Body RuleView
+type AddRejectionHandlerCommandInput struct {
+	Body RejectionHandlerView
 }
 
-//GetRuleDescriptorsCommand - Get descriptors for all supported Rule types
+//GetRejectionHandlerDescriptorsCommand - Get descriptors for all supported Rejection Handler types
 //RequestType: GET
 //Input:
-func (s *RulesService) GetRuleDescriptorsCommand() (result *RuleDescriptorsView, resp *http.Response, err error) {
-	path := "/rules/descriptors"
+func (s *RejectionHandlersService) GetRejectionHandlerDescriptorsCommand() (result *DescriptorsView, resp *http.Response, err error) {
+	path := "/rejectionHandlers/descriptors"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
@@ -99,12 +99,12 @@ func (s *RulesService) GetRuleDescriptorsCommand() (result *RuleDescriptorsView,
 
 }
 
-//GetRuleDescriptorCommand - Get descriptor for a Rule type
+//GetRejecitonHandlerDescriptorCommand - Get descriptor for a Rejection Handler type
 //RequestType: GET
-//Input: input *GetRuleDescriptorCommandInput
-func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandInput) (result *RuleDescriptorView, resp *http.Response, err error) {
-	path := "/rules/descriptors/{ruleType}"
-	path = strings.Replace(path, "{ruleType}", input.RuleType, -1)
+//Input: input *GetRejecitonHandlerDescriptorCommandInput
+func (s *RejectionHandlersService) GetRejecitonHandlerDescriptorCommand(input *GetRejecitonHandlerDescriptorCommandInput) (result *DescriptorView, resp *http.Response, err error) {
+	path := "/rejectionHandlers/descriptors/{rejectionHandlerType}"
+	path = strings.Replace(path, "{rejectionHandlerType}", input.RejectionHandlerType, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
@@ -120,15 +120,15 @@ func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandI
 
 }
 
-type GetRuleDescriptorCommandInput struct {
-	RuleType string
+type GetRejecitonHandlerDescriptorCommandInput struct {
+	RejectionHandlerType string
 }
 
-//DeleteRuleCommand - Delete a Rule
+//DeleteRejectionHandlerCommand - Delete a Rejection Handler
 //RequestType: DELETE
-//Input: input *DeleteRuleCommandInput
-func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *http.Response, err error) {
-	path := "/rules/{id}"
+//Input: input *DeleteRejectionHandlerCommandInput
+func (s *RejectionHandlersService) DeleteRejectionHandlerCommand(input *DeleteRejectionHandlerCommandInput) (resp *http.Response, err error) {
+	path := "/rejectionHandlers/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -145,15 +145,15 @@ func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *h
 
 }
 
-type DeleteRuleCommandInput struct {
+type DeleteRejectionHandlerCommandInput struct {
 	Id string
 }
 
-//GetRuleCommand - Get a Rule
+//GetRejectionHandlerCommand - Get a Rejection Handler
 //RequestType: GET
-//Input: input *GetRuleCommandInput
-func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
-	path := "/rules/{id}"
+//Input: input *GetRejectionHandlerCommandInput
+func (s *RejectionHandlersService) GetRejectionHandlerCommand(input *GetRejectionHandlerCommandInput) (result *RejectionHandlerView, resp *http.Response, err error) {
+	path := "/rejectionHandlers/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -170,15 +170,15 @@ func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (result *RuleV
 
 }
 
-type GetRuleCommandInput struct {
+type GetRejectionHandlerCommandInput struct {
 	Id string
 }
 
-//UpdateRuleCommand - Update a Rule
+//UpdateRejectionHandlerCommand - Update a Rejection Handler
 //RequestType: PUT
-//Input: input *UpdateRuleCommandInput
-func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result *RuleView, resp *http.Response, err error) {
-	path := "/rules/{id}"
+//Input: input *UpdateRejectionHandlerCommandInput
+func (s *RejectionHandlersService) UpdateRejectionHandlerCommand(input *UpdateRejectionHandlerCommandInput) (result *RejectionHandlerView, resp *http.Response, err error) {
+	path := "/rejectionHandlers/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
@@ -195,7 +195,7 @@ func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (result 
 
 }
 
-type UpdateRuleCommandInput struct {
-	Body RuleView
+type UpdateRejectionHandlerCommandInput struct {
+	Body RejectionHandlerView
 	Id   string
 }

@@ -2,17 +2,17 @@
   "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/virtualhosts",
+  "resourcePath": "/proxies",
   "apis": [
     {
-      "path": "/virtualhosts",
+      "path": "/proxies",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Virtual Hosts",
+          "summary": "Get all Proxies",
           "notes": "",
-          "type": "VirtualHostsView",
-          "nickname": "getVirtualHostsCommand",
+          "type": "HttpClientProxyView",
+          "nickname": "getProxiesCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Virtual Hosts per page",
+              "description": "Number of Proxies per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,15 +34,15 @@
             },
             {
               "name": "filter",
-              "description": "Search for Virtual Hosts with name matching filter text",
+              "description": "Search for Proxies with name matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
               "paramType": "query"
             },
             {
-              "name": "virtualHost",
-              "description": "Get a Virtual Host by hostname, port or both",
+              "name": "name",
+              "description": "Get a Proxy by name (case-sensitive)",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +50,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Virtual Host attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of Proxy attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +68,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create a Virtual Host",
+          "summary": "Create a Proxy",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "addVirtualHostCommand",
+          "type": "HttpClientProxyView",
+          "nickname": "addProxyCommand",
           "parameters": [
             {
-              "name": "VirtualHost",
-              "description": "Virtual Host to create",
+              "name": "Proxy",
+              "description": "Proxy to add",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "HttpClientProxyView",
               "paramType": "body"
             }
           ]
@@ -86,18 +86,18 @@
       ]
     },
     {
-      "path": "/virtualhosts/{id}",
+      "path": "/proxies/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete a Virtual Host",
+          "summary": "Delete a Proxy",
           "notes": "",
           "type": "void",
-          "nickname": "deleteVirtualHostCommand",
+          "nickname": "deleteProxyCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to delete",
+              "description": "ID of Proxy to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -107,14 +107,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get a Virtual Host",
+          "summary": "Get a Proxy",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "getVirtualHostCommand",
+          "type": "HttpClientProxyView",
+          "nickname": "getProxyCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to locate",
+              "description": "ID of Proxy to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -124,25 +124,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update a Virtual Host",
+          "summary": "Update a Proxy",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "updateVirtualHostCommand",
+          "type": "HttpClientProxyView",
+          "nickname": "updateProxyCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to update",
+              "description": "ID of Proxy to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "VirtualHost",
-              "description": "Updated Virtual Host",
+              "name": "Proxy",
+              "description": "Proxy to update",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "HttpClientProxyView",
               "paramType": "body"
             }
           ]
@@ -151,50 +151,56 @@
     }
   ],
   "models": {
-    "VirtualHostView": {
-      "id": "VirtualHostView",
+    "HttpClientProxyView": {
+      "id": "HttpClientProxyView",
+      "description": "A proxy.",
       "required": [
         "host",
+        "name",
         "port"
       ],
       "properties": {
-        "agentResourceCacheTTL": {
-          "type": "integer",
-          "format": "int32",
-          "description": "(sortable) Indicates the number of seconds the Agent can cache resources for this application."
+        "description": {
+          "type": "string",
+          "description": "(sortable) A description of the proxy."
         },
         "host": {
           "type": "string",
-          "description": "(sortable) The host name for the Virtual Host."
+          "description": "(sortable) The proxy host."
         },
-        "keyPairId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Key pair assigned to Virtual Host used by SNI, If no key pair is assigned to a virtual host, ENGINE HTTPS Listener key pair will be used."
+        "name": {
+          "type": "string",
+          "description": "(sortable) The name of the proxy."
+        },
+        "password": {
+          "$ref": "HiddenFieldView",
+          "description": "(sortable) The password used for proxy authentication."
         },
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "(sortable) The integer port number for the Virtual Host."
+          "description": "(sortable) The proxy port."
         },
-        "trustedCertificateGroupId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Trusted Certificate Group assigned to Virtual Host for client certificate authentication."
+        "requiresAuthentication": {
+          "type": "boolean",
+          "description": "(sortable) True if the proxy requires authentication."
+        },
+        "username": {
+          "type": "string",
+          "description": "(sortable) The username used for proxy authentication."
         }
       }
     },
-    "VirtualHostsView": {
-      "id": "VirtualHostsView",
-      "required": [
-        "items"
-      ],
+    "HiddenFieldView": {
+      "id": "HiddenFieldView",
       "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "VirtualHostView"
-          }
+        "encryptedValue": {
+          "type": "string",
+          "description": "The encrypted value of the field, as originally returned by the API."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the field. This field takes precedence over the encryptedValue field, if both are specified."
         }
       }
     }

@@ -2,17 +2,17 @@
   "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/virtualhosts",
+  "resourcePath": "/redirects",
   "apis": [
     {
-      "path": "/virtualhosts",
+      "path": "/redirects",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Virtual Hosts",
+          "summary": "Get all Redirects",
           "notes": "",
-          "type": "VirtualHostsView",
-          "nickname": "getVirtualHostsCommand",
+          "type": "RedirectsView",
+          "nickname": "getRedirectsCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Virtual Hosts per page",
+              "description": "Number of Redirects per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,15 +34,23 @@
             },
             {
               "name": "filter",
-              "description": "Search for Virtual Hosts with name matching filter text",
+              "description": "Search for Redirects by source with host, port or both matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
               "paramType": "query"
             },
             {
-              "name": "virtualHost",
-              "description": "Get a Virtual Host by hostname, port or both",
+              "name": "source",
+              "description": "Search for a Redirect by a source host, port or both",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "target",
+              "description": "Search for a Redirect by a target host, port or both",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +58,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Virtual Host attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of Redirect attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +76,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create a Virtual Host",
+          "summary": "Add a Redirect",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "addVirtualHostCommand",
+          "type": "RedirectView",
+          "nickname": "addRedirectCommand",
           "parameters": [
             {
-              "name": "VirtualHost",
-              "description": "Virtual Host to create",
+              "name": "Redirects",
+              "description": "Redirect to add",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "RedirectView",
               "paramType": "body"
             }
           ]
@@ -86,18 +94,18 @@
       ]
     },
     {
-      "path": "/virtualhosts/{id}",
+      "path": "/redirects/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete a Virtual Host",
+          "summary": "Delete a Redirect",
           "notes": "",
           "type": "void",
-          "nickname": "deleteVirtualHostCommand",
+          "nickname": "deleteRedirectCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to delete",
+              "description": "ID of Redirect to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -107,14 +115,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get a Virtual Host",
+          "summary": "Get a Redirect",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "getVirtualHostCommand",
+          "type": "RedirectView",
+          "nickname": "getRedirectCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to locate",
+              "description": "ID of Redirect to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -124,25 +132,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update a Virtual Host",
+          "summary": "Update a Redirect",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "updateVirtualHostCommand",
+          "type": "RedirectView",
+          "nickname": "updateRedirectCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to update",
+              "description": "ID of Redirect to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "VirtualHost",
-              "description": "Updated Virtual Host",
+              "name": "Redirects",
+              "description": "Redirect to update",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "RedirectView",
               "paramType": "body"
             }
           ]
@@ -151,50 +159,81 @@
     }
   ],
   "models": {
-    "VirtualHostView": {
-      "id": "VirtualHostView",
+    "TargetHostPortView": {
+      "id": "TargetHostPortView",
+      "description": "A redirect target.",
       "required": [
         "host",
-        "port"
+        "port",
+        "secure"
       ],
       "properties": {
-        "agentResourceCacheTTL": {
-          "type": "integer",
-          "format": "int32",
-          "description": "(sortable) Indicates the number of seconds the Agent can cache resources for this application."
-        },
         "host": {
           "type": "string",
-          "description": "(sortable) The host name for the Virtual Host."
-        },
-        "keyPairId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Key pair assigned to Virtual Host used by SNI, If no key pair is assigned to a virtual host, ENGINE HTTPS Listener key pair will be used."
+          "description": "The hostname."
         },
         "port": {
           "type": "integer",
           "format": "int32",
-          "description": "(sortable) The integer port number for the Virtual Host."
+          "description": "The port number."
         },
-        "trustedCertificateGroupId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Trusted Certificate Group assigned to Virtual Host for client certificate authentication."
+        "secure": {
+          "type": "boolean",
+          "description": "True if the target host expects HTTPS connections."
         }
       }
     },
-    "VirtualHostsView": {
-      "id": "VirtualHostsView",
+    "RedirectsView": {
+      "id": "RedirectsView",
+      "description": "A collection of Redirects.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "An array of Redirects.",
           "items": {
-            "$ref": "VirtualHostView"
+            "$ref": "RedirectView"
           }
+        }
+      }
+    },
+    "RedirectView": {
+      "id": "RedirectView",
+      "description": "A Redirect.",
+      "properties": {
+        "responseCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(sortable) The Redirect HTTP status code used by the response."
+        },
+        "source": {
+          "$ref": "HostPortView",
+          "description": "(sortable) The source host and port of the Redirect. When used as a sort key, results are sorted by the host."
+        },
+        "target": {
+          "$ref": "TargetHostPortView",
+          "description": "(sortable) The target host and port of the Redirect. When used as a sort key, results are sorted by the host."
+        }
+      }
+    },
+    "HostPortView": {
+      "id": "HostPortView",
+      "description": "A redirect source.",
+      "required": [
+        "host",
+        "port"
+      ],
+      "properties": {
+        "host": {
+          "type": "string",
+          "description": "The hostname."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port number."
         }
       }
     }

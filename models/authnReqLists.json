@@ -2,17 +2,17 @@
   "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/virtualhosts",
+  "resourcePath": "/authnReqLists",
   "apis": [
     {
-      "path": "/virtualhosts",
+      "path": "/authnReqLists",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Virtual Hosts",
+          "summary": "Get all Authentication Requirement Lists",
           "notes": "",
-          "type": "VirtualHostsView",
-          "nickname": "getVirtualHostsCommand",
+          "type": "AuthnReqListsView",
+          "nickname": "getAuthnReqListsCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Virtual Hosts per page",
+              "description": "Number of Authentication Requirements per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,15 +34,15 @@
             },
             {
               "name": "filter",
-              "description": "Search for Virtual Hosts with name matching filter text",
+              "description": "Search for Authentication Requirements with name matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
               "paramType": "query"
             },
             {
-              "name": "virtualHost",
-              "description": "Get a Virtual Host by hostname, port or both",
+              "name": "name",
+              "description": "Get specific Authentication Requirements by name (case-sensitive)",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +50,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Virtual Host attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of Authentication Requirements attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +68,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create a Virtual Host",
+          "summary": "Add an Authentication Requirement List",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "addVirtualHostCommand",
+          "type": "AuthnReqListView",
+          "nickname": "addAuthnReqListCommand",
           "parameters": [
             {
-              "name": "VirtualHost",
-              "description": "Virtual Host to create",
+              "name": "AuthnReqList",
+              "description": "Authentication Requirement List to create",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "AuthnReqListView",
               "paramType": "body"
             }
           ]
@@ -86,18 +86,18 @@
       ]
     },
     {
-      "path": "/virtualhosts/{id}",
+      "path": "/authnReqLists/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete a Virtual Host",
+          "summary": "Delete an Authentication Requirement List",
           "notes": "",
           "type": "void",
-          "nickname": "deleteVirtualHostCommand",
+          "nickname": "deleteAuthnReqListCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to delete",
+              "description": "ID of the Authentication Requirement List to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -107,14 +107,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get a Virtual Host",
+          "summary": "Get an Authentication Requirement List",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "getVirtualHostCommand",
+          "type": "AuthnReqListView",
+          "nickname": "getAuthnReqListCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to locate",
+              "description": "ID of Authentication Requirement List to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -124,25 +124,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update a Virtual Host",
+          "summary": "Update an Authentication Requirement List",
           "notes": "",
-          "type": "VirtualHostView",
-          "nickname": "updateVirtualHostCommand",
+          "type": "AuthnReqListView",
+          "nickname": "updateAuthnReqListCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Virtual Host to update",
+              "description": "ID of Authentication Requirement List to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "VirtualHost",
-              "description": "Updated Virtual Host",
+              "name": "AuthnReqList",
+              "description": "Authentication Requirement List to update",
               "required": true,
               "allowMultiple": false,
-              "type": "VirtualHostView",
+              "type": "AuthnReqListView",
               "paramType": "body"
             }
           ]
@@ -151,50 +151,36 @@
     }
   ],
   "models": {
-    "VirtualHostView": {
-      "id": "VirtualHostView",
-      "required": [
-        "host",
-        "port"
-      ],
-      "properties": {
-        "agentResourceCacheTTL": {
-          "type": "integer",
-          "format": "int32",
-          "description": "(sortable) Indicates the number of seconds the Agent can cache resources for this application."
-        },
-        "host": {
-          "type": "string",
-          "description": "(sortable) The host name for the Virtual Host."
-        },
-        "keyPairId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Key pair assigned to Virtual Host used by SNI, If no key pair is assigned to a virtual host, ENGINE HTTPS Listener key pair will be used."
-        },
-        "port": {
-          "type": "integer",
-          "format": "int32",
-          "description": "(sortable) The integer port number for the Virtual Host."
-        },
-        "trustedCertificateGroupId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "Trusted Certificate Group assigned to Virtual Host for client certificate authentication."
-        }
-      }
-    },
-    "VirtualHostsView": {
-      "id": "VirtualHostsView",
+    "AuthnReqListsView": {
+      "id": "AuthnReqListsView",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "An array of authentication requirements lists.",
           "items": {
-            "$ref": "VirtualHostView"
+            "$ref": "AuthnReqListView"
           }
+        }
+      }
+    },
+    "AuthnReqListView": {
+      "id": "AuthnReqListView",
+      "required": [
+        "authnReqs",
+        "name"
+      ],
+      "properties": {
+        "authnReqs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string"
         }
       }
     }

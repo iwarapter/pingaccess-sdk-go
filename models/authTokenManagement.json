@@ -1,0 +1,117 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/authTokenManagement",
+  "apis": [
+    {
+      "path": "/authTokenManagement",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the Auth Token Management configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteAuthTokenManagementCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the Auth Token Management configuration",
+          "notes": "Gets the Auth Token Management configuration",
+          "type": "AuthTokenManagementView",
+          "nickname": "getAuthTokenManagementCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the Auth Token Management configuration",
+          "notes": "Updates the Auth Token Management configuration",
+          "type": "AuthTokenManagementView",
+          "nickname": "updateAuthTokenManagementCommand",
+          "parameters": [
+            {
+              "name": "AuthTokenManagement",
+              "description": "AuthTokenManagement configuration to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "AuthTokenManagementView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/authTokenManagement/keySet",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the Auth Token key set configuration",
+          "notes": "",
+          "type": "KeySetView",
+          "nickname": "getAuthTokenKeySetCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the AuthToken key set configuration",
+          "notes": "",
+          "type": "KeySetView",
+          "nickname": "updateAuthTokenKeySetCommand",
+          "parameters": [
+            {
+              "name": "KeySet",
+              "description": "AuthToken key set configuration to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "KeySetView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "AuthTokenManagementView": {
+      "id": "AuthTokenManagementView",
+      "properties": {
+        "issuer": {
+          "type": "string",
+          "description": "The issuer value to include in auth tokens. PingAccess inserts this value as the iss claim within the auth tokens."
+        },
+        "keyRollEnabled": {
+          "type": "boolean",
+          "description": "This field is true if key rollover is enabled. When false, PingAccess will not rollover keys at the configured interval."
+        },
+        "keyRollPeriodInHours": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The interval (in hours) at which PingAccess will roll the keys. Key rollover updates keys at regular intervals to ensure the security of signed auth tokens."
+        },
+        "signingAlgorithm": {
+          "type": "string",
+          "description": "The signing algorithm used when creating signed auth tokens."
+        }
+      }
+    },
+    "KeySetView": {
+      "id": "KeySetView",
+      "required": [
+        "keySet",
+        "nonce"
+      ],
+      "properties": {
+        "keySet": {
+          "type": "string",
+          "description": "The encrypted key set. This value is bound to the nonce field and cannot be decrypted without also submitting the nonce used to produce the value."
+        },
+        "nonce": {
+          "type": "string",
+          "description": "The nonce used to derive the key used to encrypt the keySet value."
+        }
+      }
+    }
+  }
+}

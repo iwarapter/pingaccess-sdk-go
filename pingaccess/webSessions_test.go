@@ -111,9 +111,9 @@ func TestWebSessionsMethods(t *testing.T) {
 		Body: WebSessionView{
 			Audience: String("some_random_folk"),
 			Name:     String("my_test_websession"),
-			ClientCredentials: OAuthClientCredentialsView{
+			ClientCredentials: &OAuthClientCredentialsView{
 				ClientId: String("my_client"),
-				ClientSecret: HiddenFieldView{
+				ClientSecret: &HiddenFieldView{
 					Value: String("my_secret"),
 				},
 			},
@@ -150,9 +150,9 @@ func TestWebSessionsMethods(t *testing.T) {
 		Body: WebSessionView{
 			Audience: String("some_new_random_folk"),
 			Name:     String("my_test_websession"),
-			ClientCredentials: OAuthClientCredentialsView{
+			ClientCredentials: &OAuthClientCredentialsView{
 				ClientId: String("my_client"),
-				ClientSecret: HiddenFieldView{
+				ClientSecret: &HiddenFieldView{
 					Value: String("my_secret"),
 				},
 			},

@@ -83,7 +83,7 @@ type AddIdentityMappingCommandInput struct {
 //GetIdentityMappingDescriptorsCommand - Get descriptors for all supported Identity Mapping types
 //RequestType: GET
 //Input:
-func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result *IdentityMappingDescriptorsView, resp *http.Response, err error) {
+func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result *DescriptorsView, resp *http.Response, err error) {
 	path := "/identityMappings/descriptors"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
@@ -102,7 +102,7 @@ func (s *IdentityMappingsService) GetIdentityMappingDescriptorsCommand() (result
 //GetIdentityMappingDescriptorCommand - Get descriptor for an Identity Mapping type
 //RequestType: GET
 //Input: input *GetIdentityMappingDescriptorCommandInput
-func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *GetIdentityMappingDescriptorCommandInput) (result *IdentityMappingDescriptor, resp *http.Response, err error) {
+func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *GetIdentityMappingDescriptorCommandInput) (result *DescriptorView, resp *http.Response, err error) {
 	path := "/identityMappings/descriptors/{identityMappingType}"
 	path = strings.Replace(path, "{identityMappingType}", input.IdentityMappingType, -1)
 

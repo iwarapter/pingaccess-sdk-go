@@ -83,7 +83,7 @@ type AddSiteAuthenticatorCommandInput struct {
 //GetSiteAuthenticatorDescriptorsCommand - Get descriptors for all supported Site Authenticator types
 //RequestType: GET
 //Input:
-func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorsCommand() (result *SiteAuthenticatorDescriptorsView, resp *http.Response, err error) {
+func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorsCommand() (result *DescriptorsView, resp *http.Response, err error) {
 	path := "/siteAuthenticators/descriptors"
 	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
 	req, err := s.client.newRequest("GET", rel, nil)
@@ -102,7 +102,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorsCommand() (re
 //GetSiteAuthenticatorDescriptorCommand - Get descriptor for a Site Authenticator type
 //RequestType: GET
 //Input: input *GetSiteAuthenticatorDescriptorCommandInput
-func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorCommand(input *GetSiteAuthenticatorDescriptorCommandInput) (result *SiteAuthenticatorDescriptor, resp *http.Response, err error) {
+func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorCommand(input *GetSiteAuthenticatorDescriptorCommandInput) (result *DescriptorView, resp *http.Response, err error) {
 	path := "/siteAuthenticators/descriptors/{siteAuthenticatorType}"
 	path = strings.Replace(path, "{siteAuthenticatorType}", input.SiteAuthenticatorType, -1)
 

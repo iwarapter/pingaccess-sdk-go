@@ -1,0 +1,92 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/unknownResources",
+  "apis": [
+    {
+      "path": "/unknownResources/settings",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the global settings for unknown resources to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "delete",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Retrieves the global settings for unknown resources",
+          "notes": "",
+          "type": "UnknownResourceSettingsView",
+          "nickname": "get",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Updates the global settings for unknown resources",
+          "notes": "",
+          "type": "UnknownResourceSettingsView",
+          "nickname": "update",
+          "parameters": [
+            {
+              "name": "settings",
+              "description": "The new settings",
+              "required": true,
+              "allowMultiple": false,
+              "type": "UnknownResourceSettingsView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "UnknownResourceSettingsView": {
+      "id": "UnknownResourceSettingsView",
+      "required": [
+        "agentDefaultCacheTTL",
+        "agentDefaultMode",
+        "errorContentType",
+        "errorStatusCode",
+        "errorTemplateFile"
+      ],
+      "properties": {
+        "agentDefaultCacheTTL": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The default agent resource cache TTL (in seconds) to be used for unknown resources when a request cannot be mapped to a known virtual host."
+        },
+        "agentDefaultMode": {
+          "$ref": "UnknownResourceMode",
+          "description": "The default agent mode, which determines whether agent requests for unknown resources should generate an error response or be allowed to pass through unfiltered. This default setting may be overridden by individual agents.",
+          "enum": [
+            "DENY",
+            "PASSTHROUGH"
+          ]
+        },
+        "errorContentType": {
+          "$ref": "ContentType",
+          "description": "The content type of the error response",
+          "enum": [
+            "JSON",
+            "HTML",
+            "TEXT",
+            "XML"
+          ]
+        },
+        "errorStatusCode": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HTTP error response status code"
+        },
+        "errorTemplateFile": {
+          "type": "string",
+          "description": "The name of the velocity template file to use for generating the error response body"
+        }
+      }
+    }
+  }
+}

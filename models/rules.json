@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.0.3.3",
+  "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/rules",
@@ -105,7 +105,7 @@
           "method": "GET",
           "summary": "Get descriptor for a Rule type",
           "notes": "",
-          "type": "RuleDescriptor",
+          "type": "RuleDescriptorView",
           "nickname": "getRuleDescriptorCommand",
           "parameters": [
             {
@@ -207,51 +207,8 @@
         }
       }
     },
-    "RuleView": {
-      "id": "RuleView",
-      "required": [
-        "className",
-        "configuration",
-        "name"
-      ],
-      "properties": {
-        "className": {
-          "type": "string",
-          "description": "(sortable) The rule's class name."
-        },
-        "configuration": {
-          "$ref": "Map[string,java.lang.Object]",
-          "description": "The rule's configuration data."
-        },
-        "name": {
-          "type": "string",
-          "description": "(sortable) The rule's name."
-        },
-        "supportedDestinations": {
-          "$ref": "Set",
-          "description": "The supported destinations for this rule.",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "RuleDescriptorsView": {
-      "id": "RuleDescriptorsView",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "RuleDescriptor"
-          }
-        }
-      }
-    },
-    "RuleDescriptor": {
-      "id": "RuleDescriptor",
+    "RuleDescriptorView": {
+      "id": "RuleDescriptorView",
       "required": [
         "agentCachingDisabled",
         "category",
@@ -303,6 +260,50 @@
         "type": {
           "type": "string",
           "description": "The type of the rule."
+        }
+      }
+    },
+    "RuleView": {
+      "id": "RuleView",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "(sortable) The rule's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The rule's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The rule's name."
+        },
+        "supportedDestinations": {
+          "$ref": "Set",
+          "description": "The supported destinations for this rule.",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "RuleDescriptorsView": {
+      "id": "RuleDescriptorsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of rule descriptors.",
+          "items": {
+            "$ref": "RuleDescriptorView"
+          }
         }
       }
     },

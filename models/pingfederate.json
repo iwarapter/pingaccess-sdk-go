@@ -1,0 +1,298 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/pingfederate",
+  "apis": [
+    {
+      "path": "/pingfederate",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the PingFederate configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deletePingFederateCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the PingFederate configuration",
+          "notes": "",
+          "type": "PingFederateRuntimeView",
+          "nickname": "getPingFederateCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the PingFederate configuration",
+          "notes": "",
+          "type": "PingFederateRuntimeView",
+          "nickname": "updatePingFederateCommand",
+          "parameters": [
+            {
+              "name": "PingFederate",
+              "description": "PingFederate configuration",
+              "required": true,
+              "allowMultiple": false,
+              "type": "PingFederateRuntimeView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pingfederate/accessTokens",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the PingAccess OAuth Client configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deletePingFederateAccessTokensCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the PingAccess OAuth Client configuration",
+          "notes": "",
+          "type": "PingFederateAccessTokenView",
+          "nickname": "getPingFederateAccessTokensCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the PingFederate OAuth Client configuration",
+          "notes": "",
+          "type": "PingFederateAccessTokenView",
+          "nickname": "updatePingFederateAccessTokensCommand",
+          "parameters": [
+            {
+              "name": "PingFederateAccessToken",
+              "description": "PingFederate OAuth Client configuration",
+              "required": true,
+              "allowMultiple": false,
+              "type": "PingFederateAccessTokenView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pingfederate/admin",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the PingFederate Admin configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deletePingFederateAdminCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the PingFederate Admin configuration",
+          "notes": "",
+          "type": "PingFederateAdminView",
+          "nickname": "getPingFederateAdminCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the PingFederate Admin configuration",
+          "notes": "",
+          "type": "PingFederateAdminView",
+          "nickname": "updatePingFederateAdminCommand",
+          "parameters": [
+            {
+              "name": "PingFederate",
+              "description": "PingFederate Admin configuration",
+              "required": true,
+              "allowMultiple": false,
+              "type": "PingFederateAdminView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "PingFederateAccessTokenView": {
+      "id": "PingFederateAccessTokenView",
+      "required": [
+        "clientId",
+        "subjectAttributeName"
+      ],
+      "properties": {
+        "accessValidatorId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The Access Validator Id"
+        },
+        "cacheTokens": {
+          "type": "boolean",
+          "description": "Enable to retain token details for subsequent requests."
+        },
+        "clientId": {
+          "type": "string",
+          "description": "The Client ID which PingAccess should use when requesting PingFederate to validate access tokens. The client must have Access Token Validation grant type allowed."
+        },
+        "clientSecret": {
+          "$ref": "HiddenFieldView",
+          "description": "The Client Secret for the Client ID."
+        },
+        "name": {
+          "type": "string",
+          "description": "The unique Access Validator name"
+        },
+        "sendAudience": {
+          "type": "boolean",
+          "description": "Enable to send the URI the user requested as the 'aud' OAuth parameter for PingAccess to use to select an Access Token Manager."
+        },
+        "subjectAttributeName": {
+          "type": "string",
+          "description": "The attribute you want to use from the OAuth access token as the subject for auditing purposes."
+        },
+        "tokenTimeToLiveSeconds": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Defines the number of seconds to cache the access token. -1 means no limit. This value should be less than the PingFederate Token Lifetime."
+        },
+        "useTokenIntrospection": {
+          "type": "boolean"
+        }
+      }
+    },
+    "HiddenFieldView": {
+      "id": "HiddenFieldView",
+      "properties": {
+        "encryptedValue": {
+          "type": "string",
+          "description": "The encrypted value of the field, as originally returned by the API."
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the field. This field takes precedence over the encryptedValue field, if both are specified."
+        }
+      }
+    },
+    "PingFederateRuntimeView": {
+      "id": "PingFederateRuntimeView",
+      "required": [
+        "host",
+        "port"
+      ],
+      "properties": {
+        "auditLevel": {
+          "type": "string",
+          "description": "Enable to record requests to PingFederate to the audit store."
+        },
+        "backChannelBasePath": {
+          "type": "string",
+          "description": "The base path, if needed, for the PingFederate Runtime accessed using a Back Channel hostname."
+        },
+        "backChannelSecure": {
+          "type": "boolean",
+          "description": "Enable if PingFederate is expecting HTTPS connections for calls via the Back Channel hostnames."
+        },
+        "basePath": {
+          "type": "string",
+          "description": "The base path, if needed, for PingFederate Runtime."
+        },
+        "expectedHostname": {
+          "type": "string",
+          "description": "The name of the host expected in the certificate."
+        },
+        "host": {
+          "type": "string",
+          "description": "The host name or IP address for PingFederate Runtime."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port number for PingFederate Runtime."
+        },
+        "secure": {
+          "type": "boolean",
+          "description": "Enable if PingFederate is expecting HTTPS connections."
+        },
+        "skipHostnameVerification": {
+          "type": "boolean",
+          "description": "Enable if the Back Channel servers should not perform hostname verification of the certificate."
+        },
+        "targets": {
+          "type": "array",
+          "description": "One or more server hostname:port pairs used to access the PingFederate server from inside a private network.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The group of certificates to use when authenticating to PingFederate."
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "True if a proxy should be used for HTTP or HTTPS requests."
+        },
+        "useSlo": {
+          "type": "boolean",
+          "description": "Enable if OIDC single log out should be used on the /pa/oidc/logout on the engines."
+        }
+      }
+    },
+    "PingFederateAdminView": {
+      "id": "PingFederateAdminView",
+      "required": [
+        "adminPassword",
+        "adminUsername",
+        "host",
+        "port"
+      ],
+      "properties": {
+        "adminPassword": {
+          "$ref": "HiddenFieldView",
+          "description": "The password for the administrator username."
+        },
+        "adminUsername": {
+          "type": "string",
+          "description": "The administrator username."
+        },
+        "auditLevel": {
+          "type": "string",
+          "description": "Enable to record requests to the PingFederate Administrative API to the audit store."
+        },
+        "basePath": {
+          "type": "string",
+          "description": "The base path, if needed, for Administration API."
+        },
+        "host": {
+          "type": "string",
+          "description": "The host name or IP address for PingFederate Administration API."
+        },
+        "port": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The port number for PingFederate Administration API."
+        },
+        "secure": {
+          "type": "boolean",
+          "description": "Enable if PingFederate is expecting HTTPS connections."
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The group of certificates to use when authenticating to PingFederate Administrative API."
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "True if a proxy should be used for HTTP or HTTPS requests."
+        }
+      }
+    }
+  }
+}

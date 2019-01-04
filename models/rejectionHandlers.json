@@ -2,17 +2,17 @@
   "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/identityMappings",
+  "resourcePath": "/rejectionHandlers",
   "apis": [
     {
-      "path": "/identityMappings",
+      "path": "/rejectionHandlers",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Identity Mappings",
+          "summary": "Get all Rejection Handlers",
           "notes": "",
-          "type": "IdentityMappingsView",
-          "nickname": "getIdentityMappingsCommand",
+          "type": "RejectionHandlersView",
+          "nickname": "getRejectionHandlersCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Identity Mappings per page",
+              "description": "Number of Rejection Handlers per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,7 +34,7 @@
             },
             {
               "name": "filter",
-              "description": "Search for Identity Mapping with name matching filter text",
+              "description": "Search for Rejection Handlers with name matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -42,7 +42,7 @@
             },
             {
               "name": "name",
-              "description": "Get a specific Identity Mapping by name (case-sensitive)",
+              "description": "Get a Rejection Handler by name (case-sensitive)",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +50,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Identity Mapping attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of Rejection Handler attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +68,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create an Identity Mapping",
+          "summary": "Create a Rejection Handler",
           "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "addIdentityMappingCommand",
+          "type": "RejectionHandlerView",
+          "nickname": "addRejectionHandlerCommand",
           "parameters": [
             {
-              "name": "IdentityMappings",
-              "description": "IdentityMapping to create",
+              "name": "RejectionHandler",
+              "description": "Rejection Handler to add",
               "required": true,
               "allowMultiple": false,
-              "type": "IdentityMappingView",
+              "type": "RejectionHandlerView",
               "paramType": "body"
             }
           ]
@@ -86,31 +86,31 @@
       ]
     },
     {
-      "path": "/identityMappings/descriptors",
+      "path": "/rejectionHandlers/descriptors",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptors for all supported Identity Mapping types",
+          "summary": "Get descriptors for all supported Rejection Handler types",
           "notes": "",
           "type": "DescriptorsView",
-          "nickname": "getIdentityMappingDescriptorsCommand",
+          "nickname": "getRejectionHandlerDescriptorsCommand",
           "parameters": []
         }
       ]
     },
     {
-      "path": "/identityMappings/descriptors/{identityMappingType}",
+      "path": "/rejectionHandlers/descriptors/{rejectionHandlerType}",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptor for an Identity Mapping type",
+          "summary": "Get descriptor for a Rejection Handler type",
           "notes": "",
           "type": "DescriptorView",
-          "nickname": "getIdentityMappingDescriptorCommand",
+          "nickname": "getRejecitonHandlerDescriptorCommand",
           "parameters": [
             {
-              "name": "identityMappingType",
-              "description": "Identity Mapping descriptor to retrieve",
+              "name": "rejectionHandlerType",
+              "description": "Rejection Handler descriptor to retrieve",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -121,18 +121,18 @@
       ]
     },
     {
-      "path": "/identityMappings/{id}",
+      "path": "/rejectionHandlers/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete an Identity Mapping",
+          "summary": "Delete a Rejection Handler",
           "notes": "",
           "type": "void",
-          "nickname": "deleteIdentityMappingCommand",
+          "nickname": "deleteRejectionHandlerCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of IdentityMapping to delete",
+              "description": "ID of Rejection Handler to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -142,14 +142,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get an Identity Mapping",
+          "summary": "Get a Rejection Handler",
           "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "getIdentityMappingCommand",
+          "type": "RejectionHandlerView",
+          "nickname": "getRejectionHandlerCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of identityMapping to get",
+              "description": "ID of Rejection Handler to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -159,25 +159,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update an Identity Mapping",
+          "summary": "Update a Rejection Handler",
           "notes": "",
-          "type": "IdentityMappingView",
-          "nickname": "updateIdentityMappingCommand",
+          "type": "RejectionHandlerView",
+          "nickname": "updateRejectionHandlerCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of IdentityMapping to update",
+              "description": "ID of Rejection Handler to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "IdentityMappings",
-              "description": "IdentityMapping to update",
+              "name": "RejectionHandler",
+              "description": "Rejection Handler to update",
               "required": true,
               "allowMultiple": false,
-              "type": "IdentityMappingView",
+              "type": "RejectionHandlerView",
               "paramType": "body"
             }
           ]
@@ -207,18 +207,40 @@
         }
       }
     },
-    "IdentityMappingsView": {
-      "id": "IdentityMappingsView",
+    "RejectionHandlersView": {
+      "id": "RejectionHandlersView",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "The actual list of identity mappings.",
+          "description": "The actual list of rejection handlers.",
           "items": {
-            "$ref": "IdentityMappingView"
+            "$ref": "RejectionHandlerView"
           }
+        }
+      }
+    },
+    "RejectionHandlerView": {
+      "id": "RejectionHandlerView",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "(sortable) The rejection handler's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The rejection handler's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The rejection handler's name."
         }
       }
     },
@@ -417,28 +439,6 @@
         "type": {
           "type": "string",
           "description": "The type for the entity."
-        }
-      }
-    },
-    "IdentityMappingView": {
-      "id": "IdentityMappingView",
-      "required": [
-        "className",
-        "configuration",
-        "name"
-      ],
-      "properties": {
-        "className": {
-          "type": "string",
-          "description": "(sortable) The identity mapping's class name."
-        },
-        "configuration": {
-          "$ref": "Map[string,java.lang.Object]",
-          "description": "The identity mapping's configuration data."
-        },
-        "name": {
-          "type": "string",
-          "description": "(sortable) The name of the identity mapping."
         }
       }
     }

@@ -1,0 +1,57 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/tokenProvider",
+  "apis": [
+    {
+      "path": "/tokenProvider/settings",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the Token Provider settings to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteTokenProviderSettingCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the Token Provider settings",
+          "notes": "",
+          "type": "TokenProviderSettingView",
+          "nickname": "getTokenProviderSettingCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the Token Provider setting",
+          "notes": "",
+          "type": "TokenProviderSettingView",
+          "nickname": "updateTokenProviderSettingCommand",
+          "parameters": [
+            {
+              "name": "TokenProviderSettings",
+              "description": "Token Provider Setting",
+              "required": true,
+              "allowMultiple": false,
+              "type": "TokenProviderSettingView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "TokenProviderSettingView": {
+      "id": "TokenProviderSettingView",
+      "properties": {
+        "useThirdParty": {
+          "type": "boolean",
+          "description": "This field is true if third-party Token Provider is enabled."
+        }
+      }
+    }
+  }
+}

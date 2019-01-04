@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.0.3.3",
+  "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/siteAuthenticators",
@@ -92,7 +92,7 @@
           "method": "GET",
           "summary": "Get descriptors for all supported Site Authenticator types",
           "notes": "",
-          "type": "SiteAuthenticatorDescriptorsView",
+          "type": "DescriptorsView",
           "nickname": "getSiteAuthenticatorDescriptorsCommand",
           "parameters": []
         }
@@ -105,7 +105,7 @@
           "method": "GET",
           "summary": "Get descriptor for a Site Authenticator type",
           "notes": "",
-          "type": "SiteAuthenticatorDescriptor",
+          "type": "DescriptorView",
           "nickname": "getSiteAuthenticatorDescriptorCommand",
           "parameters": [
             {
@@ -222,20 +222,6 @@
         }
       }
     },
-    "SiteAuthenticatorDescriptorsView": {
-      "id": "SiteAuthenticatorDescriptorsView",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "SiteAuthenticatorDescriptor"
-          }
-        }
-      }
-    },
     "ConfigurationField": {
       "id": "ConfigurationField",
       "description": "Details for configuration in the administrator console.",
@@ -344,33 +330,18 @@
         }
       }
     },
-    "SiteAuthenticatorDescriptor": {
-      "id": "SiteAuthenticatorDescriptor",
+    "DescriptorsView": {
+      "id": "DescriptorsView",
       "required": [
-        "className",
-        "configurationFields",
-        "label",
-        "type"
+        "items"
       ],
       "properties": {
-        "className": {
-          "type": "string",
-          "description": "The descriptor's class name."
-        },
-        "configurationFields": {
+        "items": {
           "type": "array",
-          "description": "The descriptor's configuration fields.",
+          "description": "The actual list of descriptors.",
           "items": {
-            "$ref": "ConfigurationField"
+            "$ref": "DescriptorView"
           }
-        },
-        "label": {
-          "type": "string",
-          "description": "The descriptor's label."
-        },
-        "type": {
-          "type": "string",
-          "description": "The descriptor's type."
         }
       }
     },
@@ -438,6 +409,36 @@
         "url": {
           "type": "string",
           "description": "The help URL for the configuration field."
+        }
+      }
+    },
+    "DescriptorView": {
+      "id": "DescriptorView",
+      "required": [
+        "className",
+        "configurationFields",
+        "label",
+        "type"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "The name of the implementation class."
+        },
+        "configurationFields": {
+          "type": "array",
+          "description": "The list of configuration fields for the class.",
+          "items": {
+            "$ref": "ConfigurationField"
+          }
+        },
+        "label": {
+          "type": "string",
+          "description": "The label for the entity."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type for the entity."
         }
       }
     }

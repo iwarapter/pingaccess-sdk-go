@@ -1,0 +1,321 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/certificates",
+  "apis": [
+    {
+      "path": "/certificates",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get all Certificates",
+          "notes": "",
+          "type": "TrustedCertsView",
+          "nickname": "getTrustedCerts",
+          "parameters": [
+            {
+              "name": "page",
+              "description": "Page number to retrieve",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "numberPerPage",
+              "description": "Number of Trusted Certificates per page",
+              "required": false,
+              "allowMultiple": false,
+              "type": "integer",
+              "format": "int32",
+              "paramType": "query"
+            },
+            {
+              "name": "filter",
+              "description": "Search for Trusted Certificates with alias matching filter text",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "alias",
+              "description": "Get a Trusted Certificate by alias",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "sortKey",
+              "description": "A comma separated list of Trusted Certificate attributes (keys) to be used to sort the results",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            },
+            {
+              "name": "order",
+              "description": "Order of the sorted results (ASC for ascending, DESC for descending)",
+              "required": false,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "query"
+            }
+          ]
+        },
+        {
+          "method": "POST",
+          "summary": "Import a Certificate",
+          "notes": "",
+          "type": "TrustedCertView",
+          "nickname": "importTrustedCert",
+          "parameters": [
+            {
+              "name": "X509File",
+              "description": "Certificate to import",
+              "required": true,
+              "allowMultiple": false,
+              "type": "X509FileImportDocView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificates/{id}",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Delete a Certificate",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteTrustedCertCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of the Certificate to delete",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "GET",
+          "summary": "Get a Certificate",
+          "notes": "",
+          "type": "TrustedCertView",
+          "nickname": "getTrustedCert",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Certificate to get",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Update a Certificate",
+          "notes": "",
+          "type": "TrustedCertView",
+          "nickname": "updateTrustedCert",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Certificate to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "X509File",
+              "description": "Certificate to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "X509FileImportDocView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/certificates/{id}/file",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Export a Certificate",
+          "notes": "",
+          "type": "void",
+          "nickname": "exportTrustedCert",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of the Certificate to export",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "TrustedCertsView": {
+      "id": "TrustedCertsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "A collection of trusted certificate items.",
+          "items": {
+            "$ref": "TrustedCertView"
+          }
+        }
+      }
+    },
+    "X509FileImportDocView": {
+      "id": "X509FileImportDocView",
+      "required": [
+        "alias",
+        "fileData"
+      ],
+      "properties": {
+        "alias": {
+          "type": "string",
+          "description": "The alias for the certificate."
+        },
+        "fileData": {
+          "type": "string",
+          "description": "The base64-encoded data of the certificate."
+        }
+      }
+    },
+    "GeneralName": {
+      "id": "GeneralName",
+      "required": [
+        "name",
+        "value"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "GeneralNameEnum",
+          "description": "The type of the subject alternative name.",
+          "enum": [
+            "otherName",
+            "rfc822Name",
+            "dNSName",
+            "x400Address",
+            "directoryName",
+            "ediPartyName",
+            "uniformResourceIdentifier",
+            "iPAddress",
+            "registeredID"
+          ]
+        },
+        "value": {
+          "type": "string",
+          "description": "The value of the subject alternative name."
+        }
+      }
+    },
+    "TrustedCertView": {
+      "id": "TrustedCertView",
+      "required": [
+        "alias",
+        "expires",
+        "issuerDn",
+        "md5sum",
+        "serialNumber",
+        "sha1sum",
+        "signatureAlgorithm",
+        "status",
+        "subjectDn",
+        "validFrom"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the certificate."
+        },
+        "alias": {
+          "type": "string",
+          "description": "(sortable) The alias for the certificate."
+        },
+        "expires": {
+          "type": "string",
+          "format": "date-time",
+          "description": "(sortable) The date at which the certificate expires as the number of milliseconds since January 1, 1970, 00:00:00 GMT."
+        },
+        "issuerDn": {
+          "type": "string",
+          "description": "(sortable) The issuer DN for the certificate."
+        },
+        "md5sum": {
+          "type": "string",
+          "description": "The MD5 sum for the certificate."
+        },
+        "serialNumber": {
+          "type": "string",
+          "description": "(sortable) The serial number for the certificate."
+        },
+        "sha1sum": {
+          "type": "string",
+          "description": "The SHA1 sum for the certificate."
+        },
+        "signatureAlgorithm": {
+          "type": "string",
+          "description": "(sortable) The algorithm used to sign the certificate."
+        },
+        "status": {
+          "$ref": "CertStatus",
+          "description": "A high-level status for the certificate.",
+          "enum": [
+            "Valid",
+            "Expired",
+            "Not yet valid",
+            "Revoked",
+            "Undetermined revocation status",
+            "No path to trust anchor",
+            "Invalid"
+          ]
+        },
+        "subjectAlternativeNames": {
+          "type": "array",
+          "description": "A collection of subject alternative names for the certificate.",
+          "items": {
+            "$ref": "GeneralName"
+          }
+        },
+        "subjectCn": {
+          "type": "string",
+          "description": "(sortable) The subject CN for the certificate."
+        },
+        "subjectDn": {
+          "type": "string",
+          "description": "(sortable) The subject DN for the certificate."
+        },
+        "validFrom": {
+          "type": "string",
+          "format": "date-time",
+          "description": "(sortable) The date at which the certificate is valid from as the number of milliseconds since January 1, 1970, 00:00:00 GMT."
+        }
+      }
+    }
+  }
+}

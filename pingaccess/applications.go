@@ -105,6 +105,18 @@ func (s *ApplicationsService) GetResourcesCommand(input *GetResourcesCommandInpu
 	if input.NumberPerPage != "" {
 		q.Set("numberPerPage", input.NumberPerPage)
 	}
+	if input.Name != "" {
+		q.Set("name", input.Name)
+	}
+	if input.Filter != "" {
+		q.Set("filter", input.Filter)
+	}
+	if input.SortKey != "" {
+		q.Set("sortKey", input.SortKey)
+	}
+	if input.Order != "" {
+		q.Set("order", input.Order)
+	}
 	rel.RawQuery = q.Encode()
 	req, err := s.client.newRequest("GET", rel, nil)
 	if err != nil {
@@ -122,6 +134,10 @@ func (s *ApplicationsService) GetResourcesCommand(input *GetResourcesCommandInpu
 type GetResourcesCommandInput struct {
 	Page          string
 	NumberPerPage string
+	Name          string
+	Filter        string
+	SortKey       string
+	Order         string
 }
 
 //GetApplicationsResourcesMethodsCommand - Get Application Resource Methods
@@ -307,7 +323,7 @@ type UpdateApplicationCommandInput struct {
 //GetApplicationResourcesCommand - Get Resources for an Application
 //RequestType: GET
 //Input: input *GetApplicationResourcesCommandInput
-func (s *ApplicationsService) GetApplicationResourcesCommand(input *GetApplicationResourcesCommandInput) (result *ResourceView, resp *http.Response, err error) {
+func (s *ApplicationsService) GetApplicationResourcesCommand(input *GetApplicationResourcesCommandInput) (result *ResourcesView, resp *http.Response, err error) {
 	path := "/applications/{id}/resources"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
@@ -380,4 +396,29 @@ func (s *ApplicationsService) AddApplicationResourceCommand(input *AddApplicatio
 type AddApplicationResourceCommandInput struct {
 	Body ResourceView
 	Id   string
+}
+
+//GetResourceAutoOrderCommand - Computes an automatic, intelligent resource ordering for an Application.
+//RequestType: GET
+//Input: input *GetResourceAutoOrderCommandInput
+func (s *ApplicationsService) GetResourceAutoOrderCommand(input *GetResourceAutoOrderCommandInput) (result *ResourceOrderView, resp *http.Response, err error) {
+	path := "/applications/{id}/resources/autoOrder"
+	path = strings.Replace(path, "{id}", input.Id, -1)
+
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
+	req, err := s.client.newRequest("GET", rel, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resp, err = s.client.do(req, &result)
+	if err != nil {
+		return result, resp, err
+	}
+	return result, resp, nil
+
+}
+
+type GetResourceAutoOrderCommandInput struct {
+	Id string
 }

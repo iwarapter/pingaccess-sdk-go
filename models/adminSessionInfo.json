@@ -1,0 +1,146 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/adminSessionInfo",
+  "apis": [
+    {
+      "path": "/adminSessionInfo",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Invalidate the Admin session information",
+          "notes": "",
+          "type": "void",
+          "nickname": "adminSessionDeleteCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Return the Admin session information",
+          "notes": "Return the session info. Admin UI session idle time is reset to indicate activity.",
+          "type": "SessionInfo",
+          "nickname": "adminSessionInfoCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/adminSessionInfo/checkOnly",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Return the Admin session information without affecting session expiration",
+          "notes": "Return the session info. Admin UI session idle time is not reset.",
+          "type": "SessionInfo",
+          "nickname": "adminSessionInfoCheckCommand",
+          "parameters": []
+        }
+      ]
+    }
+  ],
+  "models": {
+    "SessionInfo": {
+      "id": "SessionInfo",
+      "required": [
+        "accessControlDirectives",
+        "exp",
+        "expWarn",
+        "flash",
+        "iat",
+        "maxFileUploadSize",
+        "pollIntervalSeconds",
+        "roles",
+        "sesTimeout",
+        "showWarning",
+        "sniEnabled",
+        "sub",
+        "useSlo"
+      ],
+      "properties": {
+        "accessControlDirectives": {
+          "$ref": "Set",
+          "items": {
+            "$ref": "AdminAccessControlDirective",
+            "enum": [
+              "DENY_POLICY_CONFIGURATION",
+              "DENY_APPLICATION_CREATION",
+              "DENY_API_APPLICATION_CREATION",
+              "DENY_AUTH_REQ_CREATION",
+              "DENY_PING_FEDERATE_CONFIGURATION",
+              "DENY_THIRD_PARTY_OAUTH_CONFIGURATION",
+              "DENY_XPOST_WEBSESSION_CONFIGURATION",
+              "DENY_POST_WEBSESSION_CONFIGURATION",
+              "REQUIRE_AAD_TOKEN_PROVIDER_ISSUER",
+              "DENY_API_AUTHENTICATION_CONFIGURATION",
+              "DENY_CUSTOM_SITE_AUTHENTICATOR_CREATION",
+              "DENY_CUSTOM_LOAD_BALANCING_STRATEGY_CREATION",
+              "DENY_CUSTOM_AVAILABILITY_PROFILE_CREATION",
+              "DENY_CUSTOM_IDENTITY_MAPPING_CREATION"
+            ]
+          }
+        },
+        "exp": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Time at which session will expire due to inactivity."
+        },
+        "expWarn": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Length of time before a timeout at which warning should appear"
+        },
+        "flash": {
+          "type": "string",
+          "description": "The Warning message"
+        },
+        "iat": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Time at which session was created"
+        },
+        "maxFileUploadSize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The maximum file upload size in bytes."
+        },
+        "pollIntervalSeconds": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Session poll interval configuration in seconds"
+        },
+        "roles": {
+          "$ref": "Set",
+          "description": "The user's roles.",
+          "items": {
+            "$ref": "Role",
+            "enum": [
+              "ADMINISTRATOR",
+              "AUDITOR"
+            ]
+          }
+        },
+        "sesTimeout": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Maximum length of time that a session is allowed to live, regardless of user activity, -1 indicates disabled."
+        },
+        "showWarning": {
+          "type": "boolean",
+          "description": "Indicates that a warning needs to be shown or not."
+        },
+        "sniEnabled": {
+          "type": "boolean",
+          "description": "Indicates that SNI is enabled or not."
+        },
+        "sub": {
+          "type": "string",
+          "description": "The Session's subject."
+        },
+        "useSlo": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

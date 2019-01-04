@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.0.3.3",
+  "apiVersion": "5.1.1.0",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/webSessions",
@@ -246,7 +246,14 @@
         },
         "requestProfile": {
           "type": "boolean",
-          "description": "(sortable) Specify if PingAccess should request additional profile attributes from PingFederate when requesting the ID Token. Profile scope required in PingFederate."
+          "description": "Specifies whether the default scopes ('profile', 'email', 'address', and 'phone') should be specified in the access request. (DEPRECATED - to be removed in a future release; please use 'scopes' instead)"
+        },
+        "scopes": {
+          "type": "array",
+          "description": "The list of scopes to be specified in the access request. If not specified, the default scopes ('profile', 'email', 'address', and 'phone') will be used.",
+          "items": {
+            "type": "string"
+          }
         },
         "secureCookie": {
           "type": "boolean",
