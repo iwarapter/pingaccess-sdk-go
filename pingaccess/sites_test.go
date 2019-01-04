@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -77,7 +76,7 @@ func TestSitesMethods(t *testing.T) {
 	input1 := AddSiteCommandInput{
 		Body: SiteView{
 			Name:                    String("bar"),
-			Targets:                 []string{"localhost:1234"},
+			Targets:                 &[]*string{String("localhost:1234")},
 			MaxConnections:          Int(-1),
 			MaxWebSocketConnections: Int(-1),
 		}}
@@ -104,14 +103,13 @@ func TestSitesMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the site
 	input3 := UpdateSiteCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: SiteView{
 			Name:                    String("bar"),
-			Targets:                 []string{"localhost:1234", "localhost:1235"},
+			Targets:                 &[]*string{String("localhost:1234"), String("localhost:1235")},
 			MaxConnections:          Int(-1),
 			MaxWebSocketConnections: Int(-1),
 		}}
@@ -122,13 +120,13 @@ func TestSitesMethods(t *testing.T) {
 	if resp3.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp3.StatusCode)
 	}
-	if len(result3.Targets) != len(input3.Body.Targets) {
-		t.Errorf("Failed to update site, expected: %d got: %d", len(input3.Body.Targets), len(result3.Targets))
+	if len(*result3.Targets) != len(*input3.Body.Targets) {
+		t.Errorf("Failed to update site, expected: %d got: %d", len(*input3.Body.Targets), len(*result3.Targets))
 	}
 
 	//get the site and check the update
 	input4 := GetSiteCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.Sites.GetSiteCommand(&input4)
 	if err4 != nil {
@@ -137,13 +135,13 @@ func TestSitesMethods(t *testing.T) {
 	if resp4.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp4.StatusCode)
 	}
-	if result4.Targets[0] != input3.Body.Targets[0] {
+	if *(*result4.Targets)[0] != *(*input3.Body.Targets)[0] {
 		t.Errorf("Failed to get site")
 	}
 
 	//delete our initial site
 	input5 := DeleteSiteCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.Sites.DeleteSiteCommand(&input5)
 	if err5 != nil {

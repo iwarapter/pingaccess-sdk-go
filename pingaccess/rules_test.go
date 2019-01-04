@@ -2,7 +2,6 @@ package pingaccess
 
 import (
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -17,7 +16,7 @@ func TestRuleDescriptors(t *testing.T) {
 	if resp1.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp1.StatusCode)
 	}
-	if len(result1.Items) != 19 {
+	if len(result1.Items) == 0 {
 		t.Errorf("Unable the marshall results")
 	}
 
@@ -45,7 +44,7 @@ func TestRuleMethods(t *testing.T) {
 		Body: RuleView{
 			ClassName:             String("com.pingidentity.pa.policy.CIDRPolicyInterceptor"),
 			Name:                  String("woottest"),
-			SupportedDestinations: []string{"localhost:1234"},
+			SupportedDestinations: &[]*string{String("localhost:1234")},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
 				"negate":                    false,
@@ -83,15 +82,14 @@ func TestRuleMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the rule
 	input3 := UpdateRuleCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: RuleView{
 			ClassName:             String("com.pingidentity.pa.policy.CIDRPolicyInterceptor"),
 			Name:                  String("woottest"),
-			SupportedDestinations: []string{"localhost:1234"},
+			SupportedDestinations: &[]*string{String("localhost:1234")},
 			Configuration: map[string]interface{}{
 				"cidrNotation":              "127.0.0.1/32",
 				"negate":                    false,
@@ -118,7 +116,7 @@ func TestRuleMethods(t *testing.T) {
 
 	//get the rule and check the update
 	input4 := GetRuleCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.Rules.GetRuleCommand(&input4)
 	if err4 != nil {
@@ -133,7 +131,7 @@ func TestRuleMethods(t *testing.T) {
 
 	//delete our initial rule
 	input5 := DeleteRuleCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.Rules.DeleteRuleCommand(&input5)
 	if err5 != nil {

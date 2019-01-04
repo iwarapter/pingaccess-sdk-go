@@ -2,7 +2,6 @@ package pingaccess
 
 import (
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -72,11 +71,10 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the site authenticator
 	input3 := UpdateSiteAuthenticatorCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: SiteAuthenticatorView{
 			ClassName: String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
 			Name:      String("matls"),
@@ -97,7 +95,7 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 
 	//get the site authenticator and check the update
 	input4 := GetSiteAuthenticatorCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.SiteAuthenticators.GetSiteAuthenticatorCommand(&input4)
 	if err4 != nil {
@@ -112,7 +110,7 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 
 	//delete our initial site authenticator
 	input5 := DeleteSiteAuthenticatorCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.SiteAuthenticators.DeleteSiteAuthenticatorCommand(&input5)
 	if err5 != nil {

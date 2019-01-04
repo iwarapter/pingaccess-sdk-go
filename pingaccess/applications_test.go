@@ -146,11 +146,11 @@ func TestWeCanMarshallApplications(t *testing.T) {
 		t.Errorf("Incorrect results length")
 	}
 
-	if len(results.Items[0].VirtualHostIds) != 1 {
+	if len(*results.Items[0].VirtualHostIds) != 1 {
 		t.Errorf("Incorrect result virtualHostIds length")
 	}
 
-	if results.Items[0].IdentityMappingIds["Web"] == 2 {
+	if *(results.Items[0].IdentityMappingIds)["Web"] == 2 {
 		t.Errorf("Incorrect result identityMappingIds[Web]")
 	}
 }

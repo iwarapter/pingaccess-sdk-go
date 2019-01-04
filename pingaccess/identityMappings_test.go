@@ -2,7 +2,6 @@ package pingaccess
 
 import (
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -79,11 +78,10 @@ func TestIdentityMappingMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the identity mapping
 	input3 := UpdateIdentityMappingCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: IdentityMappingView{
 			ClassName: String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
 			Name:      String("woot"),
@@ -111,7 +109,7 @@ func TestIdentityMappingMethods(t *testing.T) {
 
 	//get the identity mapping and check the update
 	input4 := GetIdentityMappingCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.IdentityMappings.GetIdentityMappingCommand(&input4)
 	if err4 != nil {
@@ -126,7 +124,7 @@ func TestIdentityMappingMethods(t *testing.T) {
 
 	//delete our initial identity mapping
 	input5 := DeleteIdentityMappingCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.IdentityMappings.DeleteIdentityMappingCommand(&input5)
 	if err5 != nil {

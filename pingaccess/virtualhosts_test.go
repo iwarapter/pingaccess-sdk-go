@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -78,7 +77,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 	input1 := AddVirtualHostCommandInput{
 		Body: VirtualHostView{
 			AgentResourceCacheTTL:     Int(900),
-			Host:                      String("localhost"),
+			Host:                      String("cheese"),
 			KeyPairId:                 Int(0),
 			Port:                      Int(3000),
 			TrustedCertificateGroupId: Int(0),
@@ -108,14 +107,13 @@ func TestVirtualHostsMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the virtualhost
 	input3 := UpdateVirtualHostCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: VirtualHostView{
 			AgentResourceCacheTTL:     Int(900),
-			Host:                      String("localhost"),
+			Host:                      String("cheese"),
 			KeyPairId:                 Int(0),
 			Port:                      Int(3001),
 			TrustedCertificateGroupId: Int(0),
@@ -133,7 +131,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 
 	//get the virtualhost and check the update
 	input4 := GetVirtualHostCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.Virtualhosts.GetVirtualHostCommand(&input4)
 	if err4 != nil {
@@ -148,7 +146,7 @@ func TestVirtualHostsMethods(t *testing.T) {
 
 	//delete our initial virtualhost
 	input5 := DeleteVirtualHostCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.Virtualhosts.DeleteVirtualHostCommand(&input5)
 	if err5 != nil {

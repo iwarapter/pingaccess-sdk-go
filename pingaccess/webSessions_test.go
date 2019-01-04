@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -144,11 +143,10 @@ func TestWebSessionsMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the websession
 	input3 := UpdateWebSessionCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: WebSessionView{
 			Audience: String("some_new_random_folk"),
 			Name:     String("my_test_websession"),
@@ -172,7 +170,7 @@ func TestWebSessionsMethods(t *testing.T) {
 
 	//get the websession and check the update
 	input4 := GetWebSessionCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.WebSessions.GetWebSessionCommand(&input4)
 	if err4 != nil {
@@ -187,7 +185,7 @@ func TestWebSessionsMethods(t *testing.T) {
 
 	//delete our initial websession
 	input5 := DeleteWebSessionCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.WebSessions.DeleteWebSessionCommand(&input5)
 	if err5 != nil {

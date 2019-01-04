@@ -2,7 +2,6 @@ package pingaccess
 
 import (
 	"net/url"
-	"strconv"
 	"testing"
 )
 
@@ -47,7 +46,7 @@ func TestRuleSetMethods(t *testing.T) {
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAllSucceed"),
 			ElementType:     String("Rule"),
-			Policy:          []int{2},
+			Policy:          &[]*int{Int(2)},
 		}}
 
 	result1, resp1, err1 := svc.Rulesets.AddRuleSetCommand(&input1)
@@ -73,16 +72,15 @@ func TestRuleSetMethods(t *testing.T) {
 	if result2 == nil {
 		t.Errorf("Unable the marshall results")
 	}
-	id := strconv.Itoa(*result1.Id)
 
 	//update the rule
 	input3 := UpdateRuleSetCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 		Body: RuleSetView{
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAnyOneSucceeds"),
 			ElementType:     String("Rule"),
-			Policy:          []int{2},
+			Policy:          &[]*int{Int(2)},
 		}}
 	result3, resp3, err3 := svc.Rulesets.UpdateRuleSetCommand(&input3)
 	if err3 != nil {
@@ -97,7 +95,7 @@ func TestRuleSetMethods(t *testing.T) {
 
 	//get the rule and check the update
 	input4 := GetRuleSetCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	result4, resp4, err4 := svc.Rulesets.GetRuleSetCommand(&input4)
 	if err4 != nil {
@@ -112,7 +110,7 @@ func TestRuleSetMethods(t *testing.T) {
 
 	//delete our initial rule
 	input5 := DeleteRuleSetCommandInput{
-		Id: id,
+		Id: result1.Id.String(),
 	}
 	resp5, err5 := svc.Rulesets.DeleteRuleSetCommand(&input5)
 	if err5 != nil {
