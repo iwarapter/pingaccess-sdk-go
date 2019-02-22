@@ -46,10 +46,16 @@ func TestWebSessionsRequestQueryParamsAreUsed(t *testing.T) {
 
 func TestInvalidInputsCreateErrors(t *testing.T) {
 	// Start a local HTTP server
-	dat := []byte(`{"error": "Invalid order 'ASCII'.  Value must be 'ASC' or 'DESC'."}`)
+	dat := []byte(`
+	{
+		"form": {},
+		"flash": [
+			"The 'page' parameter is not an integer: asdas"
+		]
+	}`)
 	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
 		// Test request parameters
-		equals(t, req.URL.String(), "/pa-admin-api/v3/webSessions?order=ASCII")
+		equals(t, req.URL.String(), "/pa-admin-api/v3/webSessions?page=asdas")
 		// Send response to be tested
 		rw.WriteHeader(http.StatusBadRequest)
 		rw.Write(dat)
@@ -60,17 +66,17 @@ func TestInvalidInputsCreateErrors(t *testing.T) {
 	svc := config(url)
 
 	input1 := GetWebSessionsCommandInput{
-		Order: "ASCII",
+		Page: "asdas",
 	}
 
 	result1, resp1, err1 := svc.WebSessions.GetWebSessionsCommand(&input1)
-	if err1 != nil {
+	if err1 == nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
 	if resp1.StatusCode != 400 {
 		t.Errorf("Invalid response code: %d", resp1.StatusCode)
 	}
-	if result1 == nil {
+	if result1 != nil {
 		t.Errorf("Unable the marshall results")
 	}
 

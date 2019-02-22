@@ -3,10 +3,12 @@ package pingaccess
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
-	"log"
+	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type Client struct {
@@ -74,15 +76,27 @@ func (c *Client) newRequest(method string, path *url.URL, body interface{}) (*ht
 }
 
 func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
-	log.Println("[CLIENT] executing request")
-	log.Printf("[CLIENT] METHOD: %s", req.Method)
-	log.Printf("[CLIENT] URL: %s", req.URL.String())
+	// log.Println("[CLIENT] executing request")
+	// log.Printf("[CLIENT] METHOD: %s", req.Method)
+	// log.Printf("[CLIENT] URL: %s", req.URL.String())
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
+	err = CheckResponse(resp)
+	if err != nil {
+		return resp, err
+	}
 	defer resp.Body.Close()
+	// if resp.StatusCode < 200 && resp.StatusCode > 299 {
+	// 	if w, ok := v.(io.Writer); ok {
+	// 		io.Copy(w, resp.Body)
+	// 	} else {
+	// 		err = json.NewDecoder(resp.Body).Decode(failure)
+	// 	}
+	// 	return resp, failure, err
+	// }
 	if v != nil {
 		if w, ok := v.(io.Writer); ok {
 			io.Copy(w, resp.Body)
@@ -97,6 +111,50 @@ func (c *Client) do(req *http.Request, v interface{}) (*http.Response, error) {
 		}
 	}
 	return resp, err
+}
+
+type FailureResponse struct {
+	Form  map[string][]string `json:"form"`
+	Flash []string            `json:"flash"`
+}
+
+// CheckResponse checks the API response for errors, and returns them if
+// present. A response is considered an error if it has a status code outside
+// the 200 range.
+// API error responses are expected to have either no response
+// body, or a JSON response body that maps to ErrorResponse. Any other
+// response body will be silently ignored.
+func CheckResponse(r *http.Response) error {
+	if c := r.StatusCode; 200 <= c && c <= 299 {
+		return nil
+	}
+
+	errorResponse := FailureResponse{}
+	data, err := ioutil.ReadAll(r.Body)
+	if err == nil && data != nil {
+		json.Unmarshal(data, &errorResponse)
+	}
+
+	return &PingAccessError{
+		Response: errorResponse,
+	}
+}
+
+// PingAccessError occurs when PingAccess returns a non 2XX response
+type PingAccessError struct {
+	Response FailureResponse
+}
+
+func (r *PingAccessError) Error() (message string) {
+	if r.Response.Flash != nil {
+		message = strings.Join(r.Response.Flash, "\n")
+	}
+	for _, v := range r.Response.Form {
+		for _, s := range v {
+			message = fmt.Sprintf(message + s + "\n")
+		}
+	}
+	return
 }
 
 // Bool is a helper routine that allocates a new bool value

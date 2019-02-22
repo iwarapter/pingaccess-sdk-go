@@ -46,7 +46,7 @@ func TestRuleSetMethods(t *testing.T) {
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAllSucceed"),
 			ElementType:     String("Rule"),
-			Policy:          &[]*int{Int(2)},
+			Policy:          &[]*int{Int(152)},
 		}}
 
 	result1, resp1, err1 := svc.Rulesets.AddRuleSetCommand(&input1)
@@ -80,7 +80,7 @@ func TestRuleSetMethods(t *testing.T) {
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAnyOneSucceeds"),
 			ElementType:     String("Rule"),
-			Policy:          &[]*int{Int(2)},
+			Policy:          &[]*int{Int(152)},
 		}}
 	result3, resp3, err3 := svc.Rulesets.UpdateRuleSetCommand(&input3)
 	if err3 != nil {
