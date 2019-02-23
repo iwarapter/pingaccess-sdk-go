@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 )
 
 type Client struct {
@@ -147,7 +146,7 @@ type PingAccessError struct {
 
 func (r *PingAccessError) Error() (message string) {
 	if r.Response.Flash != nil {
-		message = strings.Join(r.Response.Flash, "\n")
+		message = fmt.Sprintf("%s\n", r.Response.Flash)
 	}
 	for _, v := range r.Response.Form {
 		for _, s := range v {
