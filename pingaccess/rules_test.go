@@ -1,13 +1,11 @@
 package pingaccess
 
 import (
-	"net/url"
 	"testing"
 )
 
 func TestRuleDescriptors(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	result1, resp1, err1 := svc.Rules.GetRuleDescriptorsCommand()
 	if err1 != nil {
@@ -36,8 +34,7 @@ func TestRuleDescriptors(t *testing.T) {
 }
 
 func TestRuleMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new rule
 	input1 := AddRuleCommandInput{

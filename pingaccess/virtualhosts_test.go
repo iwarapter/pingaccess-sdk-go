@@ -70,8 +70,7 @@ func TestVirtualhostsErrorHandling(t *testing.T) {
 }
 
 func TestVirtualHostsMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new virtualhost
 	input1 := AddVirtualHostCommandInput{

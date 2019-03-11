@@ -120,8 +120,7 @@ func TestVApplicationsErrorHandling(t *testing.T) {
 }
 
 func TestGetApplicationsCommand(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	input := GetApplicationsCommandInput{}
 	results, _, _ := svc.Applications.GetApplicationsCommand(&input)

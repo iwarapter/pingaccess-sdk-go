@@ -1,13 +1,11 @@
 package pingaccess
 
 import (
-	"net/url"
 	"testing"
 )
 
 func TestRuleSetElementTypes(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	result1, resp1, err1 := svc.Rulesets.GetRuleSetElementTypesCommand()
 	if err1 != nil {
@@ -22,8 +20,7 @@ func TestRuleSetElementTypes(t *testing.T) {
 }
 
 func TestRuleSetSuccessCriteria(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	result, resp, err := svc.Rulesets.GetRuleSetSuccessCriteriaCommand()
 	if err != nil {
@@ -38,15 +35,46 @@ func TestRuleSetSuccessCriteria(t *testing.T) {
 }
 
 func TestRuleSetMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
+
+	demoRule := AddRuleCommandInput{
+		Body: RuleView{
+			ClassName:             String("com.pingidentity.pa.policy.CIDRPolicyInterceptor"),
+			Name:                  String("another_test"),
+			SupportedDestinations: &[]*string{String("localhost:1234")},
+			Configuration: map[string]interface{}{
+				"cidrNotation":              "127.0.0.1/32",
+				"negate":                    false,
+				"overrideIpSource":          false,
+				"headers":                   []interface{}{},
+				"headerValueLocation":       "LAST",
+				"fallbackToLastHopIp":       true,
+				"errorResponseCode":         403,
+				"errorResponseStatusMsg":    "Forbidden",
+				"errorResponseTemplateFile": "policy.error.page.template.html",
+				"errorResponseContentType":  "text/html;charset=UTF-8",
+			},
+		},
+	}
+
+	ruleResult, ruleResp, ruleErr := svc.Rules.AddRuleCommand(&demoRule)
+	if ruleErr != nil {
+		t.Errorf("Unable to execute command: %s", ruleErr.Error())
+	}
+	if ruleResp.StatusCode != 200 {
+		t.Errorf("Invalid response code: %d", ruleResp.StatusCode)
+	}
+	if ruleResult == nil {
+		t.Errorf("Unable the marshall results")
+	}
+	id, _ := ruleResult.Id.Int64()
 
 	input1 := AddRuleSetCommandInput{
 		Body: RuleSetView{
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAllSucceed"),
 			ElementType:     String("Rule"),
-			Policy:          &[]*int{Int(152)},
+			Policy:          &[]*int{Int(int(id))},
 		}}
 
 	result1, resp1, err1 := svc.Rulesets.AddRuleSetCommand(&input1)
@@ -80,7 +108,7 @@ func TestRuleSetMethods(t *testing.T) {
 			Name:            String("new-rule-set-test"),
 			SuccessCriteria: String("SuccessIfAnyOneSucceeds"),
 			ElementType:     String("Rule"),
-			Policy:          &[]*int{Int(152)},
+			Policy:          &[]*int{Int(int(id))},
 		}}
 	result3, resp3, err3 := svc.Rulesets.UpdateRuleSetCommand(&input3)
 	if err3 != nil {

@@ -1,13 +1,11 @@
 package pingaccess
 
 import (
-	"net/url"
 	"testing"
 )
 
 func TestSiteAuthenticatorDescriptors(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	result1, resp1, err1 := svc.SiteAuthenticators.GetSiteAuthenticatorDescriptorsCommand()
 	if err1 != nil {
@@ -36,8 +34,7 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 }
 
 func TestSiteAuthenticatorMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new site authenticator
 	input1 := AddSiteAuthenticatorCommandInput{

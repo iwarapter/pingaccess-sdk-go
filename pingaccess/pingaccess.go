@@ -17,14 +17,42 @@ type Client struct {
 	Context    string
 	httpClient *http.Client
 
-	Applications       *ApplicationsService
-	IdentityMappings   *IdentityMappingsService
-	Rules              *RulesService
-	Rulesets           *RulesetsService
-	SiteAuthenticators *SiteAuthenticatorsService
-	Sites              *SitesService
-	Virtualhosts       *VirtualhostsService
-	WebSessions        *WebSessionsService
+	AdminConfigs               *AdminConfigService
+	AdminSessions              *AdminSessionInfoService
+	Agents                     *AgentsService
+	Applications               *ApplicationsService
+	Auth                       *AuthService
+	AuthnReqLists              *AuthnReqListsService
+	AuthTokenManagements       *AuthTokenManagementService
+	Backups                    *BackupService
+	Certificates               *CertificatesService
+	EngineListeners            *EngineListenersService
+	Engines                    *EnginesService
+	GlobalUnprotectedResources *GlobalUnprotectedResourcesService
+	HighAvailability           *HighAvailabilityService
+	HttpConfig                 *HttpConfigService
+	HttpsListeners             *HttpsListenersService
+	IdentityMappings           *IdentityMappingsService
+	KeyPairs                   *KeyPairsService
+	License                    *LicenseService
+	OAuth                      *OauthService
+	Oidc                       *OidcService
+	PingFederate               *PingfederateService
+	Proxies                    *ProxiesService
+	Redirects                  *RedirectsService
+	RejectionHandlers          *RejectionHandlersService
+	Rules                      *RulesService
+	Rulesets                   *RulesetsService
+	SharedSecrets              *SharedSecretsService
+	SiteAuthenticators         *SiteAuthenticatorsService
+	Sites                      *SitesService
+	ThirdPartyServices         *ThirdPartyServicesService
+	UnknownResources           *UnknownResourcesService
+	Users                      *UsersService
+	Version                    *VersionService
+	Virtualhosts               *VirtualhostsService
+	WebSessionManagement       *WebSessionManagementService
+	WebSessions                *WebSessionsService
 }
 
 type service struct {
@@ -41,13 +69,41 @@ func NewClient(username string, password string, baseUrl *url.URL, context strin
 	c.BaseURL = baseUrl
 	c.Context = context
 
+	c.AdminConfigs = &AdminConfigService{client: c}
+	c.AdminSessions = &AdminSessionInfoService{client: c}
+	c.Agents = &AgentsService{client: c}
 	c.Applications = &ApplicationsService{client: c}
+	c.Auth = &AuthService{client: c}
+	c.AuthnReqLists = &AuthnReqListsService{client: c}
+	c.AuthTokenManagements = &AuthTokenManagementService{client: c}
+	c.Backups = &BackupService{client: c}
+	c.Certificates = &CertificatesService{client: c}
+	c.EngineListeners = &EngineListenersService{client: c}
+	c.Engines = &EnginesService{client: c}
+	c.GlobalUnprotectedResources = &GlobalUnprotectedResourcesService{client: c}
+	c.HighAvailability = &HighAvailabilityService{client: c}
+	c.HttpConfig = &HttpConfigService{client: c}
+	c.HttpsListeners = &HttpsListenersService{client: c}
 	c.IdentityMappings = &IdentityMappingsService{client: c}
+	c.KeyPairs = &KeyPairsService{client: c}
+	c.License = &LicenseService{client: c}
+	c.OAuth = &OauthService{client: c}
+	c.Oidc = &OidcService{client: c}
+	c.PingFederate = &PingfederateService{client: c}
+	c.Proxies = &ProxiesService{client: c}
+	c.Redirects = &RedirectsService{client: c}
+	c.RejectionHandlers = &RejectionHandlersService{client: c}
 	c.Rules = &RulesService{client: c}
 	c.Rulesets = &RulesetsService{client: c}
+	c.SharedSecrets = &SharedSecretsService{client: c}
 	c.SiteAuthenticators = &SiteAuthenticatorsService{client: c}
 	c.Sites = &SitesService{client: c}
+	c.ThirdPartyServices = &ThirdPartyServicesService{client: c}
+	c.UnknownResources = &UnknownResourcesService{client: c}
+	c.Users = &UsersService{client: c}
+	c.Version = &VersionService{client: c}
 	c.Virtualhosts = &VirtualhostsService{client: c}
+	c.WebSessionManagement = &WebSessionManagementService{client: c}
 	c.WebSessions = &WebSessionsService{client: c}
 	return c
 }

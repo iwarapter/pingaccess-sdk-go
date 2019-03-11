@@ -1,14 +1,11 @@
 package pingaccess
 
 import (
-	"net/url"
 	"testing"
 )
 
 func TestIdentityMappingDescriptors(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
-
+	svc := config(paURL)
 	result1, resp1, err1 := svc.IdentityMappings.GetIdentityMappingDescriptorsCommand()
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
@@ -36,8 +33,7 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 }
 
 func TestIdentityMappingMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new identity mapping
 	input1 := AddIdentityMappingCommandInput{

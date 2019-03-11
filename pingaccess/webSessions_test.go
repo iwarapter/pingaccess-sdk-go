@@ -109,8 +109,7 @@ func TestWebSessionsErrorHandling(t *testing.T) {
 }
 
 func TestWebSessionsMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new websession
 	input1 := AddWebSessionCommandInput{

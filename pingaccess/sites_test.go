@@ -69,8 +69,7 @@ func TestVSitesErrorHandling(t *testing.T) {
 	}
 }
 func TestSitesMethods(t *testing.T) {
-	url, _ := url.Parse("https://localhost:9000")
-	svc := config(url)
+	svc := config(paURL)
 
 	// add a new site
 	input1 := AddSiteCommandInput{
@@ -112,6 +111,7 @@ func TestSitesMethods(t *testing.T) {
 			Targets:                 &[]*string{String("localhost:1234"), String("localhost:1235")},
 			MaxConnections:          Int(-1),
 			MaxWebSocketConnections: Int(-1),
+			UseTargetHostHeader:     Bool(false),
 		}}
 	result3, resp3, err3 := svc.Sites.UpdateSiteCommand(&input3)
 	if err3 != nil {
@@ -137,6 +137,9 @@ func TestSitesMethods(t *testing.T) {
 	}
 	if *(*result4.Targets)[0] != *(*input3.Body.Targets)[0] {
 		t.Errorf("Failed to get site")
+	}
+	if *result4.UseTargetHostHeader != *input3.Body.UseTargetHostHeader {
+		t.Errorf("%+v\n", result4)
 	}
 
 	//delete our initial site
