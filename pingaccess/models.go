@@ -340,6 +340,14 @@ type EnginesView struct {
 	Items []*EngineView `json:"items"`
 }
 
+//ExportData
+type ExportData struct {
+	Data          map[string]interface{} `json:"data"`
+	EncryptionKey *JsonWebKey            `json:"encryptionKey"`
+	MasterKeys    *MasterKeysView        `json:"masterKeys"`
+	Version       *string                `json:"version"`
+}
+
 //ExportParameters
 type ExportParameters struct {
 	Id       *int    `json:"id"`
@@ -449,6 +457,24 @@ type ItemView struct {
 	Name        *string `json:"name"`
 }
 
+//JsonWebKey
+type JsonWebKey struct {
+	Algorithm *string                `json:"algorithm"`
+	Key       *Key                   `json:"key"`
+	KeyId     *string                `json:"keyId"`
+	KeyOps    *[]*string             `json:"keyOps"`
+	KeyType   *string                `json:"keyType"`
+	PublicKey map[string]interface{} `json:"publicKey"`
+	Use       *string                `json:"use"`
+}
+
+//Key
+type Key struct {
+	Algorithm *string  `json:"algorithm"`
+	Encoded   *[]*byte `json:"encoded"`
+	Format    *string  `json:"format"`
+}
+
 //KeyAlgorithm
 type KeyAlgorithm struct {
 	DefaultKeySize            *int       `json:"defaultKeySize"`
@@ -528,6 +554,12 @@ type LoadBalancingStrategyView struct {
 	Configuration map[string]interface{} `json:"configuration"`
 	Id            json.Number            `json:"id,omitempty"`
 	Name          *string                `json:"name"`
+}
+
+//MasterKeysView
+type MasterKeysView struct {
+	EncryptedValue *[]*byte `json:"encryptedValue"`
+	KeyId          *string  `json:"keyId"`
 }
 
 //MethodView - HTTP Method

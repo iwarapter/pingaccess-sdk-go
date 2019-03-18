@@ -47,6 +47,7 @@ type Client struct {
 	SiteAuthenticators         *SiteAuthenticatorsService
 	Sites                      *SitesService
 	ThirdPartyServices         *ThirdPartyServicesService
+	TrustedCertificateGroups   *TrustedCertificateGroupsService
 	UnknownResources           *UnknownResourcesService
 	Users                      *UsersService
 	Version                    *VersionService
@@ -99,6 +100,7 @@ func NewClient(username string, password string, baseUrl *url.URL, context strin
 	c.SiteAuthenticators = &SiteAuthenticatorsService{client: c}
 	c.Sites = &SitesService{client: c}
 	c.ThirdPartyServices = &ThirdPartyServicesService{client: c}
+	c.TrustedCertificateGroups = &TrustedCertificateGroupsService{client: c}
 	c.UnknownResources = &UnknownResourcesService{client: c}
 	c.Users = &UsersService{client: c}
 	c.Version = &VersionService{client: c}

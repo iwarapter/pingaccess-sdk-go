@@ -293,6 +293,31 @@
               "paramType": "body"
             }
           ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Import a Certificate Signing Request response",
+          "notes": "",
+          "type": "KeyPairView",
+          "nickname": "importCSRResponseCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of the Key Pair to update",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            },
+            {
+              "name": "CSRResponse",
+              "description": "The Certificate Signing Request (CSR) response",
+              "required": true,
+              "allowMultiple": false,
+              "type": "CSRResponseImportDocView",
+              "paramType": "body"
+            }
+          ]
         }
       ]
     },

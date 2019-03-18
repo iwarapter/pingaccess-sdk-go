@@ -11,7 +11,7 @@ install:
 	@go install ./...
 
 generate:
-	@find pingaccess/ ! -name '*_test.go' ! -name 'pingaccess.go' ! -name '*.json' -type f -exec rm -f {} +
+	@find pingaccess/ ! -name '*_test.go' ! -name 'pingaccess.go' ! -name 'pingaccess.lic' ! -name '*.json' -type f -exec rm -f {} +
 	@$$GOPATH/bin/pingaccess-sdk-go-gen-cli $(SERVICES)
 	@go fmt ./...
 

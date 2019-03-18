@@ -1,0 +1,146 @@
+{
+  "apiVersion": "5.1.1.0",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/config",
+  "apis": [
+    {
+      "path": "/config/export",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Export a JSON backup of the entire system",
+          "notes": "",
+          "type": "ExportData",
+          "nickname": "configExportCommand",
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "path": "/config/import",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Import JSON backup",
+          "notes": "",
+          "type": "void",
+          "nickname": "configImportCommand",
+          "parameters": [
+            {
+              "name": "backup file",
+              "description": "JSON backup file to import",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "JsonWebKey": {
+      "id": "JsonWebKey",
+      "required": [
+        "algorithm",
+        "key",
+        "keyId",
+        "keyOps",
+        "keyType",
+        "publicKey",
+        "use"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "key": {
+          "$ref": "Key"
+        },
+        "keyId": {
+          "type": "string"
+        },
+        "keyOps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "keyType": {
+          "type": "string"
+        },
+        "publicKey": {
+          "$ref": "PublicKey"
+        },
+        "use": {
+          "type": "string"
+        }
+      }
+    },
+    "MasterKeysView": {
+      "id": "MasterKeysView",
+      "required": [
+        "encryptedValue",
+        "keyId"
+      ],
+      "properties": {
+        "encryptedValue": {
+          "type": "array",
+          "items": {
+            "type": "byte"
+          }
+        },
+        "keyId": {
+          "type": "string"
+        }
+      }
+    },
+    "ExportData": {
+      "id": "ExportData",
+      "required": [
+        "data",
+        "encryptionKey",
+        "masterKeys",
+        "version"
+      ],
+      "properties": {
+        "data": {
+          "$ref": "ExportEntities"
+        },
+        "encryptionKey": {
+          "$ref": "JsonWebKey"
+        },
+        "masterKeys": {
+          "$ref": "MasterKeysView"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "Key": {
+      "id": "Key",
+      "required": [
+        "algorithm",
+        "encoded",
+        "format"
+      ],
+      "properties": {
+        "algorithm": {
+          "type": "string"
+        },
+        "encoded": {
+          "type": "array",
+          "items": {
+            "type": "byte"
+          }
+        },
+        "format": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
