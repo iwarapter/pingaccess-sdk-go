@@ -1,0 +1,230 @@
+{
+  "apiVersion": "5.2.1.3",
+  "swaggerVersion": "1.2",
+  "basePath": "https://localhost:9000/pa-admin-api/v3",
+  "resourcePath": "/pingone",
+  "apis": [
+    {
+      "path": "/pingone/customers",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the PingOne For Customers configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deletePingOne4CCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the PingOne For Customers configuration",
+          "notes": "",
+          "type": "PingOne4CView",
+          "nickname": "getPingOne4CCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the PingOne For Customers configuration",
+          "notes": "",
+          "type": "PingOne4CView",
+          "nickname": "updatePingOne4CCommand",
+          "parameters": [
+            {
+              "name": "PingOneForCustomers",
+              "description": "PingOne For Customers configuration",
+              "required": true,
+              "allowMultiple": false,
+              "type": "PingOne4CView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/pingone/customers/metadata",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the Ping One for Customers metadata",
+          "notes": "",
+          "type": "OIDCProviderMetadata",
+          "nickname": "getPingOne4CMetadataCommand",
+          "parameters": []
+        }
+      ]
+    }
+  ],
+  "models": {
+    "PingOne4CView": {
+      "id": "PingOne4CView",
+      "description": "The Ping One for Customers OIDC provider configuration.",
+      "required": [
+        "issuer"
+      ],
+      "properties": {
+        "description": {
+          "type": "string",
+          "description": "The description of the Ping One for Customers OIDC provider."
+        },
+        "issuer": {
+          "type": "string",
+          "description": "The issuer url of the Ping One for Customers OIDC provider."
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The group of certificates to use when authenticating to Ping One for Customers OIDC provider."
+        },
+        "useProxy": {
+          "type": "boolean",
+          "description": "True if a proxy should be used for HTTPS requests."
+        }
+      }
+    },
+    "OIDCProviderMetadata": {
+      "id": "OIDCProviderMetadata",
+      "required": [
+        "authorization_endpoint",
+        "claim_types_supported",
+        "claims_parameter_supported",
+        "claims_supported",
+        "code_challenge_methods_supported",
+        "end_session_endpoint",
+        "grant_types_supported",
+        "id_token_signing_alg_values_supported",
+        "introspection_endpoint",
+        "issuer",
+        "jwks_uri",
+        "ping_end_session_endpoint",
+        "ping_revoked_sris_endpoint",
+        "request_object_signing_alg_values_supported",
+        "request_parameter_supported",
+        "request_uri_parameter_supported",
+        "response_modes_supported",
+        "response_types_supported",
+        "revocation_endpoint",
+        "scopes_supported",
+        "subject_types_supported",
+        "token_endpoint",
+        "token_endpoint_auth_methods_supported",
+        "userinfo_endpoint",
+        "userinfo_signing_alg_values_supported"
+      ],
+      "properties": {
+        "authorization_endpoint": {
+          "type": "string"
+        },
+        "claim_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "claims_parameter_supported": {
+          "type": "boolean"
+        },
+        "claims_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "code_challenge_methods_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "end_session_endpoint": {
+          "type": "string"
+        },
+        "grant_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "id_token_signing_alg_values_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "introspection_endpoint": {
+          "type": "string"
+        },
+        "issuer": {
+          "type": "string"
+        },
+        "jwks_uri": {
+          "type": "string"
+        },
+        "ping_end_session_endpoint": {
+          "type": "string"
+        },
+        "ping_revoked_sris_endpoint": {
+          "type": "string"
+        },
+        "request_object_signing_alg_values_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "request_parameter_supported": {
+          "type": "boolean"
+        },
+        "request_uri_parameter_supported": {
+          "type": "boolean"
+        },
+        "response_modes_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "response_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "revocation_endpoint": {
+          "type": "string"
+        },
+        "scopes_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "subject_types_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "token_endpoint": {
+          "type": "string"
+        },
+        "token_endpoint_auth_methods_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "userinfo_endpoint": {
+          "type": "string"
+        },
+        "userinfo_signing_alg_values_supported": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

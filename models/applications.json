@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.1.1.0",
+  "apiVersion": "5.2.1.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/applications",
@@ -106,6 +106,44 @@
               "required": true,
               "allowMultiple": false,
               "type": "ApplicationView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/applications/reserved",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the Reserved Application configuration to default values",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteReservedApplicationCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get Reserved Application configuration",
+          "notes": "",
+          "type": "ReservedApplicationView",
+          "nickname": "getReservedApplicationCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update Reserved Application configuration",
+          "notes": "",
+          "type": "ReservedApplicationView",
+          "nickname": "updateReservedApplicationCommand",
+          "parameters": [
+            {
+              "name": "/applications/reserved",
+              "description": "Reserved Application configuration",
+              "required": true,
+              "allowMultiple": false,
+              "type": "ReservedApplicationView",
               "paramType": "body"
             }
           ]
@@ -342,6 +380,28 @@
       ]
     },
     {
+      "path": "/applications/{id}/resourceMatchingEvaluationOrder",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Get the resource path ordering for an Application",
+          "notes": "",
+          "type": "ResourceMatchingEvaluationOrderView",
+          "nickname": "getResourceMatchingEvaluationOrderCommand",
+          "parameters": [
+            {
+              "name": "id",
+              "description": "ID of Application to compute resource ordering for",
+              "required": true,
+              "allowMultiple": false,
+              "type": "string",
+              "paramType": "path"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "path": "/applications/{id}/resources",
       "operations": [
         {
@@ -494,6 +554,16 @@
           "format": "int32",
           "description": "Non-zero if the application is protected by an Authorization Server. Only applies to applications of type API."
         },
+        "agentCacheInvalidatedExpiration": {
+          "type": "integer",
+          "format": "int64",
+          "description": "(DEPRECATED - to be removed in a future release; this field is no longer used when processing requests for an application.)"
+        },
+        "agentCacheInvalidatedResponseDuration": {
+          "type": "integer",
+          "format": "int32",
+          "description": "(DEPRECATED - to be removed in a future release; this field is no longer used when processing requests for an application.)"
+        },
         "agentId": {
           "type": "integer",
           "format": "int32",
@@ -543,6 +613,11 @@
         "identityMappingIds": {
           "$ref": "Map[string,int]",
           "description": "A map of Identity Mappings associated with the application. The key is 'Web' or 'API' and the value is an Identity Mapping ID."
+        },
+        "lastModified": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The last modified time of the configuration for this application, its resources and associated policy, as the number of milliseconds since January 1, 1970, 00:00:00 GMT. This field is read-only."
         },
         "manualOrderingEnabled": {
           "type": "boolean",
@@ -613,6 +688,37 @@
             "WILDCARD",
             "REGEX"
           ]
+        }
+      }
+    },
+    "LinkView": {
+      "id": "LinkView",
+      "description": "A reference to the associated resource",
+      "required": [
+        "id",
+        "location"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The id of the associated resource"
+        },
+        "location": {
+          "type": "string",
+          "description": "An absolute path to the associated resource"
+        }
+      }
+    },
+    "ReservedApplicationView": {
+      "id": "ReservedApplicationView",
+      "description": "The reserved application.",
+      "required": [
+        "contextRoot"
+      ],
+      "properties": {
+        "contextRoot": {
+          "type": "string",
+          "description": "The context root for the reserved application."
         }
       }
     },
@@ -745,6 +851,71 @@
         "name": {
           "type": "string",
           "description": "HTTP Method name"
+        }
+      }
+    },
+    "ResourceMatchingEvaluationOrderView": {
+      "id": "ResourceMatchingEvaluationOrderView",
+      "description": "Specifies an ordering of Resource Matching Entries.",
+      "required": [
+        "entries"
+      ],
+      "properties": {
+        "entries": {
+          "type": "array",
+          "description": "Resource Matching Entries.",
+          "items": {
+            "$ref": "ResourceMatchingEntryView"
+          }
+        }
+      }
+    },
+    "ResourceMatchingEntryView": {
+      "id": "ResourceMatchingEntryView",
+      "description": "A resource matching entry.",
+      "required": [
+        "link",
+        "methods",
+        "name",
+        "pattern",
+        "patternType",
+        "type"
+      ],
+      "properties": {
+        "link": {
+          "$ref": "LinkView",
+          "description": "A link to the associated resource."
+        },
+        "methods": {
+          "$ref": "Set",
+          "description": "A set of HTTP methods configured for the resource, or '*' to indicate any method.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the associated resource."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "A path-matching pattern, relative to the Application context root (interpreted according to the pattern 'type')."
+        },
+        "patternType": {
+          "$ref": "PathPatternType",
+          "description": "The pattern syntax type.",
+          "enum": [
+            "WILDCARD",
+            "REGEX"
+          ]
+        },
+        "type": {
+          "$ref": "EntryType",
+          "description": "The enumerated type of the associated resource.",
+          "enum": [
+            "ApplicationResource",
+            "GlobalUnprotectedResource"
+          ]
         }
       }
     }

@@ -2,17 +2,17 @@
   "apiVersion": "5.2.1.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/siteAuthenticators",
+  "resourcePath": "/accessTokenValidators",
   "apis": [
     {
-      "path": "/siteAuthenticators",
+      "path": "/accessTokenValidators",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Site Authenticators",
+          "summary": "Get all Access Token Validators",
           "notes": "",
-          "type": "SiteAuthenticatorsView",
-          "nickname": "getSiteAuthenticatorsCommand",
+          "type": "AccessTokenValidatorsView",
+          "nickname": "getAccessTokenValidatorsCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Site Authenticators per page",
+              "description": "Number of Access Token Validators per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,7 +34,7 @@
             },
             {
               "name": "filter",
-              "description": "Search for Site Authenticators with name matching filter text",
+              "description": "Search for Access Token Validator with name matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -42,7 +42,7 @@
             },
             {
               "name": "name",
-              "description": "Get a Site Authenticator by name (case-sensitive)",
+              "description": "Get a specific Access Token Validator by name (case-sensitive)",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +50,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Site Authenticator attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of Access Token Validator attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +68,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create a Site Authenticator",
+          "summary": "Create an Access Token Validator",
           "notes": "",
-          "type": "SiteAuthenticatorView",
-          "nickname": "addSiteAuthenticatorCommand",
+          "type": "AccessTokenValidatorView",
+          "nickname": "addAccessTokenValidatorCommand",
           "parameters": [
             {
-              "name": "SiteAuthenticator",
-              "description": "Site Authenticator to add",
+              "name": "AccessTokenValidator",
+              "description": "Availability Profile to add",
               "required": true,
               "allowMultiple": false,
-              "type": "SiteAuthenticatorView",
+              "type": "AccessTokenValidatorView",
               "paramType": "body"
             }
           ]
@@ -86,53 +86,31 @@
       ]
     },
     {
-      "path": "/siteAuthenticators/descriptors",
+      "path": "/accessTokenValidators/descriptors",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptors for all supported Site Authenticator types",
+          "summary": "Get descriptors for all Access Token Validators",
           "notes": "",
           "type": "DescriptorsView",
-          "nickname": "getSiteAuthenticatorDescriptorsCommand",
+          "nickname": "getAccessTokenValidatorDescriptorsCommand",
           "parameters": []
         }
       ]
     },
     {
-      "path": "/siteAuthenticators/descriptors/{siteAuthenticatorType}",
-      "operations": [
-        {
-          "method": "GET",
-          "summary": "Get descriptor for a Site Authenticator type",
-          "notes": "",
-          "type": "DescriptorView",
-          "nickname": "getSiteAuthenticatorDescriptorCommand",
-          "parameters": [
-            {
-              "name": "siteAuthenticatorType",
-              "description": "Site Authenticator descriptor to retrieve",
-              "required": false,
-              "allowMultiple": false,
-              "type": "string",
-              "paramType": "path"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "path": "/siteAuthenticators/{id}",
+      "path": "/accessTokenValidators/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete a Site Authenticator",
+          "summary": "Delete a Access Token Validator",
           "notes": "",
           "type": "void",
-          "nickname": "deleteSiteAuthenticatorCommand",
+          "nickname": "deleteAccessTokenValidatorCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Site Authenticator to delete",
+              "description": "ID of Access Token Validator to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -142,14 +120,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get a Site Authenticator",
+          "summary": "Get an Access Token Validator",
           "notes": "",
-          "type": "SiteAuthenticatorView",
-          "nickname": "getSiteAuthenticatorCommand",
+          "type": "AccessTokenValidatorView",
+          "nickname": "getAccessTokenValidatorCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Site Authenticator to get",
+              "description": "ID of Access Token Validator to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -159,25 +137,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update a Site Authenticator",
+          "summary": "Update an Access Token Validator",
           "notes": "",
-          "type": "SiteAuthenticatorView",
-          "nickname": "updateSiteAuthenticatorCommand",
+          "type": "RejectionHandlerView",
+          "nickname": "updateAccessTokenValidatorCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Site Authenticator to update",
+              "description": "ID of Access Token Validator to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "SiteAuthenticator",
-              "description": "Site Authenticator to update",
+              "name": "AccessTokenValidator",
+              "description": "Access Token Validator to update",
               "required": true,
               "allowMultiple": false,
-              "type": "SiteAuthenticatorView",
+              "type": "RejectionHandlerView",
               "paramType": "body"
             }
           ]
@@ -186,21 +164,6 @@
     }
   ],
   "models": {
-    "SiteAuthenticatorsView": {
-      "id": "SiteAuthenticatorsView",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "description": "The actual list of site authenticators.",
-          "items": {
-            "$ref": "SiteAuthenticatorView"
-          }
-        }
-      }
-    },
     "ConfigurationParentField": {
       "id": "ConfigurationParentField",
       "description": "Configuration of the parent field.",
@@ -219,6 +182,54 @@
         "fieldName": {
           "type": "string",
           "description": "The configuration parent field name."
+        }
+      }
+    },
+    "AccessTokenValidatorView": {
+      "id": "AccessTokenValidatorView",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "(sortable) The access token validator's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The access token validator's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The access token validator's name."
+        }
+      }
+    },
+    "RejectionHandlerView": {
+      "id": "RejectionHandlerView",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "className": {
+          "type": "string",
+          "description": "(sortable) The rejection handler's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The rejection handler's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The rejection handler's name."
         }
       }
     },
@@ -308,28 +319,6 @@
         }
       }
     },
-    "SiteAuthenticatorView": {
-      "id": "SiteAuthenticatorView",
-      "required": [
-        "className",
-        "configuration",
-        "name"
-      ],
-      "properties": {
-        "className": {
-          "type": "string",
-          "description": "(sortable) The site authenticator's class name."
-        },
-        "configuration": {
-          "$ref": "Map[string,java.lang.Object]",
-          "description": "The site authenticator's configuration data."
-        },
-        "name": {
-          "type": "string",
-          "description": "(sortable) The site authenticator's name."
-        }
-      }
-    },
     "DescriptorsView": {
       "id": "DescriptorsView",
       "required": [
@@ -409,6 +398,21 @@
         "url": {
           "type": "string",
           "description": "The help URL for the configuration field."
+        }
+      }
+    },
+    "AccessTokenValidatorsView": {
+      "id": "AccessTokenValidatorsView",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of access token validators.",
+          "items": {
+            "$ref": "AccessTokenValidatorView"
+          }
         }
       }
     },

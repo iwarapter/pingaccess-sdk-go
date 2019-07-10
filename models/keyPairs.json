@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.1.1.0",
+  "apiVersion": "5.2.1.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/keyPairs",
@@ -131,7 +131,7 @@
         {
           "method": "GET",
           "summary": "Get the valid General Names for creating Subject Alternative Names",
-          "notes": "Get the valid General Names for creating Subject Alternative Names",
+          "notes": "",
           "type": "SanTypes",
           "nickname": "getKeypairsCreatableGeneralNamesCommand",
           "parameters": []

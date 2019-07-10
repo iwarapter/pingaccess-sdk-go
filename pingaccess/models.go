@@ -5,6 +5,19 @@ import (
 	"time"
 )
 
+//AccessTokenValidatorView
+type AccessTokenValidatorView struct {
+	ClassName     *string                `json:"className"`
+	Configuration map[string]interface{} `json:"configuration"`
+	Id            json.Number            `json:"id,omitempty"`
+	Name          *string                `json:"name"`
+}
+
+//AccessTokenValidatorsView
+type AccessTokenValidatorsView struct {
+	Items []*AccessTokenValidatorView `json:"items"`
+}
+
 //AdminBasicWebSessionView
 type AdminBasicWebSessionView struct {
 	Audience                     *string `json:"audience"`
@@ -100,27 +113,30 @@ type AlgorithmsView struct {
 
 //ApplicationView - An application.
 type ApplicationView struct {
-	AccessValidatorId     *int                      `json:"accessValidatorId,omitempty"`
-	AgentId               *int                      `json:"agentId"`
-	ApplicationType       *string                   `json:"applicationType,omitempty"`
-	CaseSensitivePath     *bool                     `json:"caseSensitivePath,omitempty"`
-	ContextRoot           *string                   `json:"contextRoot"`
-	DefaultAuthType       *string                   `json:"defaultAuthType"`
-	Description           *string                   `json:"description,omitempty"`
-	Destination           *string                   `json:"destination,omitempty"`
-	Enabled               *bool                     `json:"enabled,omitempty"`
-	Id                    json.Number               `json:"id,omitempty"`
-	IdentityMappingIds    map[string]*int           `json:"identityMappingIds,omitempty"`
-	ManualOrderingEnabled *bool                     `json:"manualOrderingEnabled,omitempty"`
-	Name                  *string                   `json:"name"`
-	Policy                map[string]*[]*PolicyItem `json:"policy,omitempty"`
-	Realm                 *string                   `json:"realm,omitempty"`
-	RequireHTTPS          *bool                     `json:"requireHTTPS,omitempty"`
-	ResourceOrder         *[]*int                   `json:"resourceOrder,omitempty"`
-	SiteId                *int                      `json:"siteId"`
-	SpaSupportEnabled     *bool                     `json:"spaSupportEnabled"`
-	VirtualHostIds        *[]*int                   `json:"virtualHostIds"`
-	WebSessionId          *int                      `json:"webSessionId,omitempty"`
+	AccessValidatorId                     *int                      `json:"accessValidatorId,omitempty"`
+	AgentCacheInvalidatedExpiration       *int                      `json:"agentCacheInvalidatedExpiration,omitempty"`
+	AgentCacheInvalidatedResponseDuration *int                      `json:"agentCacheInvalidatedResponseDuration,omitempty"`
+	AgentId                               *int                      `json:"agentId"`
+	ApplicationType                       *string                   `json:"applicationType,omitempty"`
+	CaseSensitivePath                     *bool                     `json:"caseSensitivePath,omitempty"`
+	ContextRoot                           *string                   `json:"contextRoot"`
+	DefaultAuthType                       *string                   `json:"defaultAuthType"`
+	Description                           *string                   `json:"description,omitempty"`
+	Destination                           *string                   `json:"destination,omitempty"`
+	Enabled                               *bool                     `json:"enabled,omitempty"`
+	Id                                    json.Number               `json:"id,omitempty"`
+	IdentityMappingIds                    map[string]*int           `json:"identityMappingIds,omitempty"`
+	LastModified                          *int                      `json:"lastModified,omitempty"`
+	ManualOrderingEnabled                 *bool                     `json:"manualOrderingEnabled,omitempty"`
+	Name                                  *string                   `json:"name"`
+	Policy                                map[string]*[]*PolicyItem `json:"policy,omitempty"`
+	Realm                                 *string                   `json:"realm,omitempty"`
+	RequireHTTPS                          *bool                     `json:"requireHTTPS,omitempty"`
+	ResourceOrder                         *[]*int                   `json:"resourceOrder,omitempty"`
+	SiteId                                *int                      `json:"siteId"`
+	SpaSupportEnabled                     *bool                     `json:"spaSupportEnabled"`
+	VirtualHostIds                        *[]*int                   `json:"virtualHostIds"`
+	WebSessionId                          *int                      `json:"webSessionId,omitempty"`
 }
 
 //ApplicationsView - A collection of applications.
@@ -459,13 +475,13 @@ type ItemView struct {
 
 //JsonWebKey
 type JsonWebKey struct {
-	Algorithm *string                `json:"algorithm"`
-	Key       *Key                   `json:"key"`
-	KeyId     *string                `json:"keyId"`
-	KeyOps    *[]*string             `json:"keyOps"`
-	KeyType   *string                `json:"keyType"`
-	PublicKey map[string]interface{} `json:"publicKey"`
-	Use       *string                `json:"use"`
+	Algorithm *string        `json:"algorithm"`
+	Key       *Key           `json:"key"`
+	KeyId     *string        `json:"keyId"`
+	KeyOps    *[]*string     `json:"keyOps"`
+	KeyType   *string        `json:"keyType"`
+	PublicKey *PublicKeyView `json:"publicKey"`
+	Use       *string        `json:"use"`
 }
 
 //Key
@@ -538,6 +554,12 @@ type LicenseView struct {
 	Version         *string `json:"version"`
 }
 
+//LinkView - A reference to the associated resource
+type LinkView struct {
+	Id       *string `json:"id"`
+	Location *string `json:"location"`
+}
+
 //List
 type List struct {
 	Empty *bool `json:"empty"`
@@ -604,27 +626,39 @@ type OAuthConfigView struct {
 	SubjectAttributeName *string                       `json:"subjectAttributeName,omitempty"`
 }
 
+//OAuthKeyManagementView
+type OAuthKeyManagementView struct {
+	KeyRollEnabled       *bool `json:"keyRollEnabled,omitempty"`
+	KeyRollPeriodInHours *int  `json:"keyRollPeriodInHours,omitempty"`
+}
+
 //OIDCProviderMetadata
 type OIDCProviderMetadata struct {
-	Authorization_endpoint                *string    `json:"authorization_endpoint"`
-	Claim_types_supported                 *[]*string `json:"claim_types_supported"`
-	Claims_parameter_supported            *bool      `json:"claims_parameter_supported"`
-	Claims_supported                      *[]*string `json:"claims_supported"`
-	Code_challenge_methods_supported      *[]*string `json:"code_challenge_methods_supported"`
-	End_session_endpoint                  *string    `json:"end_session_endpoint"`
-	Id_token_signing_alg_values_supported *[]*string `json:"id_token_signing_alg_values_supported"`
-	Issuer                                *string    `json:"issuer"`
-	Jwks_uri                              *string    `json:"jwks_uri"`
-	Request_parameter_supported           *bool      `json:"request_parameter_supported"`
-	Request_uri_parameter_supported       *bool      `json:"request_uri_parameter_supported"`
-	Response_modes_supported              *[]*string `json:"response_modes_supported"`
-	Response_types_supported              *[]*string `json:"response_types_supported"`
-	Revocation_endpoint                   *string    `json:"revocation_endpoint"`
-	Scopes_supported                      *[]*string `json:"scopes_supported"`
-	Subject_types_supported               *[]*string `json:"subject_types_supported"`
-	Token_endpoint                        *string    `json:"token_endpoint"`
-	Token_endpoint_auth_methods_supported *[]*string `json:"token_endpoint_auth_methods_supported"`
-	Userinfo_endpoint                     *string    `json:"userinfo_endpoint"`
+	Authorization_endpoint                      *string    `json:"authorization_endpoint"`
+	Claim_types_supported                       *[]*string `json:"claim_types_supported"`
+	Claims_parameter_supported                  *bool      `json:"claims_parameter_supported"`
+	Claims_supported                            *[]*string `json:"claims_supported"`
+	Code_challenge_methods_supported            *[]*string `json:"code_challenge_methods_supported"`
+	End_session_endpoint                        *string    `json:"end_session_endpoint"`
+	Grant_types_supported                       *[]*string `json:"grant_types_supported"`
+	Id_token_signing_alg_values_supported       *[]*string `json:"id_token_signing_alg_values_supported"`
+	Introspection_endpoint                      *string    `json:"introspection_endpoint"`
+	Issuer                                      *string    `json:"issuer"`
+	Jwks_uri                                    *string    `json:"jwks_uri"`
+	Ping_end_session_endpoint                   *string    `json:"ping_end_session_endpoint"`
+	Ping_revoked_sris_endpoint                  *string    `json:"ping_revoked_sris_endpoint"`
+	Request_object_signing_alg_values_supported *[]*string `json:"request_object_signing_alg_values_supported"`
+	Request_parameter_supported                 *bool      `json:"request_parameter_supported"`
+	Request_uri_parameter_supported             *bool      `json:"request_uri_parameter_supported"`
+	Response_modes_supported                    *[]*string `json:"response_modes_supported"`
+	Response_types_supported                    *[]*string `json:"response_types_supported"`
+	Revocation_endpoint                         *string    `json:"revocation_endpoint"`
+	Scopes_supported                            *[]*string `json:"scopes_supported"`
+	Subject_types_supported                     *[]*string `json:"subject_types_supported"`
+	Token_endpoint                              *string    `json:"token_endpoint"`
+	Token_endpoint_auth_methods_supported       *[]*string `json:"token_endpoint_auth_methods_supported"`
+	Userinfo_endpoint                           *string    `json:"userinfo_endpoint"`
+	Userinfo_signing_alg_values_supported       *[]*string `json:"userinfo_signing_alg_values_supported"`
 }
 
 //OIDCProviderPluginView
@@ -723,6 +757,14 @@ type PingFederateRuntimeView struct {
 	UseSlo                    *bool      `json:"useSlo,omitempty"`
 }
 
+//PingOne4CView - The Ping One for Customers OIDC provider configuration.
+type PingOne4CView struct {
+	Description               *string `json:"description,omitempty"`
+	Issuer                    *string `json:"issuer"`
+	TrustedCertificateGroupId *int    `json:"trustedCertificateGroupId,omitempty"`
+	UseProxy                  *bool   `json:"useProxy,omitempty"`
+}
+
 //PolicyItem - The policy items associated with the application
 type PolicyItem struct {
 	Id   json.Number `json:"id,omitempty"`
@@ -799,6 +841,27 @@ type RequestPreservationTypesView struct {
 //RequiredAttributeMappingView - A set of user attributes that define a mandatory role mapping.
 type RequiredAttributeMappingView struct {
 	Attributes []*AttributeView `json:"attributes"`
+}
+
+//ReservedApplicationView - The reserved application.
+type ReservedApplicationView struct {
+	ContextRoot *string `json:"contextRoot"`
+}
+
+//ResourceMatchingEntryView - A resource matching entry.
+type ResourceMatchingEntryView struct {
+	Link        *LinkView  `json:"link"`
+	Methods     *[]*string `json:"methods"`
+	Name        *string    `json:"name"`
+	Pattern     *string    `json:"pattern"`
+	PatternType *string    `json:"patternType"`
+	Type        *string    `json:"type"`
+}
+
+//ResourceMatchingEvaluationOrderView - Specifies an ordering of Resource Matching Entries.
+type ResourceMatchingEvaluationOrderView struct {
+	Entries []*ResourceMatchingEntryView `json:"entries"`
+	Id      json.Number                  `json:"id,omitempty"`
 }
 
 //ResourceOrderView - Specifies an ordering of Application Resources.
@@ -1010,7 +1073,8 @@ type ThirdPartyServicesView struct {
 
 //TokenProviderSettingView
 type TokenProviderSettingView struct {
-	UseThirdParty *bool `json:"useThirdParty,omitempty"`
+	Type          *string `json:"type,omitempty"`
+	UseThirdParty *bool   `json:"useThirdParty,omitempty"`
 }
 
 //TrustedCertView

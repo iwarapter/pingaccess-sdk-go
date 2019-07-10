@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.1.1.0",
+  "apiVersion": "5.2.1.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/webSessions",
@@ -10,7 +10,7 @@
         {
           "method": "GET",
           "summary": "Get all WebSessions",
-          "notes": "Gets all defined WebSessions",
+          "notes": "",
           "type": "WebSessionsView",
           "nickname": "getWebSessionsCommand",
           "parameters": [
@@ -69,7 +69,7 @@
         {
           "method": "POST",
           "summary": "Create a WebSession",
-          "notes": "Add a WebSession",
+          "notes": "",
           "type": "WebSessionView",
           "nickname": "addWebSessionCommand",
           "parameters": [
@@ -117,7 +117,8 @@
               "description": "ID of WebSession to get",
               "required": true,
               "allowMultiple": false,
-              "type": "WebSessionView",
+              "type": "integer",
+              "format": "int32",
               "paramType": "path"
             }
           ]

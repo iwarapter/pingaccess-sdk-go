@@ -92,6 +92,67 @@ type AddApplicationCommandInput struct {
 	Body ApplicationView
 }
 
+//DeleteReservedApplicationCommand - Resets the Reserved Application configuration to default values
+//RequestType: DELETE
+//Input:
+func (s *ApplicationsService) DeleteReservedApplicationCommand() (resp *http.Response, err error) {
+	path := "/applications/reserved"
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
+	req, err := s.client.newRequest("DELETE", rel, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err = s.client.do(req, nil)
+	if err != nil {
+		return resp, err
+	}
+	return resp, nil
+
+}
+
+//GetReservedApplicationCommand - Get Reserved Application configuration
+//RequestType: GET
+//Input:
+func (s *ApplicationsService) GetReservedApplicationCommand() (result *ReservedApplicationView, resp *http.Response, err error) {
+	path := "/applications/reserved"
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
+	req, err := s.client.newRequest("GET", rel, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resp, err = s.client.do(req, &result)
+	if err != nil {
+		return result, resp, err
+	}
+	return result, resp, nil
+
+}
+
+//UpdateReservedApplicationCommand - Update Reserved Application configuration
+//RequestType: PUT
+//Input: input *UpdateReservedApplicationCommandInput
+func (s *ApplicationsService) UpdateReservedApplicationCommand(input *UpdateReservedApplicationCommandInput) (result *ReservedApplicationView, resp *http.Response, err error) {
+	path := "/applications/reserved"
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
+	req, err := s.client.newRequest("PUT", rel, input.Body)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resp, err = s.client.do(req, &result)
+	if err != nil {
+		return result, resp, err
+	}
+	return result, resp, nil
+
+}
+
+type UpdateReservedApplicationCommandInput struct {
+	Body ReservedApplicationView
+}
+
 //GetResourcesCommand - Get all Resources
 //RequestType: GET
 //Input: input *GetResourcesCommandInput
@@ -318,6 +379,31 @@ func (s *ApplicationsService) UpdateApplicationCommand(input *UpdateApplicationC
 type UpdateApplicationCommandInput struct {
 	Body ApplicationView
 	Id   string
+}
+
+//GetResourceMatchingEvaluationOrderCommand - Get the resource path ordering for an Application
+//RequestType: GET
+//Input: input *GetResourceMatchingEvaluationOrderCommandInput
+func (s *ApplicationsService) GetResourceMatchingEvaluationOrderCommand(input *GetResourceMatchingEvaluationOrderCommandInput) (result *ResourceMatchingEvaluationOrderView, resp *http.Response, err error) {
+	path := "/applications/{id}/resourceMatchingEvaluationOrder"
+	path = strings.Replace(path, "{id}", input.Id, -1)
+
+	rel := &url.URL{Path: fmt.Sprintf("%s%s", s.client.Context, path)}
+	req, err := s.client.newRequest("GET", rel, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	resp, err = s.client.do(req, &result)
+	if err != nil {
+		return result, resp, err
+	}
+	return result, resp, nil
+
+}
+
+type GetResourceMatchingEvaluationOrderCommandInput struct {
+	Id string
 }
 
 //GetApplicationResourcesCommand - Get Resources for an Application
