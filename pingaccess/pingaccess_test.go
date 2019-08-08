@@ -11,6 +11,7 @@ import (
 	"reflect"
 	"runtime"
 	"testing"
+	"time"
 
 	"github.com/ory/dockertest"
 )
@@ -18,25 +19,25 @@ import (
 var paURL *url.URL
 
 func TestMain(m *testing.M) {
-
+	log.Println("Initializing docker container")
 	pool, err := dockertest.NewPool("")
 	if err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
-	dir, _ := os.Getwd()
 	options := &dockertest.RunOptions{
 		Repository: "pingidentity/pingaccess",
-		Tag:        "latest",
-		Mounts:     []string{dir + "/pingaccess.lic:/opt/in/instance/conf/pingaccess.lic"},
+		Tag:        "5.2.2-edge",
 	}
 
 	// pulls an image, creates a container based on it and runs it
 	resource, err := pool.RunWithOptions(options)
+	resource.Expire(60)
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 
+	pool.MaxWait = time.Minute * 2
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
 	if err := pool.Retry(func() error {
 		var err error
@@ -44,14 +45,17 @@ func TestMain(m *testing.M) {
 		paURL, _ = url.Parse(fmt.Sprintf("https://localhost:%s", resource.GetPort("9000/tcp")))
 		client := NewClient("Administrator", "2Access", paURL, "/pa-admin-api/v3", nil)
 
-		_, _, err = client.Applications.GetApplicationsCommand(&GetApplicationsCommandInput{})
+		log.Println("Attempting to connect to PingAccess admin API....")
+		_, _, err = client.Version.VersionCommand()
 		return err
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
+	log.Println("Connected to PingAccess admin API....")
 	code := m.Run()
 
+	log.Println("Tests complete shutting down container")
 	// You can't defer this because os.Exit doesn't care for defer
 	if err := pool.Purge(resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)
