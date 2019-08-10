@@ -19,8 +19,6 @@ sonar:
 	@sonar-scanner \
 		-Dsonar.projectKey=github.com.iwarapter.pingaccess-sdk-go \
 		-Dsonar.sources=. \
-		-Dsonar.host.url=http://localhost:9001 \
-		-Dsonar.login=28d86a90f2e4ae9563b4501cbc99de7522219c88 \
 		-Dsonar.go.coverage.reportPaths=coverage.out \
 		-Dsonar.go.tests.reportPaths=report.json \
 		-Dsonar.exclusions=vendor \
