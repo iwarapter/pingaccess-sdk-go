@@ -152,7 +152,7 @@ type GetAccessTokenValidatorCommandInput struct {
 //UpdateAccessTokenValidatorCommand - Update an Access Token Validator
 //RequestType: PUT
 //Input: input *UpdateAccessTokenValidatorCommandInput
-func (s *AccessTokenValidatorsService) UpdateAccessTokenValidatorCommand(input *UpdateAccessTokenValidatorCommandInput) (result *RejectionHandlerView, resp *http.Response, err error) {
+func (s *AccessTokenValidatorsService) UpdateAccessTokenValidatorCommand(input *UpdateAccessTokenValidatorCommandInput) (result *AccessTokenValidatorView, resp *http.Response, err error) {
 	path := "/accessTokenValidators/{id}"
 	path = strings.Replace(path, "{id}", input.Id, -1)
 
@@ -171,6 +171,6 @@ func (s *AccessTokenValidatorsService) UpdateAccessTokenValidatorCommand(input *
 }
 
 type UpdateAccessTokenValidatorCommandInput struct {
-	Body RejectionHandlerView
+	Body AccessTokenValidatorView
 	Id   string
 }

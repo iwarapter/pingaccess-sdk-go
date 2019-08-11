@@ -46,7 +46,7 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 	//update the access token validator
 	input3 := UpdateAccessTokenValidatorCommandInput{
 		Id: result1.Id.String(),
-		Body: RejectionHandlerView{
+		Body: AccessTokenValidatorView{
 			Name:      String("foo"),
 			ClassName: String("com.pingidentity.pa.accesstokenvalidators.JwksEndpoint"),
 			Configuration: map[string]interface{}{
