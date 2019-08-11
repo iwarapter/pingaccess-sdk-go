@@ -17,6 +17,7 @@ type Client struct {
 	Context    string
 	httpClient *http.Client
 
+	AccessTokenValidators      *AccessTokenValidatorsService
 	AdminConfigs               *AdminConfigService
 	AdminSessions              *AdminSessionInfoService
 	Agents                     *AgentsService
@@ -36,8 +37,10 @@ type Client struct {
 	KeyPairs                   *KeyPairsService
 	License                    *LicenseService
 	OAuth                      *OauthService
+	OauthKeyManagement         *OauthKeyManagementService
 	Oidc                       *OidcService
 	PingFederate               *PingfederateService
+	PingOne                    *PingoneService
 	Proxies                    *ProxiesService
 	Redirects                  *RedirectsService
 	RejectionHandlers          *RejectionHandlersService
@@ -70,6 +73,7 @@ func NewClient(username string, password string, baseUrl *url.URL, context strin
 	c.BaseURL = baseUrl
 	c.Context = context
 
+	c.AccessTokenValidators = &AccessTokenValidatorsService{client: c}
 	c.AdminConfigs = &AdminConfigService{client: c}
 	c.AdminSessions = &AdminSessionInfoService{client: c}
 	c.Agents = &AgentsService{client: c}
