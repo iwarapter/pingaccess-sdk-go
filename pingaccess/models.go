@@ -218,7 +218,7 @@ type CSRResponseImportDocView struct {
 //ChainCertificateView
 type ChainCertificateView struct {
 	Alias                   *string        `json:"alias"`
-	Expires                 *string        `json:"expires"`
+	Expires                 json.Number    `json:"expires"`
 	Id                      *int           `json:"id,omitempty"`
 	IssuerDn                *string        `json:"issuerDn"`
 	Md5sum                  *string        `json:"md5sum"`
@@ -229,7 +229,7 @@ type ChainCertificateView struct {
 	SubjectAlternativeNames []*GeneralName `json:"subjectAlternativeNames,omitempty"`
 	SubjectCn               *string        `json:"subjectCn,omitempty"`
 	SubjectDn               *string        `json:"subjectDn"`
-	ValidFrom               *string        `json:"validFrom"`
+	ValidFrom               json.Number    `json:"validFrom"`
 }
 
 //ChainCertificates
@@ -510,7 +510,7 @@ type KeyPairView struct {
 	Alias                   *string                 `json:"alias"`
 	ChainCertificates       []*ChainCertificateView `json:"chainCertificates,omitempty"`
 	CsrPending              *bool                   `json:"csrPending"`
-	Expires                 *string                 `json:"expires"`
+	Expires                 json.Number             `json:"expires"`
 	Id                      json.Number             `json:"id,omitempty"`
 	IssuerDn                *string                 `json:"issuerDn"`
 	Md5sum                  *string                 `json:"md5sum"`
@@ -521,7 +521,7 @@ type KeyPairView struct {
 	SubjectAlternativeNames []*GeneralName          `json:"subjectAlternativeNames,omitempty"`
 	SubjectCn               *string                 `json:"subjectCn,omitempty"`
 	SubjectDn               *string                 `json:"subjectDn"`
-	ValidFrom               *string                 `json:"validFrom"`
+	ValidFrom               json.Number             `json:"validFrom"`
 }
 
 //KeyPairsView
