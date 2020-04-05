@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/unknownResources",
@@ -46,6 +46,7 @@
   "models": {
     "UnknownResourceSettingsView": {
       "id": "UnknownResourceSettingsView",
+      "description": "Global settings for unknown resources.",
       "required": [
         "agentDefaultCacheTTL",
         "agentDefaultMode",
@@ -65,6 +66,14 @@
           "enum": [
             "DENY",
             "PASSTHROUGH"
+          ]
+        },
+        "auditLevel": {
+          "$ref": "AuditLevel",
+          "description": "Indicates if audit logging is enabled for unknown resources.",
+          "enum": [
+            "ON",
+            "OFF"
           ]
         },
         "errorContentType": {

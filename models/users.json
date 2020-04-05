@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/users",
@@ -149,12 +149,14 @@
   "models": {
     "UsersView": {
       "id": "UsersView",
+      "description": "A collection of users.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "The actual list of users.",
           "items": {
             "$ref": "UserView"
           }
@@ -163,44 +165,48 @@
     },
     "UserView": {
       "id": "UserView",
+      "description": "A user.",
       "required": [
         "username"
       ],
       "properties": {
         "email": {
           "type": "string",
-          "description": "(sortable) The Administrative account's email"
+          "description": "(sortable) The Administrative account's email."
         },
         "firstLogin": {
           "type": "boolean",
-          "description": "(sortable) The Administrative account's first login indicator"
+          "description": "(sortable) The Administrative account's first login indicator."
         },
         "showTutorial": {
           "type": "boolean",
-          "description": "(sortable) The Administrative account's show tutorial indicator"
+          "description": "(sortable) The Administrative account's show tutorial indicator."
         },
         "slaAccepted": {
           "type": "boolean",
-          "description": "(sortable) The Administrative account's sla acceptance indicator"
+          "description": "(sortable) The Administrative account's sla acceptance indicator."
         },
         "username": {
           "type": "string",
-          "description": "(sortable) The Administrative users's username"
+          "description": "(sortable) The Administrative users's username."
         }
       }
     },
     "UserPasswordView": {
       "id": "UserPasswordView",
+      "description": "Settings to update a password.",
       "required": [
         "currentPassword",
         "newPassword"
       ],
       "properties": {
         "currentPassword": {
-          "type": "string"
+          "type": "string",
+          "description": "The current password."
         },
         "newPassword": {
-          "type": "string"
+          "type": "string",
+          "description": "The new password."
         }
       }
     }

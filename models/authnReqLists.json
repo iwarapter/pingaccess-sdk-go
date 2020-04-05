@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/authnReqLists",
@@ -153,6 +153,7 @@
   "models": {
     "AuthnReqListsView": {
       "id": "AuthnReqListsView",
+      "description": "A collection of authentication requirements lists.",
       "required": [
         "items"
       ],
@@ -168,6 +169,7 @@
     },
     "AuthnReqListView": {
       "id": "AuthnReqListView",
+      "description": "An authentication requirements list.",
       "required": [
         "authnReqs",
         "name"
@@ -175,12 +177,14 @@
       "properties": {
         "authnReqs": {
           "type": "array",
+          "description": "The ordered list of authentication requirements, or identifiers, which define how PingFederate will authenticate a user during the OIDC login flow.",
           "items": {
             "type": "string"
           }
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "(sortable) The name of the authentication requirements list."
         }
       }
     }

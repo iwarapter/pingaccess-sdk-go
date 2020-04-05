@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/sites",
@@ -151,22 +151,6 @@
     }
   ],
   "models": {
-    "SitesView": {
-      "id": "SitesView",
-      "description": "A collection of sites items.",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "description": "The actual list of sites.",
-          "items": {
-            "$ref": "SiteView"
-          }
-        }
-      }
-    },
     "SiteView": {
       "id": "SiteView",
       "description": "A site.",
@@ -246,6 +230,22 @@
         "useTargetHostHeader": {
           "type": "boolean",
           "description": "(sortable) Setting this field to true causes PingAccess to adjust the Host header to the site's selected target host rather than the virtual host configured in the application."
+        }
+      }
+    },
+    "SitesView": {
+      "id": "SitesView",
+      "description": "A collection of sites items.",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "description": "The actual list of sites.",
+          "items": {
+            "$ref": "SiteView"
+          }
         }
       }
     }

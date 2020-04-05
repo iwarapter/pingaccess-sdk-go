@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/oauthKeyManagement",
@@ -76,6 +76,7 @@
   "models": {
     "KeySetView": {
       "id": "KeySetView",
+      "description": "An auth token key set configuration.",
       "required": [
         "keySet",
         "nonce"
@@ -93,6 +94,7 @@
     },
     "OAuthKeyManagementView": {
       "id": "OAuthKeyManagementView",
+      "description": "An OAuth key management configuration.",
       "properties": {
         "keyRollEnabled": {
           "type": "boolean",

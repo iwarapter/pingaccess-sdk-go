@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/version",
@@ -21,13 +21,14 @@
   "models": {
     "VersionDocClass": {
       "id": "VersionDocClass",
+      "description": "A version.",
       "required": [
         "version"
       ],
       "properties": {
         "version": {
           "type": "string",
-          "description": "The version of PingAccess"
+          "description": "The version of PingAccess."
         }
       }
     }

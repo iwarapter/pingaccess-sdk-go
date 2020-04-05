@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/rules",
@@ -111,7 +111,7 @@
             {
               "name": "ruleType",
               "description": "Rule descriptor to retrieve",
-              "required": false,
+              "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
@@ -209,6 +209,7 @@
     },
     "RuleDescriptorView": {
       "id": "RuleDescriptorView",
+      "description": "A rule descriptor.",
       "required": [
         "agentCachingDisabled",
         "category",
@@ -265,6 +266,7 @@
     },
     "RuleView": {
       "id": "RuleView",
+      "description": "A rule.",
       "required": [
         "className",
         "configuration",
@@ -285,7 +287,7 @@
         },
         "supportedDestinations": {
           "$ref": "Set",
-          "description": "The supported destinations for this rule.",
+          "description": "The supported destinations for this rule. This field is read-only and meant to provide contextual metadata on where the rule can be applied.",
           "items": {
             "type": "string"
           }
@@ -294,6 +296,7 @@
     },
     "RuleDescriptorsView": {
       "id": "RuleDescriptorsView",
+      "description": "A collection of rule descriptors.",
       "required": [
         "items"
       ],
@@ -309,6 +312,7 @@
     },
     "RulesView": {
       "id": "RulesView",
+      "description": "A collection of rules.",
       "required": [
         "items"
       ],

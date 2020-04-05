@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/keyPairs",
@@ -76,14 +76,14 @@
           "summary": "Generate a Key Pair",
           "notes": "",
           "type": "KeyPairView",
-          "nickname": "generateKeyPair",
+          "nickname": "generateKeyPairCommand",
           "parameters": [
             {
-              "name": "NewKeyPairConfig",
+              "name": "NewKeyPairConfigView",
               "description": "Configuration for the new Key Pair",
               "required": true,
               "allowMultiple": false,
-              "type": "NewKeyPairConfig",
+              "type": "NewKeyPairConfigView",
               "paramType": "body"
             }
           ]
@@ -179,7 +179,7 @@
           "method": "PATCH",
           "summary": "Update the chainCertificates of a Key Pair",
           "notes": "",
-          "type": "ChainCertificates",
+          "type": "KeyPairView",
           "nickname": "patchKeyPairCommand",
           "parameters": [
             {
@@ -195,7 +195,7 @@
               "description": "A list of base64-encoded Chain Certificates",
               "required": true,
               "allowMultiple": false,
-              "type": "ChainCertificates",
+              "type": "ChainCertificatesDocView",
               "paramType": "body"
             }
           ]
@@ -257,7 +257,7 @@
           "summary": "Generate a Certificate Signing Request for a Key Pair",
           "notes": "Generates a Certificate Signing Request for the Key Pair. The content type of a valid response is application/pkcs10.",
           "type": "void",
-          "nickname": "generateCSR",
+          "nickname": "generateCsrCommand",
           "parameters": [
             {
               "name": "id",
@@ -383,78 +383,9 @@
     }
   ],
   "models": {
-    "NewKeyPairConfig": {
-      "id": "NewKeyPairConfig",
-      "required": [
-        "alias",
-        "city",
-        "commonName",
-        "country",
-        "keyAlgorithm",
-        "keySize",
-        "organization",
-        "organizationUnit",
-        "state",
-        "validDays"
-      ],
-      "properties": {
-        "alias": {
-          "type": "string",
-          "description": "A unique alias name to identify the key pair. Special characters and spaces are allowed."
-        },
-        "city": {
-          "type": "string",
-          "description": "The city or other primary location (L) where the company operates."
-        },
-        "commonName": {
-          "type": "string",
-          "description": "The common name (CN) identifying the certificate."
-        },
-        "country": {
-          "type": "string",
-          "description": "The country (C) where the company is based, using two capital letters."
-        },
-        "keyAlgorithm": {
-          "type": "string",
-          "description": "The key algorithm to use to generate a key."
-        },
-        "keySize": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of bits used in the key.  Choices depend on selected key algorithm."
-        },
-        "organization": {
-          "type": "string",
-          "description": "The organization (O) or company name creating the certificate."
-        },
-        "organizationUnit": {
-          "type": "string",
-          "description": "The specific unit within the organization (OU)."
-        },
-        "signatureAlgorithm": {
-          "type": "string",
-          "description": "The Signature Algorithm to use for the key."
-        },
-        "state": {
-          "type": "string",
-          "description": "The state (ST) or other political unit encompassing the location."
-        },
-        "subjectAlternativeNames": {
-          "type": "array",
-          "description": "Any additional DNS names or IP addresses that are valid for this certificate.",
-          "items": {
-            "$ref": "GeneralName"
-          }
-        },
-        "validDays": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The number of days the certificate is valid."
-        }
-      }
-    },
     "KeyPairsView": {
       "id": "KeyPairsView",
+      "description": "A collection of key pairs.",
       "required": [
         "items"
       ],
@@ -470,14 +401,29 @@
     },
     "CSRResponseImportDocView": {
       "id": "CSRResponseImportDocView",
+      "description": "A CSR response.",
       "required": [
+        "chainCertificates",
         "fileData",
+        "hsmProviderId",
         "trustedCertGroupId"
       ],
       "properties": {
+        "chainCertificates": {
+          "type": "array",
+          "description": "A list of base64-encoded certificates to add to the key pair certificate chain.",
+          "items": {
+            "type": "string"
+          }
+        },
         "fileData": {
           "type": "string",
           "description": "The CSR response data."
+        },
+        "hsmProviderId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HSM Provider ID. The default value is 0 indicating an HSM is not used for this key pair."
         },
         "trustedCertGroupId": {
           "type": "integer",
@@ -488,6 +434,7 @@
     },
     "KeyAlgorithm": {
       "id": "KeyAlgorithm",
+      "description": "A key algorithm.",
       "required": [
         "defaultKeySize",
         "defaultSignatureAlgorithm",
@@ -527,6 +474,7 @@
     },
     "KeyPairView": {
       "id": "KeyPairView",
+      "description": "A key pair.",
       "required": [
         "alias",
         "csrPending",
@@ -565,6 +513,11 @@
           "type": "string",
           "format": "date-time",
           "description": "(sortable) The date at which the key pair expires as the number of milliseconds since January 1, 1970, 00:00:00 GMT."
+        },
+        "hsmProviderId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HSM Provider ID.  The default value is 0 indicating an HSM is not used for this KeyPair."
         },
         "issuerDn": {
           "type": "string",
@@ -623,10 +576,12 @@
     },
     "PKCS12FileImportDocView": {
       "id": "PKCS12FileImportDocView",
+      "description": "A PKCS#12 file.",
       "required": [
         "alias",
         "chainCertificates",
         "fileData",
+        "hsmProviderId",
         "password"
       ],
       "properties": {
@@ -636,6 +591,7 @@
         },
         "chainCertificates": {
           "type": "array",
+          "description": "An array of chain certificates.",
           "items": {
             "type": "string"
           }
@@ -643,6 +599,11 @@
         "fileData": {
           "type": "string",
           "description": "The PKCS#12 file data."
+        },
+        "hsmProviderId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HSM Provider ID. The default value is 0 indicating an HSM is not used for this key pair."
         },
         "password": {
           "type": "string",
@@ -652,6 +613,7 @@
     },
     "KeyAlgorithmsView": {
       "id": "KeyAlgorithmsView",
+      "description": "A collection of key algorithms.",
       "required": [
         "items"
       ],
@@ -667,6 +629,7 @@
     },
     "ChainCertificateView": {
       "id": "ChainCertificateView",
+      "description": "A chain certificate.",
       "required": [
         "alias",
         "expires",
@@ -749,8 +712,23 @@
         }
       }
     },
+    "ChainCertificatesDocView": {
+      "id": "ChainCertificatesDocView",
+      "required": [
+        "addChainCertificates"
+      ],
+      "properties": {
+        "addChainCertificates": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "GeneralName": {
       "id": "GeneralName",
+      "description": "A subject alternative name.",
       "required": [
         "name",
         "value"
@@ -779,6 +757,7 @@
     },
     "SanTypes": {
       "id": "SanTypes",
+      "description": "A collection of available general names.",
       "required": [
         "items"
       ],
@@ -789,36 +768,110 @@
         }
       }
     },
-    "ChainCertificates": {
-      "id": "ChainCertificates",
-      "required": [
-        "addChainCertificates"
-      ],
-      "properties": {
-        "addChainCertificates": {
-          "type": "array",
-          "description": "A list of base64-encode certificates to add to the key pair certificate chain.",
-          "items": {
-            "type": "string"
-          }
-        }
-      }
-    },
     "ExportParameters": {
       "id": "ExportParameters",
+      "description": "The export parameters for a key pair.",
       "required": [
         "id",
+        "hsmProviderId",
         "password"
       ],
       "properties": {
         "id": {
           "type": "integer",
           "format": "int32",
-          "description": "The Id of the exported key pair"
+          "description": "The ID of the exported key pair."
+        },
+        "hsmProviderId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HSM Provider ID.  The default value is 0 indicating an HSM is not used for this key pair."
         },
         "password": {
           "type": "string",
-          "description": "The password used to protect the exported key pair"
+          "description": "The password used to protect the exported key pair."
+        }
+      }
+    },
+    "NewKeyPairConfigView": {
+      "id": "NewKeyPairConfigView",
+      "description": "A new key pair.",
+      "required": [
+        "alias",
+        "city",
+        "commonName",
+        "country",
+        "hsmProviderId",
+        "keyAlgorithm",
+        "keySize",
+        "organization",
+        "organizationUnit",
+        "state",
+        "validDays"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The Id for the key pair."
+        },
+        "alias": {
+          "type": "string",
+          "description": "A unique alias name to identify the key pair. Special characters and spaces are allowed."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city or other primary location (L) where the company operates."
+        },
+        "commonName": {
+          "type": "string",
+          "description": "The common name (CN) identifying the certificate."
+        },
+        "country": {
+          "type": "string",
+          "description": "The country (C) where the company is based, using two capital letters."
+        },
+        "hsmProviderId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The HSM Provider ID. The default value is 0 indicating an HSM is not used for this key pair."
+        },
+        "keyAlgorithm": {
+          "type": "string",
+          "description": "The key algorithm to use to generate a key."
+        },
+        "keySize": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of bits used in the key.  Choices depend on selected key algorithm."
+        },
+        "organization": {
+          "type": "string",
+          "description": "The organization (O) or company name creating the certificate."
+        },
+        "organizationUnit": {
+          "type": "string",
+          "description": "The specific unit within the organization (OU)."
+        },
+        "signatureAlgorithm": {
+          "type": "string",
+          "description": "The Signature Algorithm to use for the key."
+        },
+        "state": {
+          "type": "string",
+          "description": "The state (ST) or other political unit encompassing the location."
+        },
+        "subjectAlternativeNames": {
+          "type": "array",
+          "description": "Any additional DNS names or IP addresses that are valid for this certificate.",
+          "items": {
+            "$ref": "GeneralName"
+          }
+        },
+        "validDays": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The number of days the certificate is valid."
         }
       }
     }

@@ -2,17 +2,17 @@
   "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
-  "resourcePath": "/accessTokenValidators",
+  "resourcePath": "/hsmProviders",
   "apis": [
     {
-      "path": "/accessTokenValidators",
+      "path": "/hsmProviders",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get all Access Token Validators",
+          "summary": "Get all HSM Providers",
           "notes": "",
-          "type": "AccessTokenValidatorsView",
-          "nickname": "getAccessTokenValidatorsCommand",
+          "type": "HsmProviderView",
+          "nickname": "getHsmProvidersCommand",
           "parameters": [
             {
               "name": "page",
@@ -25,7 +25,7 @@
             },
             {
               "name": "numberPerPage",
-              "description": "Number of Access Token Validators per page",
+              "description": "Number of HSM Providers per page",
               "required": false,
               "allowMultiple": false,
               "type": "integer",
@@ -34,7 +34,7 @@
             },
             {
               "name": "filter",
-              "description": "Search for Access Token Validator with name matching filter text",
+              "description": "Search for HSM Provider with name matching filter text",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -42,7 +42,7 @@
             },
             {
               "name": "name",
-              "description": "Get a specific Access Token Validator by name (case-sensitive)",
+              "description": "Get a specific HSM Provider by name (case-sensitive)",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -50,7 +50,7 @@
             },
             {
               "name": "sortKey",
-              "description": "A comma separated list of Access Token Validator attributes (keys) to be used to sort the results",
+              "description": "A comma separated list of HSM Provider attributes (keys) to be used to sort the results",
               "required": false,
               "allowMultiple": false,
               "type": "string",
@@ -68,17 +68,17 @@
         },
         {
           "method": "POST",
-          "summary": "Create an Access Token Validator",
+          "summary": "Create an HSM Provider",
           "notes": "",
-          "type": "AccessTokenValidatorView",
-          "nickname": "addAccessTokenValidatorCommand",
+          "type": "HsmProviderView",
+          "nickname": "addHsmProviderCommand",
           "parameters": [
             {
-              "name": "AccessTokenValidator",
-              "description": "Access Token Validator to add",
+              "name": "HsmProvider",
+              "description": "HSM Provider to add",
               "required": true,
               "allowMultiple": false,
-              "type": "AccessTokenValidatorView",
+              "type": "HsmProviderView",
               "paramType": "body"
             }
           ]
@@ -86,31 +86,31 @@
       ]
     },
     {
-      "path": "/accessTokenValidators/descriptors",
+      "path": "/hsmProviders/descriptors",
       "operations": [
         {
           "method": "GET",
-          "summary": "Get descriptors for all Access Token Validators",
+          "summary": "Get descriptors for all HSM Providers",
           "notes": "",
           "type": "DescriptorsView",
-          "nickname": "getAccessTokenValidatorDescriptorsCommand",
+          "nickname": "getHsmProviderDescriptorsCommand",
           "parameters": []
         }
       ]
     },
     {
-      "path": "/accessTokenValidators/{id}",
+      "path": "/hsmProviders/{id}",
       "operations": [
         {
           "method": "DELETE",
-          "summary": "Delete a Access Token Validator",
+          "summary": "Delete an HSM Provider",
           "notes": "",
           "type": "void",
-          "nickname": "deleteAccessTokenValidatorCommand",
+          "nickname": "deleteHsmProviderCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Access Token Validator to delete",
+              "description": "ID of HSM Provider to delete",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -120,14 +120,14 @@
         },
         {
           "method": "GET",
-          "summary": "Get an Access Token Validator",
+          "summary": "Get an HSM Provider",
           "notes": "",
-          "type": "AccessTokenValidatorView",
-          "nickname": "getAccessTokenValidatorCommand",
+          "type": "HsmProviderView",
+          "nickname": "getHsmProviderCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Access Token Validator to get",
+              "description": "ID of HSM Provider to get",
               "required": true,
               "allowMultiple": false,
               "type": "string",
@@ -137,25 +137,25 @@
         },
         {
           "method": "PUT",
-          "summary": "Update an Access Token Validator",
+          "summary": "Update an HSM Provider",
           "notes": "",
-          "type": "AccessTokenValidatorView",
-          "nickname": "updateAccessTokenValidatorCommand",
+          "type": "HsmProviderView",
+          "nickname": "updateHsmProviderCommand",
           "parameters": [
             {
               "name": "id",
-              "description": "ID of Access Token Validator to update",
+              "description": "ID of HSM Provider to update",
               "required": true,
               "allowMultiple": false,
               "type": "string",
               "paramType": "path"
             },
             {
-              "name": "AccessTokenValidator",
-              "description": "Access Token Validator to update",
+              "name": "HsmProvider",
+              "description": "HSM Provider to update",
               "required": true,
               "allowMultiple": false,
-              "type": "AccessTokenValidatorView",
+              "type": "HsmProviderView",
               "paramType": "body"
             }
           ]
@@ -182,29 +182,6 @@
         "fieldName": {
           "type": "string",
           "description": "The configuration parent field name."
-        }
-      }
-    },
-    "AccessTokenValidatorView": {
-      "id": "AccessTokenValidatorView",
-      "description": "An access token validator.",
-      "required": [
-        "className",
-        "configuration",
-        "name"
-      ],
-      "properties": {
-        "className": {
-          "type": "string",
-          "description": "(sortable) The access token validator's class name."
-        },
-        "configuration": {
-          "$ref": "Map[string,java.lang.Object]",
-          "description": "The access token validator's configuration data."
-        },
-        "name": {
-          "type": "string",
-          "description": "(sortable) The access token validator's name."
         }
       }
     },
@@ -294,6 +271,29 @@
         }
       }
     },
+    "HsmProviderView": {
+      "id": "HsmProviderView",
+      "description": "An HSM provider.",
+      "required": [
+        "className",
+        "configuration",
+        "name"
+      ],
+      "properties": {
+        "className": {
+          "type": "string",
+          "description": "(sortable) The HSM provider's class name."
+        },
+        "configuration": {
+          "$ref": "Map[string,java.lang.Object]",
+          "description": "The HSM provider's configuration data."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The HSM provider's name."
+        }
+      }
+    },
     "DescriptorsView": {
       "id": "DescriptorsView",
       "description": "A list of descriptors.",
@@ -374,22 +374,6 @@
         "url": {
           "type": "string",
           "description": "The help URL for the configuration field."
-        }
-      }
-    },
-    "AccessTokenValidatorsView": {
-      "id": "AccessTokenValidatorsView",
-      "description": "A collection of access token validators.",
-      "required": [
-        "items"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "description": "The actual list of access token validators.",
-          "items": {
-            "$ref": "AccessTokenValidatorView"
-          }
         }
       }
     },

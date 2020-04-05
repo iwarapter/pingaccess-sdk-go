@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/redirects",
@@ -203,6 +203,14 @@
       "id": "RedirectView",
       "description": "A Redirect.",
       "properties": {
+        "auditLevel": {
+          "$ref": "AuditLevel",
+          "description": "(sortable) Indicates if audit logging is enabled for the redirect.",
+          "enum": [
+            "ON",
+            "OFF"
+          ]
+        },
         "responseCode": {
           "type": "integer",
           "format": "int32",

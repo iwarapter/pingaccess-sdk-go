@@ -25,9 +25,26 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not connect to docker: %s", err)
 	}
 
-	options := &dockertest.RunOptions{
-		Repository: "pingidentity/pingaccess",
-		Tag:        "5.2.2-edge",
+	devOpsUser, devOpsUserExists := os.LookupEnv("PING_IDENTITY_DEVOPS_USER")
+	devOpsKey, devOpsKeyExists := os.LookupEnv("PING_IDENTITY_DEVOPS_KEY")
+
+	var tag = "6.0.1-edge"
+	var options *dockertest.RunOptions
+
+	if devOpsUserExists && devOpsKeyExists {
+		options = &dockertest.RunOptions{
+			Repository: "pingidentity/pingaccess",
+			Env:        []string{"PING_IDENTITY_ACCEPT_EULA=YES",fmt.Sprintf("PING_IDENTITY_DEVOPS_USER=%s", devOpsUser), fmt.Sprintf("PING_IDENTITY_DEVOPS_KEY=%s", devOpsKey)},
+			Tag:        tag,
+		}
+	} else {
+		dir, _ := os.Getwd()
+		options = &dockertest.RunOptions{
+			Repository: "pingidentity/pingaccess",
+			Env: []string{"PING_IDENTITY_ACCEPT_EULA=YES"},
+			Mounts:     []string{dir + "/pingaccess.lic:/opt/in/instance/conf/pingaccess.lic"},
+			Tag:        tag,
+		}
 	}
 
 	// pulls an image, creates a container based on it and runs it
@@ -43,7 +60,7 @@ func TestMain(m *testing.M) {
 		var err error
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 		paURL, _ = url.Parse(fmt.Sprintf("https://localhost:%s", resource.GetPort("9000/tcp")))
-		client := NewClient("Administrator", "2Access", paURL, "/pa-admin-api/v3", nil)
+		client := NewClient("administrator", "2FederateM0re", paURL, "/pa-admin-api/v3", nil)
 
 		log.Println("Attempting to connect to PingAccess admin API....")
 		_, _, err = client.Version.VersionCommand()
@@ -66,7 +83,7 @@ func TestMain(m *testing.M) {
 
 func config(url *url.URL) *Client {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-	return NewClient("Administrator", "2Access", url, "/pa-admin-api/v3", nil)
+	return NewClient("administrator", "2FederateM0re", url, "/pa-admin-api/v3", nil)
 }
 
 // assert fails the test if the condition is false.

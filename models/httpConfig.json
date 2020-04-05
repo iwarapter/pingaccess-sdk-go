@@ -1,9 +1,47 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/httpConfig",
   "apis": [
+    {
+      "path": "/httpConfig/monitoring",
+      "operations": [
+        {
+          "method": "DELETE",
+          "summary": "Resets the HTTP monitoring auditLevel to default value",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteHttpMonitoringCommand",
+          "parameters": []
+        },
+        {
+          "method": "GET",
+          "summary": "Get the HTTP monitoring auditLevel",
+          "notes": "",
+          "type": "HttpMonitoringView",
+          "nickname": "getHttpMonitoringCommand",
+          "parameters": []
+        },
+        {
+          "method": "PUT",
+          "summary": "Update the HTTP monitoring auditLevel",
+          "notes": "",
+          "type": "HttpMonitoringView",
+          "nickname": "updateHttpMonitoringCommand",
+          "parameters": [
+            {
+              "name": "Monitoring",
+              "description": "Http Monitoring",
+              "required": true,
+              "allowMultiple": false,
+              "type": "HttpMonitoringView",
+              "paramType": "body"
+            }
+          ]
+        }
+      ]
+    },
     {
       "path": "/httpConfig/request/hostSource",
       "operations": [
@@ -120,6 +158,43 @@
     }
   ],
   "models": {
+    "HostMultiValueSourceView": {
+      "id": "HostMultiValueSourceView",
+      "description": "Configuration for the host source.",
+      "required": [
+        "headerNameList",
+        "listValueLocation"
+      ],
+      "properties": {
+        "headerNameList": {
+          "type": "array",
+          "description": "An array of header names used to identify the host source name."
+        },
+        "listValueLocation": {
+          "$ref": "ListValueLocation",
+          "description": "The location in a matching header value list to use as the source.",
+          "enum": [
+            "FIRST",
+            "LAST"
+          ]
+        }
+      }
+    },
+    "HttpMonitoringView": {
+      "id": "HttpMonitoringView",
+      "required": [
+        "auditLevel"
+      ],
+      "properties": {
+        "auditLevel": {
+          "$ref": "AuditLevel",
+          "enum": [
+            "ON",
+            "OFF"
+          ]
+        }
+      }
+    },
     "IpMultiValueSourceView": {
       "id": "IpMultiValueSourceView",
       "description": "Configuration for the IP source.",
@@ -146,17 +221,6 @@
         }
       }
     },
-    "List": {
-      "id": "List",
-      "required": [
-        "empty"
-      ],
-      "properties": {
-        "empty": {
-          "type": "boolean"
-        }
-      }
-    },
     "ProtocolSourceView": {
       "id": "ProtocolSourceView",
       "description": "Configuration for the protocol source.",
@@ -170,25 +234,14 @@
         }
       }
     },
-    "HostMultiValueSourceView": {
-      "id": "HostMultiValueSourceView",
-      "description": "Configuration for the host source.",
+    "List": {
+      "id": "List",
       "required": [
-        "headerNameList",
-        "listValueLocation"
+        "empty"
       ],
       "properties": {
-        "headerNameList": {
-          "type": "array",
-          "description": "An array of header names used to identify the host source name."
-        },
-        "listValueLocation": {
-          "$ref": "ListValueLocation",
-          "description": "The location in a matching header value list to use as the source.",
-          "enum": [
-            "FIRST",
-            "LAST"
-          ]
+        "empty": {
+          "type": "boolean"
         }
       }
     }

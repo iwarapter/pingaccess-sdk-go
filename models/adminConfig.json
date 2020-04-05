@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/adminConfig",
@@ -162,6 +162,7 @@
   "models": {
     "AdminConfigurationView": {
       "id": "AdminConfigurationView",
+      "description": "An admin configuration.",
       "required": [
         "hostPort"
       ],
@@ -201,6 +202,7 @@
     },
     "ReplicaAdminsView": {
       "id": "ReplicaAdminsView",
+      "description": "A list of replica admins.",
       "required": [
         "items"
       ],
@@ -216,13 +218,15 @@
     },
     "ReplicaAdminView": {
       "id": "ReplicaAdminView",
+      "description": "A replica admin.",
       "required": [
         "hostPort",
         "name"
       ],
       "properties": {
         "certificateHash": {
-          "$ref": "Hash"
+          "$ref": "Hash",
+          "description": "The certificate hash."
         },
         "configReplicationEnabled": {
           "type": "boolean",
@@ -266,6 +270,7 @@
     },
     "Hash": {
       "id": "Hash",
+      "description": "A hash.",
       "required": [
         "algorithm",
         "hexValue"
@@ -273,6 +278,7 @@
       "properties": {
         "algorithm": {
           "$ref": "HashAlgorithm",
+          "description": "The hash algorithm.",
           "enum": [
             "MD5",
             "SHA1",
@@ -282,7 +288,8 @@
           ]
         },
         "hexValue": {
-          "type": "string"
+          "type": "string",
+          "description": "The hex-encoded value of the hash."
         }
       }
     }
