@@ -8,6 +8,7 @@ import (
 
 func TestCertificateMethods(t *testing.T) {
 	svc := config(paURL)
+	svc.LogDebug(true)
 	content, err := ioutil.ReadFile("test_data/amazon_root_ca1.pem")
 	if err != nil {
 		t.Errorf("Unable to load test certificate file")

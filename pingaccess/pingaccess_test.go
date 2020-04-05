@@ -34,14 +34,14 @@ func TestMain(m *testing.M) {
 	if devOpsUserExists && devOpsKeyExists {
 		options = &dockertest.RunOptions{
 			Repository: "pingidentity/pingaccess",
-			Env:        []string{"PING_IDENTITY_ACCEPT_EULA=YES",fmt.Sprintf("PING_IDENTITY_DEVOPS_USER=%s", devOpsUser), fmt.Sprintf("PING_IDENTITY_DEVOPS_KEY=%s", devOpsKey)},
+			Env:        []string{"PING_IDENTITY_ACCEPT_EULA=YES", fmt.Sprintf("PING_IDENTITY_DEVOPS_USER=%s", devOpsUser), fmt.Sprintf("PING_IDENTITY_DEVOPS_KEY=%s", devOpsKey)},
 			Tag:        tag,
 		}
 	} else {
 		dir, _ := os.Getwd()
 		options = &dockertest.RunOptions{
 			Repository: "pingidentity/pingaccess",
-			Env: []string{"PING_IDENTITY_ACCEPT_EULA=YES"},
+			Env:        []string{"PING_IDENTITY_ACCEPT_EULA=YES"},
 			Mounts:     []string{dir + "/pingaccess.lic:/opt/in/instance/conf/pingaccess.lic"},
 			Tag:        tag,
 		}
