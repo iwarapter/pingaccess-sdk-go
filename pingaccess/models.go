@@ -1158,18 +1158,18 @@ type TargetHostPortView struct {
 
 //ThirdPartyServiceView - A third-party service.
 type ThirdPartyServiceView struct {
-	AvailabilityProfileId     *int        `json:"availabilityProfileId,omitempty"`
-	ExpectedHostname          *string     `json:"expectedHostname,omitempty"`
-	HostValue                 *string     `json:"hostValue,omitempty"`
-	Id                        json.Number `json:"id,omitempty"`
-	LoadBalancingStrategyId   *int        `json:"loadBalancingStrategyId,omitempty"`
-	MaxConnections            *int        `json:"maxConnections,omitempty"`
-	Name                      *string     `json:"name"`
-	Secure                    *bool       `json:"secure,omitempty"`
-	SkipHostnameVerification  *bool       `json:"skipHostnameVerification,omitempty"`
-	Targets                   *[]*string  `json:"targets"`
-	TrustedCertificateGroupId *int        `json:"trustedCertificateGroupId,omitempty"`
-	UseProxy                  *bool       `json:"useProxy,omitempty"`
+	AvailabilityProfileId     *int       `json:"availabilityProfileId,omitempty"`
+	ExpectedHostname          *string    `json:"expectedHostname,omitempty"`
+	HostValue                 *string    `json:"hostValue,omitempty"`
+	Id                        *string    `json:"id,omitempty"`
+	LoadBalancingStrategyId   *int       `json:"loadBalancingStrategyId,omitempty"`
+	MaxConnections            *int       `json:"maxConnections,omitempty"`
+	Name                      *string    `json:"name"`
+	Secure                    *bool      `json:"secure,omitempty"`
+	SkipHostnameVerification  *bool      `json:"skipHostnameVerification,omitempty"`
+	Targets                   *[]*string `json:"targets"`
+	TrustedCertificateGroupId *int       `json:"trustedCertificateGroupId,omitempty"`
+	UseProxy                  *bool      `json:"useProxy,omitempty"`
 }
 
 //ThirdPartyServicesView - A collection of third-party service items.
