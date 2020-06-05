@@ -49,7 +49,7 @@ type AcmeServerView struct {
 	AcmeAccounts []*LinkView `json:"acmeAccounts,omitempty"`
 	Name         *string     `json:"name"`
 	Url          *string     `json:"url"`
-	Id           json.Number `json:"id,omitempty"`
+	Id           *string     `json:"id,omitempty"`
 }
 
 //AcmeServersView - A collection of ACME servers.

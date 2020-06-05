@@ -18,5 +18,5 @@ addons:
 script:
   - go mod vendor
   - go mod verify
-  - make test
+  - make test-and-report
   - sonar-scanner

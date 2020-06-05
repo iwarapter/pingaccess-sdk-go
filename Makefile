@@ -8,7 +8,11 @@ pa-init:
 
 test:
 	@rm -f report.json coverage.out
-	@go test ./... -v -coverprofile=coverage.out -json > report.json
+	@go test ./... -v -coverprofile=coverage.out && go tool cover -func=coverage.out
+
+test-and-report:
+	@rm -f report.json coverage.out
+	@go test ./... -v -coverprofile=coverage.out -json > report.json && go tool cover -func=coverage.out
 
 install:
 	@go install ./...
