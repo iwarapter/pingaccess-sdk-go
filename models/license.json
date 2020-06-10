@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/license",
@@ -31,6 +31,23 @@
               "paramType": "body"
             }
           ]
+        },
+        {
+          "method": "PUT",
+          "summary": "Import a License",
+          "notes": "",
+          "type": "LicenseView",
+          "nickname": "importLicenseCommand",
+          "parameters": [
+            {
+              "name": "License File",
+              "description": "License to import",
+              "required": true,
+              "allowMultiple": false,
+              "type": "LicenseImportDocView",
+              "paramType": "body"
+            }
+          ]
         }
       ]
     }
@@ -38,6 +55,7 @@
   "models": {
     "LicenseView": {
       "id": "LicenseView",
+      "description": "A Ping Identity license.",
       "required": [
         "id",
         "enforcementType",
@@ -71,7 +89,8 @@
         },
         "maxApplications": {
           "type": "integer",
-          "format": "int64"
+          "format": "int64",
+          "description": "The maximum number of applications from the license file."
         },
         "name": {
           "type": "string",
@@ -97,6 +116,7 @@
     },
     "LicenseImportDocView": {
       "id": "LicenseImportDocView",
+      "description": "A license file.",
       "required": [
         "fileData"
       ],

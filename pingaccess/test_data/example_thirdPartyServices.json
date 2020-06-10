@@ -1,0 +1,52 @@
+{
+  "items": [
+    {
+      "id": "c13acd37-b921-40e7-b490-36af9c3391f8",
+      "targets": [
+        "localhost:80"
+      ],
+      "name": "foo",
+      "secure": false,
+      "trustedCertificateGroupId": 0,
+      "maxConnections": -1,
+      "skipHostnameVerification": false,
+      "expectedHostname": null,
+      "availabilityProfileId": 1,
+      "loadBalancingStrategyId": 0,
+      "useProxy": false,
+      "hostValue": null
+    },
+    {
+      "id": "640b0d83-e36f-4209-908e-192b7b070882",
+      "targets": [
+        "localhost:80"
+      ],
+      "name": "food",
+      "secure": false,
+      "trustedCertificateGroupId": 0,
+      "maxConnections": -1,
+      "skipHostnameVerification": false,
+      "expectedHostname": null,
+      "availabilityProfileId": 1,
+      "loadBalancingStrategyId": 0,
+      "useProxy": false,
+      "hostValue": null
+    },
+    {
+      "id": "06aaeec6-9688-4fab-8da8-1570c5849ba8",
+      "targets": [
+        "localhost:80"
+      ],
+      "name": "foody",
+      "secure": false,
+      "trustedCertificateGroupId": 0,
+      "maxConnections": -1,
+      "skipHostnameVerification": false,
+      "expectedHostname": null,
+      "availabilityProfileId": 1,
+      "loadBalancingStrategyId": 0,
+      "useProxy": false,
+      "hostValue": null
+    }
+  ]
+}

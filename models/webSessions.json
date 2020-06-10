@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/webSessions",
@@ -154,6 +154,7 @@
   "models": {
     "OAuthClientCredentialsView": {
       "id": "OAuthClientCredentialsView",
+      "description": "OAuth client credentials.",
       "required": [
         "clientId"
       ],
@@ -170,6 +171,7 @@
     },
     "WebSessionView": {
       "id": "WebSessionView",
+      "description": "A web session.",
       "required": [
         "audience",
         "clientCredentials",
@@ -194,7 +196,7 @@
         },
         "cookieType": {
           "$ref": "WebSessionCookieType",
-          "description": "(sortable) Specify an Encrypted JWT or a Signed JWT web session cookie.",
+          "description": "(sortable) Specify an Encrypted JWT or a Signed JWT web session cookie. Default is Encrypted.",
           "enum": [
             "Encrypted",
             "Signed"
@@ -231,6 +233,14 @@
           "format": "int32",
           "description": "(sortable) Specify the number of seconds to cache PingFederate Session State information."
         },
+        "pkceChallengeType": {
+          "$ref": "PkceChallengeTypeView",
+          "description": "(sortable) Specify the code_challenge_method to use for PKCE during the Code login flow. OFF signifies to not use PKCE.",
+          "enum": [
+            "SHA256",
+            "OFF"
+          ]
+        },
         "refreshUserInfoClaimsInterval": {
           "type": "integer",
           "format": "int32",
@@ -248,6 +258,15 @@
         "requestProfile": {
           "type": "boolean",
           "description": "Specifies whether the default scopes ('profile', 'email', 'address', and 'phone') should be specified in the access request. (DEPRECATED - to be removed in a future release; please use 'scopes' instead)"
+        },
+        "sameSite": {
+          "$ref": "SameSiteTypeView",
+          "description": "(sortable) Specify the SameSite attribute to be used when setting the PingAccess Cookie. Default is None which allows the cookie to be used in a third-party context. If the cookie is not used in a third-party context then Lax is recommended.",
+          "enum": [
+            "Disabled",
+            "Lax",
+            "None"
+          ]
         },
         "scopes": {
           "type": "array",
@@ -285,6 +304,7 @@
     },
     "HiddenFieldView": {
       "id": "HiddenFieldView",
+      "description": "A hidden field.",
       "properties": {
         "encryptedValue": {
           "type": "string",
@@ -298,6 +318,7 @@
     },
     "WebSessionsView": {
       "id": "WebSessionsView",
+      "description": "A collection of web sessions.",
       "required": [
         "items"
       ],

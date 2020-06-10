@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/engines",
@@ -178,7 +178,7 @@
           "method": "GET",
           "summary": "Get health status of all Engines",
           "notes": "",
-          "type": "EngineHealthStatus",
+          "type": "EngineHealthStatusView",
           "nickname": "getEngineStatusCommand",
           "parameters": []
         }
@@ -316,6 +316,7 @@
     },
     "GeneralName": {
       "id": "GeneralName",
+      "description": "A subject alternative name.",
       "required": [
         "name",
         "value"
@@ -344,6 +345,7 @@
     },
     "EngineCertificateView": {
       "id": "EngineCertificateView",
+      "description": "An engine certificate.",
       "required": [
         "alias",
         "chainCertificate",
@@ -465,7 +467,8 @@
       ],
       "properties": {
         "certificateHash": {
-          "$ref": "Hash"
+          "$ref": "Hash",
+          "description": "The certificate hash."
         },
         "configReplicationEnabled": {
           "type": "boolean",
@@ -503,9 +506,8 @@
         }
       }
     },
-    "EngineHealthStatus": {
-      "id": "EngineHealthStatus",
-      "description": "Engine clustering health details.",
+    "EngineHealthStatusView": {
+      "id": "EngineHealthStatusView",
       "required": [
         "currentServerTime",
         "enginesStatus"
@@ -513,17 +515,16 @@
       "properties": {
         "currentServerTime": {
           "type": "integer",
-          "format": "int64",
-          "description": "The current epoch time of the server in milliseconds."
+          "format": "int64"
         },
         "enginesStatus": {
-          "$ref": "Map[string,EngineInfo]",
-          "description": "Map of engines with their details. Details include name, description, last updated time, and polling delay."
+          "$ref": "Map[string,EngineInfo]"
         }
       }
     },
     "Hash": {
       "id": "Hash",
+      "description": "A hash.",
       "required": [
         "algorithm",
         "hexValue"
@@ -531,6 +532,7 @@
       "properties": {
         "algorithm": {
           "$ref": "HashAlgorithm",
+          "description": "The hash algorithm.",
           "enum": [
             "MD5",
             "SHA1",
@@ -540,7 +542,8 @@
           ]
         },
         "hexValue": {
-          "type": "string"
+          "type": "string",
+          "description": "The hex-encoded value of the hash."
         }
       }
     }

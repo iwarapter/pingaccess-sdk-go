@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/identityMappings",
@@ -209,6 +209,7 @@
     },
     "IdentityMappingsView": {
       "id": "IdentityMappingsView",
+      "description": "A collection of identity mappings.",
       "required": [
         "items"
       ],
@@ -310,6 +311,7 @@
     },
     "DescriptorsView": {
       "id": "DescriptorsView",
+      "description": "A list of descriptors.",
       "required": [
         "items"
       ],
@@ -392,6 +394,7 @@
     },
     "DescriptorView": {
       "id": "DescriptorView",
+      "description": "A descriptor.",
       "required": [
         "className",
         "configurationFields",
@@ -422,6 +425,7 @@
     },
     "IdentityMappingView": {
       "id": "IdentityMappingView",
+      "description": "An identity mapping.",
       "required": [
         "className",
         "configuration",

@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/agents",
@@ -269,6 +269,7 @@
   "models": {
     "AgentCertificateView": {
       "id": "AgentCertificateView",
+      "description": "An agent certificate.",
       "required": [
         "alias",
         "chainCertificate",
@@ -394,6 +395,7 @@
     },
     "AgentsView": {
       "id": "AgentsView",
+      "description": "A collection of agents.",
       "required": [
         "items"
       ],
@@ -409,6 +411,7 @@
     },
     "AgentCertificatesView": {
       "id": "AgentCertificatesView",
+      "description": "A collection of agent certificates.",
       "required": [
         "items"
       ],
@@ -424,6 +427,7 @@
     },
     "GeneralName": {
       "id": "GeneralName",
+      "description": "A subject alternative name.",
       "required": [
         "name",
         "value"
@@ -463,6 +467,7 @@
     },
     "AgentView": {
       "id": "AgentView",
+      "description": "An agent.",
       "required": [
         "hostname",
         "name",
@@ -471,7 +476,8 @@
       ],
       "properties": {
         "certificateHash": {
-          "$ref": "Hash"
+          "$ref": "Hash",
+          "description": "The certificate hash."
         },
         "description": {
           "type": "string",
@@ -539,6 +545,7 @@
     },
     "Hash": {
       "id": "Hash",
+      "description": "A hash.",
       "required": [
         "algorithm",
         "hexValue"
@@ -546,6 +553,7 @@
       "properties": {
         "algorithm": {
           "$ref": "HashAlgorithm",
+          "description": "The hash algorithm.",
           "enum": [
             "MD5",
             "SHA1",
@@ -555,7 +563,8 @@
           ]
         },
         "hexValue": {
-          "type": "string"
+          "type": "string",
+          "description": "The hex-encoded value of the hash."
         }
       }
     }

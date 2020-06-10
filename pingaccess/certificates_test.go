@@ -8,6 +8,7 @@ import (
 
 func TestCertificateMethods(t *testing.T) {
 	svc := config(paURL)
+	svc.LogDebug(true)
 	content, err := ioutil.ReadFile("test_data/amazon_root_ca1.pem")
 	if err != nil {
 		t.Errorf("Unable to load test certificate file")
@@ -29,11 +30,11 @@ func TestCertificateMethods(t *testing.T) {
 		t.Errorf("Unable the marshall results")
 	}
 
-	//do a get on all identity mappings
+	//do a get on all trusted certificates
 	input2 := GetTrustedCertsInput{}
 	result2, resp2, err2 := svc.Certificates.GetTrustedCerts(&input2)
 	if err2 != nil {
-		t.Errorf("Unable to retrieve identity mappings: %s", err2)
+		t.Errorf("Unable to retrieve trusted certificates: %s", err2)
 	}
 	if resp2.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp2.StatusCode)

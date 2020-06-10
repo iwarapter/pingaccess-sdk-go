@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/trustedCertificateGroups",
@@ -153,6 +153,7 @@
   "models": {
     "TrustedCertificateGroupView": {
       "id": "TrustedCertificateGroupView",
+      "description": "A trusted certificate group.",
       "required": [
         "name"
       ],

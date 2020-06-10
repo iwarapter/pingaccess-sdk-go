@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/globalUnprotectedResources",
@@ -176,8 +176,12 @@
       ],
       "properties": {
         "auditLevel": {
-          "type": "string",
-          "description": "['ON' or 'OFF']: (sortable) Indicates if audit logging is enabled for the global unprotected resource."
+          "$ref": "AuditLevel",
+          "description": "(sortable) Indicates if audit logging is enabled for the global unprotected resource.",
+          "enum": [
+            "ON",
+            "OFF"
+          ]
         },
         "description": {
           "type": "string",

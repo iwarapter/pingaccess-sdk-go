@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/rulesets",
@@ -179,6 +179,7 @@
   "models": {
     "RuleSetView": {
       "id": "RuleSetView",
+      "description": "A rule set.",
       "required": [
         "name",
         "policy"
@@ -186,6 +187,7 @@
       "properties": {
         "elementType": {
           "$ref": "RuleSetElementType",
+          "description": "The rule set's element type (what it contains).",
           "enum": [
             "Rule",
             "RuleSet"
@@ -193,18 +195,18 @@
         },
         "name": {
           "type": "string",
-          "description": "(sortable) The ruleset's name."
+          "description": "(sortable) The rule set's name."
         },
         "policy": {
           "type": "array",
-          "description": "The list of policy ids assigned to the ruleset.",
+          "description": "The list of policy ids assigned to the rule set.",
           "items": {
             "type": "int"
           }
         },
         "successCriteria": {
           "$ref": "SuccessCriteria",
-          "description": "(sortable) The ruleset's success criteria.",
+          "description": "(sortable) The rule set's success criteria.",
           "enum": [
             "SuccessIfAllSucceed",
             "SuccessIfAnyOneSucceeds"
@@ -214,12 +216,14 @@
     },
     "RuleSetSuccessCriteriaView": {
       "id": "RuleSetSuccessCriteriaView",
+      "description": "A collection of success criteria.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "The actual list of success criteria.",
           "items": {
             "$ref": "ItemView"
           }
@@ -228,12 +232,14 @@
     },
     "RuleSetElementTypesView": {
       "id": "RuleSetElementTypesView",
+      "description": "A collection of rule set element types.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "The actual list of element types.",
           "items": {
             "$ref": "ItemView"
           }
@@ -242,6 +248,7 @@
     },
     "ItemView": {
       "id": "ItemView",
+      "description": "An item.",
       "required": [
         "description",
         "name"
@@ -259,13 +266,14 @@
     },
     "RuleSetsView": {
       "id": "RuleSetsView",
+      "description": "A collection of rule sets.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "The actual list of rulesets.",
+          "description": "The actual list of rule sets.",
           "items": {
             "$ref": "RuleSetView"
           }

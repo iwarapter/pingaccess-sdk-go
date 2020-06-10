@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/webSessionManagement",
@@ -176,6 +176,7 @@
   "models": {
     "WebSessionManagementView": {
       "id": "WebSessionManagementView",
+      "description": "A web session management configuration.",
       "properties": {
         "cookieName": {
           "type": "string",
@@ -204,7 +205,8 @@
           "description": "The number of minutes that the nonce cookie is valid when multiple concurrent authentication requests are made. 0 indicates that the system default value should be used."
         },
         "sessionStateCookieName": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the session state cookie."
         },
         "signingAlgorithm": {
           "type": "string",
@@ -219,13 +221,14 @@
     },
     "RequestPreservationTypesView": {
       "id": "RequestPreservationTypesView",
+      "description": "A collection of valid web session request preservation types.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "A collection of valid web session request preservation types.",
+          "description": "The actual list of valid web session request preservation types.",
           "items": {
             "$ref": "ItemView"
           }
@@ -234,21 +237,25 @@
     },
     "AlgorithmView": {
       "id": "AlgorithmView",
+      "description": "An algorithm.",
       "required": [
         "description",
         "name"
       ],
       "properties": {
         "description": {
-          "type": "string"
+          "type": "string",
+          "description": "The description of the algorithm."
         },
         "name": {
-          "type": "string"
+          "type": "string",
+          "description": "The name of the algorithm."
         }
       }
     },
     "ItemView": {
       "id": "ItemView",
+      "description": "An item.",
       "required": [
         "description",
         "name"
@@ -266,13 +273,14 @@
     },
     "OidcLoginTypesView": {
       "id": "OidcLoginTypesView",
+      "description": "A collection of valid web session OIDC login types.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "A collection of valid web session OIDC login types.",
+          "description": "The actual list of valid web session OIDC login types.",
           "items": {
             "$ref": "ItemView"
           }
@@ -281,12 +289,14 @@
     },
     "WebStorageTypesView": {
       "id": "WebStorageTypesView",
+      "description": "A collection of valid web storage types.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
+          "description": "The actual list of valid web storage types.",
           "items": {
             "$ref": "ItemView"
           }
@@ -295,13 +305,14 @@
     },
     "SigningAlgorithmsView": {
       "id": "SigningAlgorithmsView",
+      "description": "A collection of valid web session signing algorithms.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "A collection of valid web session signing algorithms.",
+          "description": "The actual list of valid web session signing algorithms.",
           "items": {
             "$ref": "AlgorithmView"
           }
@@ -310,13 +321,14 @@
     },
     "AlgorithmsView": {
       "id": "AlgorithmsView",
+      "description": "A collection of valid web session encryption algorithms.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "A collection of valid web session encryption algorithms.",
+          "description": "The actual list of valid web session encryption algorithms.",
           "items": {
             "$ref": "AlgorithmView"
           }
@@ -325,6 +337,7 @@
     },
     "KeySetView": {
       "id": "KeySetView",
+      "description": "An auth token key set configuration.",
       "required": [
         "keySet",
         "nonce"
@@ -363,13 +376,14 @@
     },
     "CookieTypesView": {
       "id": "CookieTypesView",
+      "description": "A collection of valid values for the web session cookie type.",
       "required": [
         "items"
       ],
       "properties": {
         "items": {
           "type": "array",
-          "description": "A collection of valid values for the web session cookie type.",
+          "description": "The actual list of valid values for the web session cookie type.",
           "items": {
             "$ref": "ItemView"
           }

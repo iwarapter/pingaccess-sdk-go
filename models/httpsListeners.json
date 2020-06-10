@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/httpsListeners",
@@ -83,6 +83,35 @@
     }
   ],
   "models": {
+    "HttpsListenerView": {
+      "id": "HttpsListenerView",
+      "description": "An HTTPS listener.",
+      "required": [
+        "keyPairId",
+        "name",
+        "restartRequired",
+        "useServerCipherSuiteOrder"
+      ],
+      "properties": {
+        "keyPairId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "The ID of the default key pair used by the HTTPS listener."
+        },
+        "name": {
+          "type": "string",
+          "description": "(sortable) The name of the HTTPS listener."
+        },
+        "restartRequired": {
+          "type": "boolean",
+          "description": "Indicates whether an admin or engine restart is required to update the HTTPS listener. Cannot be True for the ENGINE listener."
+        },
+        "useServerCipherSuiteOrder": {
+          "type": "boolean",
+          "description": "(sortable) Enable server cipher suite ordering for the HTTPS listener."
+        }
+      }
+    },
     "HttpsListenersView": {
       "id": "HttpsListenersView",
       "description": "A collection of HTTPS listeners.",
@@ -96,30 +125,6 @@
           "items": {
             "$ref": "HttpsListenerView"
           }
-        }
-      }
-    },
-    "HttpsListenerView": {
-      "id": "HttpsListenerView",
-      "description": "An HTTPS listener.",
-      "required": [
-        "keyPairId",
-        "name",
-        "useServerCipherSuiteOrder"
-      ],
-      "properties": {
-        "keyPairId": {
-          "type": "integer",
-          "format": "int32",
-          "description": "The ID of the default key pair used by the HTTPS listener."
-        },
-        "name": {
-          "type": "string",
-          "description": "(sortable) The name of the HTTPS listener."
-        },
-        "useServerCipherSuiteOrder": {
-          "type": "boolean",
-          "description": "(sortable) Enable server cipher suite ordering for the HTTPS listener."
         }
       }
     }

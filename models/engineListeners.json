@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/engineListeners",
@@ -187,6 +187,11 @@
         "secure": {
           "type": "boolean",
           "description": "(sortable) Indicator if the engine listener should listen to HTTPS connections."
+        },
+        "trustedCertificateGroupId": {
+          "type": "integer",
+          "format": "int32",
+          "description": "Trusted Certificate Group assigned to engine listener for client certificate authentication."
         }
       }
     }

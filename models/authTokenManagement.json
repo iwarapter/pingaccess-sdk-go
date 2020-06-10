@@ -1,5 +1,5 @@
 {
-  "apiVersion": "5.2.2.0",
+  "apiVersion": "6.0.0.3",
   "swaggerVersion": "1.2",
   "basePath": "https://localhost:9000/pa-admin-api/v3",
   "resourcePath": "/authTokenManagement",
@@ -76,6 +76,7 @@
   "models": {
     "AuthTokenManagementView": {
       "id": "AuthTokenManagementView",
+      "description": "An auth token management configuration.",
       "properties": {
         "issuer": {
           "type": "string",
@@ -98,6 +99,7 @@
     },
     "KeySetView": {
       "id": "KeySetView",
+      "description": "An auth token key set configuration.",
       "required": [
         "keySet",
         "nonce"
