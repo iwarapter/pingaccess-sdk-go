@@ -3,6 +3,7 @@ package pingaccess
 import (
 	"encoding/base64"
 	"io/ioutil"
+	"strconv"
 	"testing"
 )
 
@@ -45,7 +46,7 @@ func TestKeyPairMethods(t *testing.T) {
 
 	//update the key pair
 	input3 := UpdateKeyPairCommandInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 		Body: PKCS12FileImportDocView{
 			Alias:    String("test1"),
 			FileData: String(base64.StdEncoding.EncodeToString(content)),
@@ -64,7 +65,7 @@ func TestKeyPairMethods(t *testing.T) {
 
 	//get the key pair and check the update
 	input4 := GetKeyPairCommandInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 	}
 	result4, resp4, err4 := svc.KeyPairs.GetKeyPairCommand(&input4)
 	if err4 != nil {
@@ -79,7 +80,7 @@ func TestKeyPairMethods(t *testing.T) {
 
 	//delete our initial key pair
 	input5 := DeleteKeyPairCommandInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 	}
 	resp5, err5 := svc.KeyPairs.DeleteKeyPairCommand(&input5)
 	if err5 != nil {

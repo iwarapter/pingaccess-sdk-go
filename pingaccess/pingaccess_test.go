@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 	devOpsUser, devOpsUserExists := os.LookupEnv("PING_IDENTITY_DEVOPS_USER")
 	devOpsKey, devOpsKeyExists := os.LookupEnv("PING_IDENTITY_DEVOPS_KEY")
 
-	var tag = "6.0.1-edge"
+	var tag = "6.0.2-edge"
 	var options *dockertest.RunOptions
 
 	if devOpsUserExists && devOpsKeyExists {

@@ -3,12 +3,13 @@ package pingaccess
 import (
 	"encoding/base64"
 	"io/ioutil"
+	"strconv"
 	"testing"
 )
 
 func TestCertificateMethods(t *testing.T) {
 	svc := config(paURL)
-	svc.LogDebug(true)
+	svc.LogDebug = true
 	content, err := ioutil.ReadFile("test_data/amazon_root_ca1.pem")
 	if err != nil {
 		t.Errorf("Unable to load test certificate file")
@@ -45,7 +46,7 @@ func TestCertificateMethods(t *testing.T) {
 
 	//update the identity mapping
 	input3 := UpdateTrustedCertInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 		Body: X509FileImportDocView{
 			Alias:    String("test1"),
 			FileData: String(base64.StdEncoding.EncodeToString(content)),
@@ -63,7 +64,7 @@ func TestCertificateMethods(t *testing.T) {
 
 	//get the identity mapping and check the update
 	input4 := GetTrustedCertInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 	}
 	result4, resp4, err4 := svc.Certificates.GetTrustedCert(&input4)
 	if err4 != nil {
@@ -78,7 +79,7 @@ func TestCertificateMethods(t *testing.T) {
 
 	//delete our initial identity mapping
 	input5 := DeleteTrustedCertCommandInput{
-		Id: result1.Id.String(),
+		Id: strconv.Itoa(*result1.Id),
 	}
 	resp5, err5 := svc.Certificates.DeleteTrustedCertCommand(&input5)
 	if err5 != nil {
