@@ -13,3 +13,7 @@
 #    - id: go-fmt
     - id: go-mod-tidy
       exclude: '^vendor/.*$'
+- repo: git://github.com/dnephin/pre-commit-golang
+  rev: master
+  hooks:
+    - id: go-fmt
