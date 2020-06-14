@@ -16,11 +16,11 @@ func TestAcmeServerMethods(t *testing.T) {
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
-	if resp1.StatusCode != 200 {
+	if resp1 == nil || resp1.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp1.StatusCode)
 	}
 	if result1 == nil {
-		t.Errorf("Unable the marshall results")
+		t.Fatalf("Unable the marshall results")
 	}
 
 	//do a get on all access token validator

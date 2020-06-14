@@ -61,11 +61,11 @@ func TestRuleSetMethods(t *testing.T) {
 	if ruleErr != nil {
 		t.Errorf("Unable to execute command: %s", ruleErr.Error())
 	}
-	if ruleResp.StatusCode != 200 {
+	if ruleResp == nil || ruleResp.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", ruleResp.StatusCode)
 	}
 	if ruleResult == nil {
-		t.Errorf("Unable the marshall results")
+		t.Fatalf("Unable the marshall results")
 	}
 	id, _ := ruleResult.Id.Int64()
 
@@ -81,11 +81,11 @@ func TestRuleSetMethods(t *testing.T) {
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
-	if resp1.StatusCode != 200 {
+	if resp1 == nil || resp1.StatusCode != 200 {
 		t.Errorf("Invalid response code: %d", resp1.StatusCode)
 	}
 	if result1 == nil {
-		t.Errorf("Unable the marshall results")
+		t.Fatalf("Unable the marshall results")
 	}
 
 	//do a get on all rules
