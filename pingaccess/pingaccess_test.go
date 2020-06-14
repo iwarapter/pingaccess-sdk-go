@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"runtime"
+	"strings"
 	"testing"
 	"time"
 
@@ -92,5 +93,38 @@ func equals(tb testing.TB, exp, act interface{}) {
 		_, file, line, _ := runtime.Caller(1)
 		fmt.Printf("\033[31m%s:%d:\n\n\texp: %#v\n\n\tgot: %#v\033[39m\n\n", filepath.Base(file), line, exp, act)
 		tb.FailNow()
+	}
+}
+
+func TestClientParsesApiErrorViewCorrect(t *testing.T) {
+	svc := config(paURL)
+
+	result, resp, err := svc.Virtualhosts.AddVirtualHostCommand(&AddVirtualHostCommandInput{Body: VirtualHostView{}})
+	if err == nil {
+		t.Fatalf("expected err, got nil")
+	}
+	if !strings.Contains(err.Error(), "host contains 2 validation failures:") {
+		t.Error("expected error message missing")
+	}
+	if !strings.Contains(err.Error(), "The Host Name must not contain special characters, spaces, or the URI scheme. A wildcard hostname may be specified.") {
+		t.Error("expected error message missing")
+	}
+	if !strings.Contains(err.Error(), "must not be null") {
+		t.Error("expected error message missing")
+	}
+	if !strings.Contains(err.Error(), "port contains 1 validation failures:") {
+		t.Error("expected error message missing")
+	}
+	if !strings.Contains(err.Error(), "Port must be in the range 1 to 65535") {
+		t.Error("expected error message missing")
+	}
+	if result != nil {
+		t.Errorf("expected no response, got: %v", result)
+	}
+	if resp == nil {
+		t.Fatalf("response body is nil")
+	}
+	if resp.StatusCode != http.StatusUnprocessableEntity {
+		t.Errorf("expected response code %d, got %d", http.StatusUnprocessableEntity, resp.StatusCode)
 	}
 }

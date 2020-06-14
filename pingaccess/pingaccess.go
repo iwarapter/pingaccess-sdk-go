@@ -240,7 +240,7 @@ func (r *ApiErrorView) Error() (message string) {
 			for _, j := range *i {
 				msgs = append(msgs, *j)
 			}
-			message += fmt.Sprintf("%s %s", s, strings.Join(msgs, ", "))
+			message += fmt.Sprintf(":\n%s contains %d validation failures:\n\t%s", s, len(msgs), strings.Join(msgs, "\n\t"))
 		}
 	}
 
