@@ -1,4 +1,4 @@
-package pingaccess
+package pingaccess_test
 
 import (
 	"crypto/tls"
@@ -13,6 +13,11 @@ import (
 	"strings"
 	"testing"
 	"time"
+
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/services/version"
+	"github.com/iwarapter/pingaccess-sdk-go/services/virtualhosts"
 
 	"github.com/ory/dockertest"
 )
@@ -60,11 +65,11 @@ func TestMain(m *testing.M) {
 	if err := pool.Retry(func() error {
 		var err error
 		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-		paURL, _ = url.Parse(fmt.Sprintf("https://localhost:%s", resource.GetPort("9000/tcp")))
-		client := NewClient("administrator", "2FederateM0re", paURL, "/pa-admin-api/v3", nil)
+		paURL, _ = url.Parse(fmt.Sprintf("https://localhost:%s/pa-admin-api/v3", resource.GetPort("9000/tcp")))
+		client := version.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
 
 		log.Println("Attempting to connect to PingAccess admin API....")
-		_, _, err = client.Version.VersionCommand()
+		_, _, err = client.VersionCommand()
 		return err
 	}); err != nil {
 		log.Fatalf("Could not connect to docker: %s", err)
@@ -82,9 +87,13 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func config(url *url.URL) *Client {
-	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-	return NewClient("administrator", "2FederateM0re", url, "/pa-admin-api/v3", nil)
+// ok fails the test if an err is not nil.
+func ok(tb testing.TB, err error) {
+	if err != nil {
+		_, file, line, _ := runtime.Caller(1)
+		fmt.Printf("\033[31m%s:%d: unexpected error: %s\033[39m\n\n", filepath.Base(file), line, err.Error())
+		tb.FailNow()
+	}
 }
 
 // equals fails the test if exp is not equal to act.
@@ -96,10 +105,19 @@ func equals(tb testing.TB, exp, act interface{}) {
 	}
 }
 
-func TestClientParsesApiErrorViewCorrect(t *testing.T) {
-	svc := config(paURL)
+// assert fails the test if the condition is false.
+func assert(tb testing.TB, condition bool, msg string, v ...interface{}) {
+	if !condition {
+		_, file, line, _ := runtime.Caller(1)
+		fmt.Printf("\033[31m%s:%d: "+msg+"\033[39m\n\n", append([]interface{}{filepath.Base(file), line}, v...)...)
+		tb.FailNow()
+	}
+}
 
-	result, resp, err := svc.Virtualhosts.AddVirtualHostCommand(&AddVirtualHostCommandInput{Body: VirtualHostView{}})
+func TestClientParsesApiErrorViewCorrect(t *testing.T) {
+	svc := virtualhosts.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+
+	result, resp, err := svc.AddVirtualHostCommand(&virtualhosts.AddVirtualHostCommandInput{Body: pa.VirtualHostView{}})
 	if err == nil {
 		t.Fatalf("expected err, got nil")
 	}

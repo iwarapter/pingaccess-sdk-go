@@ -1,13 +1,18 @@
-package pingaccess
+package pingaccess_test
 
 import (
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/services/siteAuthenticators"
+
 	"testing"
 )
 
 func TestSiteAuthenticatorDescriptors(t *testing.T) {
-	svc := config(paURL)
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
 
-	result1, resp1, err1 := svc.SiteAuthenticators.GetSiteAuthenticatorDescriptorsCommand()
+	result1, resp1, err1 := svc.GetSiteAuthenticatorDescriptorsCommand()
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -18,10 +23,10 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 		t.Errorf("Unable the marshall results")
 	}
 
-	input2 := GetSiteAuthenticatorDescriptorCommandInput{
+	input2 := siteAuthenticators.GetSiteAuthenticatorDescriptorCommandInput{
 		SiteAuthenticatorType: "mutualtlssiteauthenticator",
 	}
-	result2, resp2, err2 := svc.SiteAuthenticators.GetSiteAuthenticatorDescriptorCommand(&input2)
+	result2, resp2, err2 := svc.GetSiteAuthenticatorDescriptorCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to execute command: %s", err2.Error())
 	}
@@ -34,18 +39,18 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 }
 
 func TestSiteAuthenticatorMethods(t *testing.T) {
-	svc := config(paURL)
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
 
 	// add a new site authenticator
-	input1 := AddSiteAuthenticatorCommandInput{
-		Body: SiteAuthenticatorView{
-			ClassName: String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
-			Name:      String("matls"),
+	input1 := siteAuthenticators.AddSiteAuthenticatorCommandInput{
+		Body: pa.SiteAuthenticatorView{
+			ClassName: pingaccess.String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
+			Name:      pingaccess.String("matls"),
 			Configuration: map[string]interface{}{
 				"keyPairId": "2",
 			},
 		}}
-	result1, resp1, err1 := svc.SiteAuthenticators.AddSiteAuthenticatorCommand(&input1)
+	result1, resp1, err1 := svc.AddSiteAuthenticatorCommand(&input1)
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -57,8 +62,8 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	}
 
 	//do a get on all site authenticators
-	input2 := GetSiteAuthenticatorsCommandInput{}
-	result2, resp2, err2 := svc.SiteAuthenticators.GetSiteAuthenticatorsCommand(&input2)
+	input2 := siteAuthenticators.GetSiteAuthenticatorsCommandInput{}
+	result2, resp2, err2 := svc.GetSiteAuthenticatorsCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to retrieve site authenticators: %s", err2)
 	}
@@ -70,16 +75,16 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	}
 
 	//update the site authenticator
-	input3 := UpdateSiteAuthenticatorCommandInput{
+	input3 := siteAuthenticators.UpdateSiteAuthenticatorCommandInput{
 		Id: result1.Id.String(),
-		Body: SiteAuthenticatorView{
-			ClassName: String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
-			Name:      String("matls"),
+		Body: pa.SiteAuthenticatorView{
+			ClassName: pingaccess.String("com.pingidentity.pa.siteauthenticators.MutualTlsSiteAuthenticator"),
+			Name:      pingaccess.String("matls"),
 			Configuration: map[string]interface{}{
 				"keyPairId": "3",
 			},
 		}}
-	result3, resp3, err3 := svc.SiteAuthenticators.UpdateSiteAuthenticatorCommand(&input3)
+	result3, resp3, err3 := svc.UpdateSiteAuthenticatorCommand(&input3)
 	if err3 != nil {
 		t.Errorf("Unable to update site authenticator: %s", err3)
 	}
@@ -91,10 +96,10 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	}
 
 	//get the site authenticator and check the update
-	input4 := GetSiteAuthenticatorCommandInput{
+	input4 := siteAuthenticators.GetSiteAuthenticatorCommandInput{
 		Id: result1.Id.String(),
 	}
-	result4, resp4, err4 := svc.SiteAuthenticators.GetSiteAuthenticatorCommand(&input4)
+	result4, resp4, err4 := svc.GetSiteAuthenticatorCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get site authenticator: %s", err4)
 	}
@@ -106,10 +111,10 @@ func TestSiteAuthenticatorMethods(t *testing.T) {
 	}
 
 	//delete our initial site authenticator
-	input5 := DeleteSiteAuthenticatorCommandInput{
+	input5 := siteAuthenticators.DeleteSiteAuthenticatorCommandInput{
 		Id: result1.Id.String(),
 	}
-	resp5, err5 := svc.SiteAuthenticators.DeleteSiteAuthenticatorCommand(&input5)
+	resp5, err5 := svc.DeleteSiteAuthenticatorCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete site authenticator: %s", err5)
 	}

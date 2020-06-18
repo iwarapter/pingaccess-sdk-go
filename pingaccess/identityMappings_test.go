@@ -1,12 +1,17 @@
-package pingaccess
+package pingaccess_test
 
 import (
 	"testing"
+
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/services/identityMappings"
 )
 
 func TestIdentityMappingDescriptors(t *testing.T) {
-	svc := config(paURL)
-	result1, resp1, err1 := svc.IdentityMappings.GetIdentityMappingDescriptorsCommand()
+	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	result1, resp1, err1 := svc.GetIdentityMappingDescriptorsCommand()
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -17,10 +22,10 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 		t.Errorf("Unable the marshall results")
 	}
 
-	input2 := GetIdentityMappingDescriptorCommandInput{
+	input2 := identityMappings.GetIdentityMappingDescriptorCommandInput{
 		IdentityMappingType: "jwtidentitymapping",
 	}
-	result2, resp2, err2 := svc.IdentityMappings.GetIdentityMappingDescriptorCommand(&input2)
+	result2, resp2, err2 := svc.GetIdentityMappingDescriptorCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to execute command: %s", err2.Error())
 	}
@@ -33,13 +38,13 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 }
 
 func TestIdentityMappingMethods(t *testing.T) {
-	svc := config(paURL)
+	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
 
 	// add a new identity mapping
-	input1 := AddIdentityMappingCommandInput{
-		Body: IdentityMappingView{
-			ClassName: String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
-			Name:      String("woot"),
+	input1 := identityMappings.AddIdentityMappingCommandInput{
+		Body: pa.IdentityMappingView{
+			ClassName: pingaccess.String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
+			Name:      pingaccess.String("woot"),
 			Configuration: map[string]interface{}{
 				"attributeHeaderMappings": []interface{}{
 					map[string]interface{}{
@@ -51,7 +56,7 @@ func TestIdentityMappingMethods(t *testing.T) {
 				"headerClientCertificateMappings": []interface{}{},
 			},
 		}}
-	result1, resp1, err1 := svc.IdentityMappings.AddIdentityMappingCommand(&input1)
+	result1, resp1, err1 := svc.AddIdentityMappingCommand(&input1)
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -63,8 +68,8 @@ func TestIdentityMappingMethods(t *testing.T) {
 	}
 
 	//do a get on all identity mappings
-	input2 := GetIdentityMappingsCommandInput{}
-	result2, resp2, err2 := svc.IdentityMappings.GetIdentityMappingsCommand(&input2)
+	input2 := identityMappings.GetIdentityMappingsCommandInput{}
+	result2, resp2, err2 := svc.GetIdentityMappingsCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to retrieve identity mappings: %s", err2)
 	}
@@ -76,11 +81,11 @@ func TestIdentityMappingMethods(t *testing.T) {
 	}
 
 	//update the identity mapping
-	input3 := UpdateIdentityMappingCommandInput{
+	input3 := identityMappings.UpdateIdentityMappingCommandInput{
 		Id: result1.Id.String(),
-		Body: IdentityMappingView{
-			ClassName: String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
-			Name:      String("woot"),
+		Body: pa.IdentityMappingView{
+			ClassName: pingaccess.String("com.pingidentity.pa.identitymappings.HeaderIdentityMapping"),
+			Name:      pingaccess.String("woot"),
 			Configuration: map[string]interface{}{
 				"attributeHeaderMappings": []interface{}{
 					map[string]interface{}{
@@ -92,7 +97,7 @@ func TestIdentityMappingMethods(t *testing.T) {
 				"headerClientCertificateMappings": []interface{}{},
 			},
 		}}
-	result3, resp3, err3 := svc.IdentityMappings.UpdateIdentityMappingCommand(&input3)
+	result3, resp3, err3 := svc.UpdateIdentityMappingCommand(&input3)
 	if err3 != nil {
 		t.Errorf("Unable to update identity mapping: %s", err3)
 	}
@@ -104,10 +109,10 @@ func TestIdentityMappingMethods(t *testing.T) {
 	}
 
 	//get the identity mapping and check the update
-	input4 := GetIdentityMappingCommandInput{
+	input4 := identityMappings.GetIdentityMappingCommandInput{
 		Id: result1.Id.String(),
 	}
-	result4, resp4, err4 := svc.IdentityMappings.GetIdentityMappingCommand(&input4)
+	result4, resp4, err4 := svc.GetIdentityMappingCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get identity mapping: %s", err4)
 	}
@@ -119,10 +124,10 @@ func TestIdentityMappingMethods(t *testing.T) {
 	}
 
 	//delete our initial identity mapping
-	input5 := DeleteIdentityMappingCommandInput{
+	input5 := identityMappings.DeleteIdentityMappingCommandInput{
 		Id: result1.Id.String(),
 	}
-	resp5, err5 := svc.IdentityMappings.DeleteIdentityMappingCommand(&input5)
+	resp5, err5 := svc.DeleteIdentityMappingCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete identity mapping: %s", err5)
 	}

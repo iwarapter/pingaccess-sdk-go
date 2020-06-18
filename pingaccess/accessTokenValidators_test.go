@@ -1,15 +1,21 @@
-package pingaccess
+package pingaccess_test
 
 import (
+	"net/http"
 	"testing"
+
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/services/accessTokenValidators"
 )
 
 func TestAccessTokenValidatorMethods(t *testing.T) {
-	svc := config(paURL)
-	input1 := AddAccessTokenValidatorCommandInput{
-		Body: AccessTokenValidatorView{
-			Name:      String("foo"),
-			ClassName: String("com.pingidentity.pa.accesstokenvalidators.JwksEndpoint"),
+	svc := accessTokenValidators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	input1 := accessTokenValidators.AddAccessTokenValidatorCommandInput{
+		Body: pa.AccessTokenValidatorView{
+			Name:      pingaccess.String("foo"),
+			ClassName: pingaccess.String("com.pingidentity.pa.accesstokenvalidators.JwksEndpoint"),
 			Configuration: map[string]interface{}{
 				"description":          "null",
 				"path":                 "/foo",
@@ -19,20 +25,14 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 			},
 		}}
 
-	result1, resp1, err1 := svc.AccessTokenValidators.AddAccessTokenValidatorCommand(&input1)
-	if err1 != nil {
-		t.Errorf("Unable to execute command: %s", err1.Error())
-	}
-	if resp1 == nil || resp1.StatusCode != 200 {
-		t.Errorf("Invalid response code: %d", resp1.StatusCode)
-	}
-	if result1 == nil {
-		t.Fatalf("Unable the marshall results")
-	}
+	result1, resp1, err1 := svc.AddAccessTokenValidatorCommand(&input1)
+	ok(t, err1)
+	equals(t, http.StatusOK, resp1.StatusCode)
+	assert(t, *result1.Name == "foo", "name was not as expected")
 
 	//do a get on all access token validator
-	input2 := GetAccessTokenValidatorCommandInput{}
-	result2, resp2, err2 := svc.AccessTokenValidators.GetAccessTokenValidatorCommand(&input2)
+	input2 := accessTokenValidators.GetAccessTokenValidatorCommandInput{}
+	result2, resp2, err2 := svc.GetAccessTokenValidatorCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to retrieve access token validator: %s", err2)
 	}
@@ -44,11 +44,11 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 	}
 
 	//update the access token validator
-	input3 := UpdateAccessTokenValidatorCommandInput{
+	input3 := accessTokenValidators.UpdateAccessTokenValidatorCommandInput{
 		Id: result1.Id.String(),
-		Body: AccessTokenValidatorView{
-			Name:      String("foo"),
-			ClassName: String("com.pingidentity.pa.accesstokenvalidators.JwksEndpoint"),
+		Body: pa.AccessTokenValidatorView{
+			Name:      pingaccess.String("foo"),
+			ClassName: pingaccess.String("com.pingidentity.pa.accesstokenvalidators.JwksEndpoint"),
 			Configuration: map[string]interface{}{
 				"description":          "null",
 				"path":                 "/foo/bar",
@@ -58,7 +58,7 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 			},
 		},
 	}
-	result3, resp3, err3 := svc.AccessTokenValidators.UpdateAccessTokenValidatorCommand(&input3)
+	result3, resp3, err3 := svc.UpdateAccessTokenValidatorCommand(&input3)
 	if err3 != nil {
 		t.Errorf("Unable to update access token validator: %s", err3)
 	}
@@ -70,10 +70,10 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 	}
 
 	//get the access token validator and check the update
-	input4 := GetAccessTokenValidatorCommandInput{
+	input4 := accessTokenValidators.GetAccessTokenValidatorCommandInput{
 		Id: result1.Id.String(),
 	}
-	result4, resp4, err4 := svc.AccessTokenValidators.GetAccessTokenValidatorCommand(&input4)
+	result4, resp4, err4 := svc.GetAccessTokenValidatorCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get access token validator: %s", err4)
 	}
@@ -85,10 +85,10 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 	}
 
 	//delete our initial access token validator
-	input5 := DeleteAccessTokenValidatorCommandInput{
+	input5 := accessTokenValidators.DeleteAccessTokenValidatorCommandInput{
 		Id: result1.Id.String(),
 	}
-	resp5, err5 := svc.AccessTokenValidators.DeleteAccessTokenValidatorCommand(&input5)
+	resp5, err5 := svc.DeleteAccessTokenValidatorCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete access token validator: %s", err5)
 	}

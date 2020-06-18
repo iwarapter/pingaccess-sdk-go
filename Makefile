@@ -14,15 +14,8 @@ test-and-report:
 	@rm -f report.json coverage.out
 	@go test ./... -v -coverprofile=coverage.out -json > report.json && go tool cover -func=coverage.out
 
-install:
-	@go install ./...
-
-sonar:
-	@sonar-scanner \
-		-Dsonar.projectKey=github.com.iwarapter.pingaccess-sdk-go \
-		-Dsonar.sources=. \
-		-Dsonar.go.coverage.reportPaths=coverage.out \
-		-Dsonar.go.tests.reportPaths=report.json \
-		-Dsonar.exclusions=vendor \
-		-Dsonar.tests="." \
-		-Dsonar.test.inclusions="**/*_test.go"
+checks:
+	@go fmt ./...
+	@staticcheck ./...
+	@gosec ./...
+	@goimports -w services pingaccess
