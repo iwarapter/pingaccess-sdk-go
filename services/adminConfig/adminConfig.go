@@ -17,10 +17,20 @@ const (
 	ServiceName = "AdminConfig"
 )
 
+//AdminConfigService provides the API operations for making requests to
+// AdminConfig endpoint.
 type AdminConfigService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AdminConfigService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AdminConfigService from the configuration
+//   svc := adminConfig.New(cfg)
+//
 func New(cfg *config.Config) *AdminConfigService {
 
 	return &AdminConfigService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *AdminConfigService {
 }
 
 // newRequest creates a new request for a AdminConfig operation
-func (c *AdminConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AdminConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -98,6 +108,7 @@ func (s *AdminConfigService) UpdateAdminConfigurationCommand(input *UpdateAdminC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAdminConfigurationCommandInput - Inputs for UpdateAdminConfigurationCommand
 type UpdateAdminConfigurationCommandInput struct {
 	Body models.AdminConfigurationView
 }
@@ -141,6 +152,7 @@ func (s *AdminConfigService) AddReplicaAdminCommand(input *AddReplicaAdminComman
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddReplicaAdminCommandInput - Inputs for AddReplicaAdminCommand
 type AddReplicaAdminCommandInput struct {
 	Body models.ReplicaAdminView
 }
@@ -167,6 +179,7 @@ func (s *AdminConfigService) DeleteReplicaAdminCommand(input *DeleteReplicaAdmin
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteReplicaAdminCommandInput - Inputs for DeleteReplicaAdminCommand
 type DeleteReplicaAdminCommandInput struct {
 	Id string
 }
@@ -193,6 +206,7 @@ func (s *AdminConfigService) GetReplicaAdminCommand(input *GetReplicaAdminComman
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetReplicaAdminCommandInput - Inputs for GetReplicaAdminCommand
 type GetReplicaAdminCommandInput struct {
 	Id string
 }
@@ -219,6 +233,7 @@ func (s *AdminConfigService) UpdateAdminReplicaCommand(input *UpdateAdminReplica
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAdminReplicaCommandInput - Inputs for UpdateAdminReplicaCommand
 type UpdateAdminReplicaCommandInput struct {
 	Body models.ReplicaAdminView
 	Id   string
@@ -246,6 +261,7 @@ func (s *AdminConfigService) GetAdminReplicaFileCommand(input *GetAdminReplicaFi
 	return req.HTTPResponse, req.Error
 }
 
+// GetAdminReplicaFileCommandInput - Inputs for GetAdminReplicaFileCommand
 type GetAdminReplicaFileCommandInput struct {
 	Id string
 }

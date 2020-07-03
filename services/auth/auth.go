@@ -16,10 +16,20 @@ const (
 	ServiceName = "Auth"
 )
 
+//AuthService provides the API operations for making requests to
+// Auth endpoint.
 type AuthService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AuthService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AuthService from the configuration
+//   svc := auth.New(cfg)
+//
 func New(cfg *config.Config) *AuthService {
 
 	return &AuthService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *AuthService {
 }
 
 // newRequest creates a new request for a Auth operation
-func (c *AuthService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AuthService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *AuthService) UpdateBasicAuthCommand(input *UpdateBasicAuthCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateBasicAuthCommandInput - Inputs for UpdateBasicAuthCommand
 type UpdateBasicAuthCommandInput struct {
 	Body models.BasicAuthConfigView
 }
@@ -159,6 +170,7 @@ func (s *AuthService) UpdateOAuthAuthCommand(input *UpdateOAuthAuthCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateOAuthAuthCommandInput - Inputs for UpdateOAuthAuthCommand
 type UpdateOAuthAuthCommandInput struct {
 	Body models.OAuthConfigView
 }
@@ -221,6 +233,7 @@ func (s *AuthService) UpdateOidcAuthCommand(input *UpdateOidcAuthCommandInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateOidcAuthCommandInput - Inputs for UpdateOidcAuthCommand
 type UpdateOidcAuthCommandInput struct {
 	Body models.OidcConfigView
 }
@@ -283,6 +296,7 @@ func (s *AuthService) UpdateAdminBasicWebSessionCommand(input *UpdateAdminBasicW
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAdminBasicWebSessionCommandInput - Inputs for UpdateAdminBasicWebSessionCommand
 type UpdateAdminBasicWebSessionCommandInput struct {
 	Body models.AdminBasicWebSessionView
 }

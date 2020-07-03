@@ -17,10 +17,20 @@ const (
 	ServiceName = "Rules"
 )
 
+//RulesService provides the API operations for making requests to
+// Rules endpoint.
 type RulesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the RulesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a RulesService from the configuration
+//   svc := rules.New(cfg)
+//
 func New(cfg *config.Config) *RulesService {
 
 	return &RulesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *RulesService {
 }
 
 // newRequest creates a new request for a Rules operation
-func (c *RulesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *RulesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *RulesService) GetRulesCommand(input *GetRulesCommandInput) (output *mod
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRulesCommandInput - Inputs for GetRulesCommand
 type GetRulesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *RulesService) AddRuleCommand(input *AddRuleCommandInput) (output *model
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddRuleCommandInput - Inputs for AddRuleCommand
 type AddRuleCommandInput struct {
 	Body models.RuleView
 }
@@ -141,6 +153,7 @@ func (s *RulesService) GetRuleDescriptorCommand(input *GetRuleDescriptorCommandI
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRuleDescriptorCommandInput - Inputs for GetRuleDescriptorCommand
 type GetRuleDescriptorCommandInput struct {
 	RuleType string
 }
@@ -167,6 +180,7 @@ func (s *RulesService) DeleteRuleCommand(input *DeleteRuleCommandInput) (resp *h
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteRuleCommandInput - Inputs for DeleteRuleCommand
 type DeleteRuleCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *RulesService) GetRuleCommand(input *GetRuleCommandInput) (output *model
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRuleCommandInput - Inputs for GetRuleCommand
 type GetRuleCommandInput struct {
 	Id string
 }
@@ -219,6 +234,7 @@ func (s *RulesService) UpdateRuleCommand(input *UpdateRuleCommandInput) (output 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateRuleCommandInput - Inputs for UpdateRuleCommand
 type UpdateRuleCommandInput struct {
 	Body models.RuleView
 	Id   string

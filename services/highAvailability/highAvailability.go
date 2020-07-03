@@ -17,10 +17,20 @@ const (
 	ServiceName = "HighAvailability"
 )
 
+//HighAvailabilityService provides the API operations for making requests to
+// HighAvailability endpoint.
 type HighAvailabilityService struct {
 	*client.Client
 }
 
+//New createa a new instance of the HighAvailabilityService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a HighAvailabilityService from the configuration
+//   svc := highAvailability.New(cfg)
+//
 func New(cfg *config.Config) *HighAvailabilityService {
 
 	return &HighAvailabilityService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *HighAvailabilityService {
 }
 
 // newRequest creates a new request for a HighAvailability operation
-func (c *HighAvailabilityService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *HighAvailabilityService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *HighAvailabilityService) GetAvailabilityProfilesCommand(input *GetAvail
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAvailabilityProfilesCommandInput - Inputs for GetAvailabilityProfilesCommand
 type GetAvailabilityProfilesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *HighAvailabilityService) AddAvailabilityProfileCommand(input *AddAvaila
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAvailabilityProfileCommandInput - Inputs for AddAvailabilityProfileCommand
 type AddAvailabilityProfileCommandInput struct {
 	Body models.AvailabilityProfileView
 }
@@ -141,6 +153,7 @@ func (s *HighAvailabilityService) GetAvailabilityProfileDescriptorCommand(input 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAvailabilityProfileDescriptorCommandInput - Inputs for GetAvailabilityProfileDescriptorCommand
 type GetAvailabilityProfileDescriptorCommandInput struct {
 	AvailabilityProfileType string
 }
@@ -167,6 +180,7 @@ func (s *HighAvailabilityService) DeleteAvailabilityProfileCommand(input *Delete
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteAvailabilityProfileCommandInput - Inputs for DeleteAvailabilityProfileCommand
 type DeleteAvailabilityProfileCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *HighAvailabilityService) GetAvailabilityProfileCommand(input *GetAvaila
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAvailabilityProfileCommandInput - Inputs for GetAvailabilityProfileCommand
 type GetAvailabilityProfileCommandInput struct {
 	Id string
 }
@@ -219,6 +234,7 @@ func (s *HighAvailabilityService) UpdateAvailabilityProfileCommand(input *Update
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAvailabilityProfileCommandInput - Inputs for UpdateAvailabilityProfileCommand
 type UpdateAvailabilityProfileCommandInput struct {
 	Body models.AvailabilityProfileView
 	Id   string
@@ -251,6 +267,7 @@ func (s *HighAvailabilityService) GetLoadBalancingStrategiesCommand(input *GetLo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetLoadBalancingStrategiesCommandInput - Inputs for GetLoadBalancingStrategiesCommand
 type GetLoadBalancingStrategiesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -280,6 +297,7 @@ func (s *HighAvailabilityService) AddLoadBalancingStrategyCommand(input *AddLoad
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddLoadBalancingStrategyCommandInput - Inputs for AddLoadBalancingStrategyCommand
 type AddLoadBalancingStrategyCommandInput struct {
 	Body models.LoadBalancingStrategyView
 }
@@ -325,6 +343,7 @@ func (s *HighAvailabilityService) GetLoadBalancingStrategyDescriptorCommand(inpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetLoadBalancingStrategyDescriptorCommandInput - Inputs for GetLoadBalancingStrategyDescriptorCommand
 type GetLoadBalancingStrategyDescriptorCommandInput struct {
 	LoadBalancingStrategyType string
 }
@@ -351,6 +370,7 @@ func (s *HighAvailabilityService) DeleteLoadBalancingStrategyCommand(input *Dele
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteLoadBalancingStrategyCommandInput - Inputs for DeleteLoadBalancingStrategyCommand
 type DeleteLoadBalancingStrategyCommandInput struct {
 	Id string
 }
@@ -377,6 +397,7 @@ func (s *HighAvailabilityService) GetLoadBalancingStrategyCommand(input *GetLoad
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetLoadBalancingStrategyCommandInput - Inputs for GetLoadBalancingStrategyCommand
 type GetLoadBalancingStrategyCommandInput struct {
 	Id string
 }
@@ -403,6 +424,7 @@ func (s *HighAvailabilityService) UpdateLoadBalancingStrategyCommand(input *Upda
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateLoadBalancingStrategyCommandInput - Inputs for UpdateLoadBalancingStrategyCommand
 type UpdateLoadBalancingStrategyCommandInput struct {
 	Body models.LoadBalancingStrategyView
 	Id   string

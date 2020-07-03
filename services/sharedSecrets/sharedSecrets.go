@@ -17,10 +17,20 @@ const (
 	ServiceName = "SharedSecrets"
 )
 
+//SharedSecretsService provides the API operations for making requests to
+// SharedSecrets endpoint.
 type SharedSecretsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the SharedSecretsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a SharedSecretsService from the configuration
+//   svc := sharedSecrets.New(cfg)
+//
 func New(cfg *config.Config) *SharedSecretsService {
 
 	return &SharedSecretsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *SharedSecretsService {
 }
 
 // newRequest creates a new request for a SharedSecrets operation
-func (c *SharedSecretsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *SharedSecretsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -63,6 +73,7 @@ func (s *SharedSecretsService) GetSharedSecretsCommand(input *GetSharedSecretsCo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSharedSecretsCommandInput - Inputs for GetSharedSecretsCommand
 type GetSharedSecretsCommandInput struct {
 	SortKey string
 	Order   string
@@ -88,6 +99,7 @@ func (s *SharedSecretsService) AddSharedSecretCommand(input *AddSharedSecretComm
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddSharedSecretCommandInput - Inputs for AddSharedSecretCommand
 type AddSharedSecretCommandInput struct {
 	Body models.SharedSecretView
 }
@@ -114,6 +126,7 @@ func (s *SharedSecretsService) DeleteSharedSecretCommand(input *DeleteSharedSecr
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteSharedSecretCommandInput - Inputs for DeleteSharedSecretCommand
 type DeleteSharedSecretCommandInput struct {
 	Id string
 }
@@ -140,6 +153,7 @@ func (s *SharedSecretsService) GetSharedSecretCommand(input *GetSharedSecretComm
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSharedSecretCommandInput - Inputs for GetSharedSecretCommand
 type GetSharedSecretCommandInput struct {
 	Id string
 }

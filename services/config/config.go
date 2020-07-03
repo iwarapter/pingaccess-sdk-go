@@ -17,10 +17,20 @@ const (
 	ServiceName = "Config"
 )
 
+//ConfigService provides the API operations for making requests to
+// Config endpoint.
 type ConfigService struct {
 	*client.Client
 }
 
+//New createa a new instance of the ConfigService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a ConfigService from the configuration
+//   svc := config.New(cfg)
+//
 func New(cfg *config.Config) *ConfigService {
 
 	return &ConfigService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *ConfigService {
 }
 
 // newRequest creates a new request for a Config operation
-func (c *ConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *ConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -119,6 +129,7 @@ func (s *ConfigService) GetConfigExportWorkflowCommand(input *GetConfigExportWor
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetConfigExportWorkflowCommandInput - Inputs for GetConfigExportWorkflowCommand
 type GetConfigExportWorkflowCommandInput struct {
 	Id string
 }
@@ -145,6 +156,7 @@ func (s *ConfigService) GetConfigExportWorkflowDataCommand(input *GetConfigExpor
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetConfigExportWorkflowDataCommandInput - Inputs for GetConfigExportWorkflowDataCommand
 type GetConfigExportWorkflowDataCommandInput struct {
 	Id string
 }
@@ -169,6 +181,7 @@ func (s *ConfigService) ConfigImportCommand(input *ConfigImportCommandInput) (re
 	return req.HTTPResponse, req.Error
 }
 
+// ConfigImportCommandInput - Inputs for ConfigImportCommand
 type ConfigImportCommandInput struct {
 	Body string
 }
@@ -212,6 +225,7 @@ func (s *ConfigService) AddConfigImportWorkflowCommand(input *AddConfigImportWor
 	return req.HTTPResponse, req.Error
 }
 
+// AddConfigImportWorkflowCommandInput - Inputs for AddConfigImportWorkflowCommand
 type AddConfigImportWorkflowCommandInput struct {
 	Body models.ExportData
 }
@@ -238,6 +252,7 @@ func (s *ConfigService) GetConfigImportWorkflowCommand(input *GetConfigImportWor
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetConfigImportWorkflowCommandInput - Inputs for GetConfigImportWorkflowCommand
 type GetConfigImportWorkflowCommandInput struct {
 	Id string
 }

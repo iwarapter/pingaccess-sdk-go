@@ -16,10 +16,20 @@ const (
 	ServiceName = "Oauth"
 )
 
+//OauthService provides the API operations for making requests to
+// Oauth endpoint.
 type OauthService struct {
 	*client.Client
 }
 
+//New createa a new instance of the OauthService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a OauthService from the configuration
+//   svc := oauth.New(cfg)
+//
 func New(cfg *config.Config) *OauthService {
 
 	return &OauthService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *OauthService {
 }
 
 // newRequest creates a new request for a Oauth operation
-func (c *OauthService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *OauthService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *OauthService) UpdateAuthorizationServerCommand(input *UpdateAuthorizati
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAuthorizationServerCommandInput - Inputs for UpdateAuthorizationServerCommand
 type UpdateAuthorizationServerCommandInput struct {
 	Body models.AuthorizationServerView
 }

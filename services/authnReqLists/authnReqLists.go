@@ -17,10 +17,20 @@ const (
 	ServiceName = "AuthnReqLists"
 )
 
+//AuthnReqListsService provides the API operations for making requests to
+// AuthnReqLists endpoint.
 type AuthnReqListsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AuthnReqListsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AuthnReqListsService from the configuration
+//   svc := authnReqLists.New(cfg)
+//
 func New(cfg *config.Config) *AuthnReqListsService {
 
 	return &AuthnReqListsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *AuthnReqListsService {
 }
 
 // newRequest creates a new request for a AuthnReqLists operation
-func (c *AuthnReqListsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AuthnReqListsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *AuthnReqListsService) GetAuthnReqListsCommand(input *GetAuthnReqListsCo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAuthnReqListsCommandInput - Inputs for GetAuthnReqListsCommand
 type GetAuthnReqListsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *AuthnReqListsService) AddAuthnReqListCommand(input *AddAuthnReqListComm
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAuthnReqListCommandInput - Inputs for AddAuthnReqListCommand
 type AddAuthnReqListCommandInput struct {
 	Body models.AuthnReqListView
 }
@@ -122,6 +134,7 @@ func (s *AuthnReqListsService) DeleteAuthnReqListCommand(input *DeleteAuthnReqLi
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteAuthnReqListCommandInput - Inputs for DeleteAuthnReqListCommand
 type DeleteAuthnReqListCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *AuthnReqListsService) GetAuthnReqListCommand(input *GetAuthnReqListComm
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAuthnReqListCommandInput - Inputs for GetAuthnReqListCommand
 type GetAuthnReqListCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *AuthnReqListsService) UpdateAuthnReqListCommand(input *UpdateAuthnReqLi
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAuthnReqListCommandInput - Inputs for UpdateAuthnReqListCommand
 type UpdateAuthnReqListCommandInput struct {
 	Body models.AuthnReqListView
 	Id   string

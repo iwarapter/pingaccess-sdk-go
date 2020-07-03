@@ -16,10 +16,20 @@ const (
 	ServiceName = "AuthTokenManagement"
 )
 
+//AuthTokenManagementService provides the API operations for making requests to
+// AuthTokenManagement endpoint.
 type AuthTokenManagementService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AuthTokenManagementService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AuthTokenManagementService from the configuration
+//   svc := authTokenManagement.New(cfg)
+//
 func New(cfg *config.Config) *AuthTokenManagementService {
 
 	return &AuthTokenManagementService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *AuthTokenManagementService {
 }
 
 // newRequest creates a new request for a AuthTokenManagement operation
-func (c *AuthTokenManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AuthTokenManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *AuthTokenManagementService) UpdateAuthTokenManagementCommand(input *Upd
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAuthTokenManagementCommandInput - Inputs for UpdateAuthTokenManagementCommand
 type UpdateAuthTokenManagementCommandInput struct {
 	Body models.AuthTokenManagementView
 }
@@ -140,6 +151,7 @@ func (s *AuthTokenManagementService) UpdateAuthTokenKeySetCommand(input *UpdateA
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAuthTokenKeySetCommandInput - Inputs for UpdateAuthTokenKeySetCommand
 type UpdateAuthTokenKeySetCommandInput struct {
 	Body models.KeySetView
 }

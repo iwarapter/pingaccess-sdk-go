@@ -17,10 +17,20 @@ const (
 	ServiceName = "Users"
 )
 
+//UsersService provides the API operations for making requests to
+// Users endpoint.
 type UsersService struct {
 	*client.Client
 }
 
+//New createa a new instance of the UsersService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a UsersService from the configuration
+//   svc := users.New(cfg)
+//
 func New(cfg *config.Config) *UsersService {
 
 	return &UsersService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *UsersService {
 }
 
 // newRequest creates a new request for a Users operation
-func (c *UsersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *UsersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *UsersService) GetUsersCommand(input *GetUsersCommandInput) (output *mod
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetUsersCommandInput - Inputs for GetUsersCommand
 type GetUsersCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -98,6 +109,7 @@ func (s *UsersService) GetUserCommand(input *GetUserCommandInput) (output *model
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetUserCommandInput - Inputs for GetUserCommand
 type GetUserCommandInput struct {
 	Id string
 }
@@ -124,6 +136,7 @@ func (s *UsersService) UpdateUserCommand(input *UpdateUserCommandInput) (output 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateUserCommandInput - Inputs for UpdateUserCommand
 type UpdateUserCommandInput struct {
 	Body models.UserView
 	Id   string
@@ -151,6 +164,7 @@ func (s *UsersService) UpdateUserPasswordCommand(input *UpdateUserPasswordComman
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateUserPasswordCommandInput - Inputs for UpdateUserPasswordCommand
 type UpdateUserPasswordCommandInput struct {
 	Body models.UserPasswordView
 	Id   string

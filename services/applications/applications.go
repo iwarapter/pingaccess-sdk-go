@@ -17,10 +17,20 @@ const (
 	ServiceName = "Applications"
 )
 
+//ApplicationsService provides the API operations for making requests to
+// Applications endpoint.
 type ApplicationsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the ApplicationsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a ApplicationsService from the configuration
+//   svc := applications.New(cfg)
+//
 func New(cfg *config.Config) *ApplicationsService {
 
 	return &ApplicationsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *ApplicationsService {
 }
 
 // newRequest creates a new request for a Applications operation
-func (c *ApplicationsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *ApplicationsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -72,6 +82,7 @@ func (s *ApplicationsService) GetApplicationsCommand(input *GetApplicationsComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetApplicationsCommandInput - Inputs for GetApplicationsCommand
 type GetApplicationsCommandInput struct {
 	Page          string
 	SiteId        string
@@ -106,6 +117,7 @@ func (s *ApplicationsService) AddApplicationCommand(input *AddApplicationCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddApplicationCommandInput - Inputs for AddApplicationCommand
 type AddApplicationCommandInput struct {
 	Body models.ApplicationView
 }
@@ -168,6 +180,7 @@ func (s *ApplicationsService) UpdateReservedApplicationCommand(input *UpdateRese
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateReservedApplicationCommandInput - Inputs for UpdateReservedApplicationCommand
 type UpdateReservedApplicationCommandInput struct {
 	Body models.ReservedApplicationView
 }
@@ -201,6 +214,7 @@ func (s *ApplicationsService) GetResourcesCommand(input *GetResourcesCommandInpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetResourcesCommandInput - Inputs for GetResourcesCommand
 type GetResourcesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -255,6 +269,7 @@ func (s *ApplicationsService) DeleteApplicationResourceCommand(input *DeleteAppl
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteApplicationResourceCommandInput - Inputs for DeleteApplicationResourceCommand
 type DeleteApplicationResourceCommandInput struct {
 	ApplicationId string
 	ResourceId    string
@@ -284,6 +299,7 @@ func (s *ApplicationsService) GetApplicationResourceCommand(input *GetApplicatio
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetApplicationResourceCommandInput - Inputs for GetApplicationResourceCommand
 type GetApplicationResourceCommandInput struct {
 	ApplicationId string
 	ResourceId    string
@@ -313,6 +329,7 @@ func (s *ApplicationsService) UpdateApplicationResourceCommand(input *UpdateAppl
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateApplicationResourceCommandInput - Inputs for UpdateApplicationResourceCommand
 type UpdateApplicationResourceCommandInput struct {
 	Body          models.ResourceView
 	ApplicationId string
@@ -341,6 +358,7 @@ func (s *ApplicationsService) DeleteApplicationCommand(input *DeleteApplicationC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// DeleteApplicationCommandInput - Inputs for DeleteApplicationCommand
 type DeleteApplicationCommandInput struct {
 	Id string
 }
@@ -367,6 +385,7 @@ func (s *ApplicationsService) GetApplicationCommand(input *GetApplicationCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetApplicationCommandInput - Inputs for GetApplicationCommand
 type GetApplicationCommandInput struct {
 	Id string
 }
@@ -393,6 +412,7 @@ func (s *ApplicationsService) UpdateApplicationCommand(input *UpdateApplicationC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateApplicationCommandInput - Inputs for UpdateApplicationCommand
 type UpdateApplicationCommandInput struct {
 	Body models.ApplicationView
 	Id   string
@@ -420,6 +440,7 @@ func (s *ApplicationsService) GetResourceMatchingEvaluationOrderCommand(input *G
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetResourceMatchingEvaluationOrderCommandInput - Inputs for GetResourceMatchingEvaluationOrderCommand
 type GetResourceMatchingEvaluationOrderCommandInput struct {
 	Id string
 }
@@ -453,6 +474,7 @@ func (s *ApplicationsService) GetApplicationResourcesCommand(input *GetApplicati
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetApplicationResourcesCommandInput - Inputs for GetApplicationResourcesCommand
 type GetApplicationResourcesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -486,6 +508,7 @@ func (s *ApplicationsService) AddApplicationResourceCommand(input *AddApplicatio
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddApplicationResourceCommandInput - Inputs for AddApplicationResourceCommand
 type AddApplicationResourceCommandInput struct {
 	Body models.ResourceView
 	Id   string
@@ -513,6 +536,7 @@ func (s *ApplicationsService) GetResourceAutoOrderCommand(input *GetResourceAuto
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetResourceAutoOrderCommandInput - Inputs for GetResourceAutoOrderCommand
 type GetResourceAutoOrderCommandInput struct {
 	Id string
 }

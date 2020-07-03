@@ -17,10 +17,20 @@ const (
 	ServiceName = "ThirdPartyServices"
 )
 
+//ThirdPartyServicesService provides the API operations for making requests to
+// ThirdPartyServices endpoint.
 type ThirdPartyServicesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the ThirdPartyServicesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a ThirdPartyServicesService from the configuration
+//   svc := thirdPartyServices.New(cfg)
+//
 func New(cfg *config.Config) *ThirdPartyServicesService {
 
 	return &ThirdPartyServicesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *ThirdPartyServicesService {
 }
 
 // newRequest creates a new request for a ThirdPartyServices operation
-func (c *ThirdPartyServicesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *ThirdPartyServicesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *ThirdPartyServicesService) GetThirdPartyServicesCommand(input *GetThird
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetThirdPartyServicesCommandInput - Inputs for GetThirdPartyServicesCommand
 type GetThirdPartyServicesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *ThirdPartyServicesService) AddThirdPartyServiceCommand(input *AddThirdP
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddThirdPartyServiceCommandInput - Inputs for AddThirdPartyServiceCommand
 type AddThirdPartyServiceCommandInput struct {
 	Body models.ThirdPartyServiceView
 }
@@ -122,6 +134,7 @@ func (s *ThirdPartyServicesService) DeleteThirdPartyServiceCommand(input *Delete
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteThirdPartyServiceCommandInput - Inputs for DeleteThirdPartyServiceCommand
 type DeleteThirdPartyServiceCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *ThirdPartyServicesService) GetThirdPartyServiceCommand(input *GetThirdP
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetThirdPartyServiceCommandInput - Inputs for GetThirdPartyServiceCommand
 type GetThirdPartyServiceCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *ThirdPartyServicesService) UpdateThirdPartyServiceCommand(input *Update
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateThirdPartyServiceCommandInput - Inputs for UpdateThirdPartyServiceCommand
 type UpdateThirdPartyServiceCommandInput struct {
 	Body models.ThirdPartyServiceView
 	Id   string

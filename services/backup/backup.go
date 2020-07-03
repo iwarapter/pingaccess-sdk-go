@@ -15,10 +15,20 @@ const (
 	ServiceName = "Backup"
 )
 
+//BackupService provides the API operations for making requests to
+// Backup endpoint.
 type BackupService struct {
 	*client.Client
 }
 
+//New createa a new instance of the BackupService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a BackupService from the configuration
+//   svc := backup.New(cfg)
+//
 func New(cfg *config.Config) *BackupService {
 
 	return &BackupService{Client: client.New(
@@ -32,8 +42,8 @@ func New(cfg *config.Config) *BackupService {
 }
 
 // newRequest creates a new request for a Backup operation
-func (c *BackupService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *BackupService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }

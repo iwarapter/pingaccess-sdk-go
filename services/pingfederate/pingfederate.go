@@ -16,10 +16,20 @@ const (
 	ServiceName = "Pingfederate"
 )
 
+//PingfederateService provides the API operations for making requests to
+// Pingfederate endpoint.
 type PingfederateService struct {
 	*client.Client
 }
 
+//New createa a new instance of the PingfederateService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a PingfederateService from the configuration
+//   svc := pingfederate.New(cfg)
+//
 func New(cfg *config.Config) *PingfederateService {
 
 	return &PingfederateService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *PingfederateService {
 }
 
 // newRequest creates a new request for a Pingfederate operation
-func (c *PingfederateService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *PingfederateService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *PingfederateService) UpdatePingFederateCommand(input *UpdatePingFederat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdatePingFederateCommandInput - Inputs for UpdatePingFederateCommand
 type UpdatePingFederateCommandInput struct {
 	Body models.PingFederateRuntimeView
 }
@@ -159,6 +170,7 @@ func (s *PingfederateService) UpdatePingFederateAccessTokensCommand(input *Updat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdatePingFederateAccessTokensCommandInput - Inputs for UpdatePingFederateAccessTokensCommand
 type UpdatePingFederateAccessTokensCommandInput struct {
 	Body models.PingFederateAccessTokenView
 }
@@ -221,6 +233,7 @@ func (s *PingfederateService) UpdatePingFederateAdminCommand(input *UpdatePingFe
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdatePingFederateAdminCommandInput - Inputs for UpdatePingFederateAdminCommand
 type UpdatePingFederateAdminCommandInput struct {
 	Body models.PingFederateAdminView
 }
@@ -302,6 +315,7 @@ func (s *PingfederateService) UpdatePingFederateRuntimeCommand(input *UpdatePing
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdatePingFederateRuntimeCommandInput - Inputs for UpdatePingFederateRuntimeCommand
 type UpdatePingFederateRuntimeCommandInput struct {
 	Body models.PingFederateMetadataRuntimeView
 }

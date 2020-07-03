@@ -17,10 +17,20 @@ const (
 	ServiceName = "WebSessions"
 )
 
+//WebSessionsService provides the API operations for making requests to
+// WebSessions endpoint.
 type WebSessionsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the WebSessionsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a WebSessionsService from the configuration
+//   svc := webSessions.New(cfg)
+//
 func New(cfg *config.Config) *WebSessionsService {
 
 	return &WebSessionsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *WebSessionsService {
 }
 
 // newRequest creates a new request for a WebSessions operation
-func (c *WebSessionsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *WebSessionsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *WebSessionsService) GetWebSessionsCommand(input *GetWebSessionsCommandI
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetWebSessionsCommandInput - Inputs for GetWebSessionsCommand
 type GetWebSessionsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *WebSessionsService) AddWebSessionCommand(input *AddWebSessionCommandInp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddWebSessionCommandInput - Inputs for AddWebSessionCommand
 type AddWebSessionCommandInput struct {
 	Body models.WebSessionView
 }
@@ -122,6 +134,7 @@ func (s *WebSessionsService) DeleteWebSessionCommand(input *DeleteWebSessionComm
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteWebSessionCommandInput - Inputs for DeleteWebSessionCommand
 type DeleteWebSessionCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *WebSessionsService) GetWebSessionCommand(input *GetWebSessionCommandInp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetWebSessionCommandInput - Inputs for GetWebSessionCommand
 type GetWebSessionCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *WebSessionsService) UpdateWebSessionCommand(input *UpdateWebSessionComm
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateWebSessionCommandInput - Inputs for UpdateWebSessionCommand
 type UpdateWebSessionCommandInput struct {
 	Body models.WebSessionView
 	Id   string

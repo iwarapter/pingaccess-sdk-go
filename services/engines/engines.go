@@ -17,10 +17,20 @@ const (
 	ServiceName = "Engines"
 )
 
+//EnginesService provides the API operations for making requests to
+// Engines endpoint.
 type EnginesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the EnginesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a EnginesService from the configuration
+//   svc := engines.New(cfg)
+//
 func New(cfg *config.Config) *EnginesService {
 
 	return &EnginesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *EnginesService {
 }
 
 // newRequest creates a new request for a Engines operation
-func (c *EnginesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *EnginesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *EnginesService) GetEnginesCommand(input *GetEnginesCommandInput) (outpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEnginesCommandInput - Inputs for GetEnginesCommand
 type GetEnginesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *EnginesService) AddEngineCommand(input *AddEngineCommandInput) (output 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddEngineCommandInput - Inputs for AddEngineCommand
 type AddEngineCommandInput struct {
 	Body models.EngineView
 }
@@ -127,6 +139,7 @@ func (s *EnginesService) GetEngineCertificatesCommand(input *GetEngineCertificat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEngineCertificatesCommandInput - Inputs for GetEngineCertificatesCommand
 type GetEngineCertificatesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -158,6 +171,7 @@ func (s *EnginesService) GetEngineCertificateCommand(input *GetEngineCertificate
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEngineCertificateCommandInput - Inputs for GetEngineCertificateCommand
 type GetEngineCertificateCommandInput struct {
 	Id string
 }
@@ -203,6 +217,7 @@ func (s *EnginesService) DeleteEngineCommand(input *DeleteEngineCommandInput) (r
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteEngineCommandInput - Inputs for DeleteEngineCommand
 type DeleteEngineCommandInput struct {
 	Id string
 }
@@ -229,6 +244,7 @@ func (s *EnginesService) GetEngineCommand(input *GetEngineCommandInput) (output 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEngineCommandInput - Inputs for GetEngineCommand
 type GetEngineCommandInput struct {
 	Id string
 }
@@ -255,6 +271,7 @@ func (s *EnginesService) UpdateEngineCommand(input *UpdateEngineCommandInput) (o
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateEngineCommandInput - Inputs for UpdateEngineCommand
 type UpdateEngineCommandInput struct {
 	Body models.EngineView
 	Id   string
@@ -282,6 +299,7 @@ func (s *EnginesService) GetEngineConfigFileCommand(input *GetEngineConfigFileCo
 	return req.HTTPResponse, req.Error
 }
 
+// GetEngineConfigFileCommandInput - Inputs for GetEngineConfigFileCommand
 type GetEngineConfigFileCommandInput struct {
 	Id string
 }

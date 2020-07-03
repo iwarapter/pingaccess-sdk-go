@@ -17,10 +17,20 @@ const (
 	ServiceName = "HsmProviders"
 )
 
+//HsmProvidersService provides the API operations for making requests to
+// HsmProviders endpoint.
 type HsmProvidersService struct {
 	*client.Client
 }
 
+//New createa a new instance of the HsmProvidersService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a HsmProvidersService from the configuration
+//   svc := hsmProviders.New(cfg)
+//
 func New(cfg *config.Config) *HsmProvidersService {
 
 	return &HsmProvidersService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *HsmProvidersService {
 }
 
 // newRequest creates a new request for a HsmProviders operation
-func (c *HsmProvidersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *HsmProvidersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *HsmProvidersService) GetHsmProvidersCommand(input *GetHsmProvidersComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetHsmProvidersCommandInput - Inputs for GetHsmProvidersCommand
 type GetHsmProvidersCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *HsmProvidersService) AddHsmProviderCommand(input *AddHsmProviderCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddHsmProviderCommandInput - Inputs for AddHsmProviderCommand
 type AddHsmProviderCommandInput struct {
 	Body models.HsmProviderView
 }
@@ -141,6 +153,7 @@ func (s *HsmProvidersService) DeleteHsmProviderCommand(input *DeleteHsmProviderC
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteHsmProviderCommandInput - Inputs for DeleteHsmProviderCommand
 type DeleteHsmProviderCommandInput struct {
 	Id string
 }
@@ -167,6 +180,7 @@ func (s *HsmProvidersService) GetHsmProviderCommand(input *GetHsmProviderCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetHsmProviderCommandInput - Inputs for GetHsmProviderCommand
 type GetHsmProviderCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *HsmProvidersService) UpdateHsmProviderCommand(input *UpdateHsmProviderC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateHsmProviderCommandInput - Inputs for UpdateHsmProviderCommand
 type UpdateHsmProviderCommandInput struct {
 	Body models.HsmProviderView
 	Id   string

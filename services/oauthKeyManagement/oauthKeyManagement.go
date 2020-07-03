@@ -16,10 +16,20 @@ const (
 	ServiceName = "OauthKeyManagement"
 )
 
+//OauthKeyManagementService provides the API operations for making requests to
+// OauthKeyManagement endpoint.
 type OauthKeyManagementService struct {
 	*client.Client
 }
 
+//New createa a new instance of the OauthKeyManagementService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a OauthKeyManagementService from the configuration
+//   svc := oauthKeyManagement.New(cfg)
+//
 func New(cfg *config.Config) *OauthKeyManagementService {
 
 	return &OauthKeyManagementService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *OauthKeyManagementService {
 }
 
 // newRequest creates a new request for a OauthKeyManagement operation
-func (c *OauthKeyManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *OauthKeyManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *OauthKeyManagementService) UpdateOAuthKeyManagementCommand(input *Updat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateOAuthKeyManagementCommandInput - Inputs for UpdateOAuthKeyManagementCommand
 type UpdateOAuthKeyManagementCommandInput struct {
 	Body models.OAuthKeyManagementView
 }
@@ -140,6 +151,7 @@ func (s *OauthKeyManagementService) UpdateOAuthKeySetCommand(input *UpdateOAuthK
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateOAuthKeySetCommandInput - Inputs for UpdateOAuthKeySetCommand
 type UpdateOAuthKeySetCommandInput struct {
 	Body models.KeySetView
 }

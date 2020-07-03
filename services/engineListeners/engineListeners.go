@@ -17,10 +17,20 @@ const (
 	ServiceName = "EngineListeners"
 )
 
+//EngineListenersService provides the API operations for making requests to
+// EngineListeners endpoint.
 type EngineListenersService struct {
 	*client.Client
 }
 
+//New createa a new instance of the EngineListenersService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a EngineListenersService from the configuration
+//   svc := engineListeners.New(cfg)
+//
 func New(cfg *config.Config) *EngineListenersService {
 
 	return &EngineListenersService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *EngineListenersService {
 }
 
 // newRequest creates a new request for a EngineListeners operation
-func (c *EngineListenersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *EngineListenersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *EngineListenersService) GetEngineListenersCommand(input *GetEngineListe
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEngineListenersCommandInput - Inputs for GetEngineListenersCommand
 type GetEngineListenersCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *EngineListenersService) AddEngineListenerCommand(input *AddEngineListen
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddEngineListenerCommandInput - Inputs for AddEngineListenerCommand
 type AddEngineListenerCommandInput struct {
 	Body models.EngineListenerView
 }
@@ -122,6 +134,7 @@ func (s *EngineListenersService) DeleteEngineListenerCommand(input *DeleteEngine
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteEngineListenerCommandInput - Inputs for DeleteEngineListenerCommand
 type DeleteEngineListenerCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *EngineListenersService) GetEngineListenerCommand(input *GetEngineListen
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetEngineListenerCommandInput - Inputs for GetEngineListenerCommand
 type GetEngineListenerCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *EngineListenersService) UpdateEngineListenerCommand(input *UpdateEngine
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateEngineListenerCommandInput - Inputs for UpdateEngineListenerCommand
 type UpdateEngineListenerCommandInput struct {
 	Body models.EngineListenerView
 	Id   string

@@ -17,10 +17,20 @@ const (
 	ServiceName = "TrustedCertificateGroups"
 )
 
+//TrustedCertificateGroupsService provides the API operations for making requests to
+// TrustedCertificateGroups endpoint.
 type TrustedCertificateGroupsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the TrustedCertificateGroupsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a TrustedCertificateGroupsService from the configuration
+//   svc := trustedCertificateGroups.New(cfg)
+//
 func New(cfg *config.Config) *TrustedCertificateGroupsService {
 
 	return &TrustedCertificateGroupsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *TrustedCertificateGroupsService {
 }
 
 // newRequest creates a new request for a TrustedCertificateGroups operation
-func (c *TrustedCertificateGroupsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *TrustedCertificateGroupsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *TrustedCertificateGroupsService) GetTrustedCertificateGroupsCommand(inp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetTrustedCertificateGroupsCommandInput - Inputs for GetTrustedCertificateGroupsCommand
 type GetTrustedCertificateGroupsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *TrustedCertificateGroupsService) AddTrustedCertificateGroupCommand(inpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddTrustedCertificateGroupCommandInput - Inputs for AddTrustedCertificateGroupCommand
 type AddTrustedCertificateGroupCommandInput struct {
 	Body models.TrustedCertificateGroupView
 }
@@ -122,6 +134,7 @@ func (s *TrustedCertificateGroupsService) DeleteTrustedCertificateGroupCommand(i
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteTrustedCertificateGroupCommandInput - Inputs for DeleteTrustedCertificateGroupCommand
 type DeleteTrustedCertificateGroupCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *TrustedCertificateGroupsService) GetTrustedCertificateGroupCommand(inpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetTrustedCertificateGroupCommandInput - Inputs for GetTrustedCertificateGroupCommand
 type GetTrustedCertificateGroupCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *TrustedCertificateGroupsService) UpdateTrustedCertificateGroupCommand(i
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateTrustedCertificateGroupCommandInput - Inputs for UpdateTrustedCertificateGroupCommand
 type UpdateTrustedCertificateGroupCommandInput struct {
 	Body models.TrustedCertificateGroupView
 	Id   string

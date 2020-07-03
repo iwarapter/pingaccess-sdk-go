@@ -17,10 +17,20 @@ const (
 	ServiceName = "Rulesets"
 )
 
+//RulesetsService provides the API operations for making requests to
+// Rulesets endpoint.
 type RulesetsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the RulesetsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a RulesetsService from the configuration
+//   svc := rulesets.New(cfg)
+//
 func New(cfg *config.Config) *RulesetsService {
 
 	return &RulesetsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *RulesetsService {
 }
 
 // newRequest creates a new request for a Rulesets operation
-func (c *RulesetsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *RulesetsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *RulesetsService) GetRuleSetsCommand(input *GetRuleSetsCommandInput) (ou
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRuleSetsCommandInput - Inputs for GetRuleSetsCommand
 type GetRuleSetsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *RulesetsService) AddRuleSetCommand(input *AddRuleSetCommandInput) (outp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddRuleSetCommandInput - Inputs for AddRuleSetCommand
 type AddRuleSetCommandInput struct {
 	Body models.RuleSetView
 }
@@ -160,6 +172,7 @@ func (s *RulesetsService) DeleteRuleSetCommand(input *DeleteRuleSetCommandInput)
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteRuleSetCommandInput - Inputs for DeleteRuleSetCommand
 type DeleteRuleSetCommandInput struct {
 	Id string
 }
@@ -186,6 +199,7 @@ func (s *RulesetsService) GetRuleSetCommand(input *GetRuleSetCommandInput) (outp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRuleSetCommandInput - Inputs for GetRuleSetCommand
 type GetRuleSetCommandInput struct {
 	Id string
 }
@@ -212,6 +226,7 @@ func (s *RulesetsService) UpdateRuleSetCommand(input *UpdateRuleSetCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateRuleSetCommandInput - Inputs for UpdateRuleSetCommand
 type UpdateRuleSetCommandInput struct {
 	Body models.RuleSetView
 	Id   string

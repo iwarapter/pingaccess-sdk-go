@@ -17,10 +17,20 @@ const (
 	ServiceName = "RejectionHandlers"
 )
 
+//RejectionHandlersService provides the API operations for making requests to
+// RejectionHandlers endpoint.
 type RejectionHandlersService struct {
 	*client.Client
 }
 
+//New createa a new instance of the RejectionHandlersService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a RejectionHandlersService from the configuration
+//   svc := rejectionHandlers.New(cfg)
+//
 func New(cfg *config.Config) *RejectionHandlersService {
 
 	return &RejectionHandlersService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *RejectionHandlersService {
 }
 
 // newRequest creates a new request for a RejectionHandlers operation
-func (c *RejectionHandlersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *RejectionHandlersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *RejectionHandlersService) GetRejectionHandlersCommand(input *GetRejecti
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRejectionHandlersCommandInput - Inputs for GetRejectionHandlersCommand
 type GetRejectionHandlersCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *RejectionHandlersService) AddRejectionHandlerCommand(input *AddRejectio
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddRejectionHandlerCommandInput - Inputs for AddRejectionHandlerCommand
 type AddRejectionHandlerCommandInput struct {
 	Body models.RejectionHandlerView
 }
@@ -141,6 +153,7 @@ func (s *RejectionHandlersService) GetRejecitonHandlerDescriptorCommand(input *G
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRejecitonHandlerDescriptorCommandInput - Inputs for GetRejecitonHandlerDescriptorCommand
 type GetRejecitonHandlerDescriptorCommandInput struct {
 	RejectionHandlerType string
 }
@@ -167,6 +180,7 @@ func (s *RejectionHandlersService) DeleteRejectionHandlerCommand(input *DeleteRe
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteRejectionHandlerCommandInput - Inputs for DeleteRejectionHandlerCommand
 type DeleteRejectionHandlerCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *RejectionHandlersService) GetRejectionHandlerCommand(input *GetRejectio
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRejectionHandlerCommandInput - Inputs for GetRejectionHandlerCommand
 type GetRejectionHandlerCommandInput struct {
 	Id string
 }
@@ -219,6 +234,7 @@ func (s *RejectionHandlersService) UpdateRejectionHandlerCommand(input *UpdateRe
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateRejectionHandlerCommandInput - Inputs for UpdateRejectionHandlerCommand
 type UpdateRejectionHandlerCommandInput struct {
 	Body models.RejectionHandlerView
 	Id   string

@@ -16,10 +16,20 @@ const (
 	ServiceName = "HttpConfig"
 )
 
+//HttpConfigService provides the API operations for making requests to
+// HttpConfig endpoint.
 type HttpConfigService struct {
 	*client.Client
 }
 
+//New createa a new instance of the HttpConfigService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a HttpConfigService from the configuration
+//   svc := httpConfig.New(cfg)
+//
 func New(cfg *config.Config) *HttpConfigService {
 
 	return &HttpConfigService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *HttpConfigService {
 }
 
 // newRequest creates a new request for a HttpConfig operation
-func (c *HttpConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *HttpConfigService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *HttpConfigService) UpdateHttpMonitoringCommand(input *UpdateHttpMonitor
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateHttpMonitoringCommandInput - Inputs for UpdateHttpMonitoringCommand
 type UpdateHttpMonitoringCommandInput struct {
 	Body models.HttpMonitoringView
 }
@@ -159,6 +170,7 @@ func (s *HttpConfigService) UpdateHostSourceCommand(input *UpdateHostSourceComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateHostSourceCommandInput - Inputs for UpdateHostSourceCommand
 type UpdateHostSourceCommandInput struct {
 	Body models.HostMultiValueSourceView
 }
@@ -221,6 +233,7 @@ func (s *HttpConfigService) UpdateIpSourceCommand(input *UpdateIpSourceCommandIn
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateIpSourceCommandInput - Inputs for UpdateIpSourceCommand
 type UpdateIpSourceCommandInput struct {
 	Body models.IpMultiValueSourceView
 }
@@ -283,6 +296,7 @@ func (s *HttpConfigService) UpdateProtocolSourceCommand(input *UpdateProtocolSou
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateProtocolSourceCommandInput - Inputs for UpdateProtocolSourceCommand
 type UpdateProtocolSourceCommandInput struct {
 	Body models.ProtocolSourceView
 }

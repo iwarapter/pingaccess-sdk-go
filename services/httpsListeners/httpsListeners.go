@@ -17,10 +17,20 @@ const (
 	ServiceName = "HttpsListeners"
 )
 
+//HttpsListenersService provides the API operations for making requests to
+// HttpsListeners endpoint.
 type HttpsListenersService struct {
 	*client.Client
 }
 
+//New createa a new instance of the HttpsListenersService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a HttpsListenersService from the configuration
+//   svc := httpsListeners.New(cfg)
+//
 func New(cfg *config.Config) *HttpsListenersService {
 
 	return &HttpsListenersService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *HttpsListenersService {
 }
 
 // newRequest creates a new request for a HttpsListeners operation
-func (c *HttpsListenersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *HttpsListenersService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -63,6 +73,7 @@ func (s *HttpsListenersService) GetHttpsListenersCommand(input *GetHttpsListener
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetHttpsListenersCommandInput - Inputs for GetHttpsListenersCommand
 type GetHttpsListenersCommandInput struct {
 	SortKey string
 	Order   string
@@ -90,6 +101,7 @@ func (s *HttpsListenersService) GetHttpsListenerCommand(input *GetHttpsListenerC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetHttpsListenerCommandInput - Inputs for GetHttpsListenerCommand
 type GetHttpsListenerCommandInput struct {
 	Id string
 }
@@ -116,6 +128,7 @@ func (s *HttpsListenersService) UpdateHttpsListener(input *UpdateHttpsListenerIn
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateHttpsListenerInput - Inputs for UpdateHttpsListener
 type UpdateHttpsListenerInput struct {
 	Body models.HttpsListenerView
 	Id   string

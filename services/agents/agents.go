@@ -17,10 +17,20 @@ const (
 	ServiceName = "Agents"
 )
 
+//AgentsService provides the API operations for making requests to
+// Agents endpoint.
 type AgentsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AgentsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AgentsService from the configuration
+//   svc := agents.New(cfg)
+//
 func New(cfg *config.Config) *AgentsService {
 
 	return &AgentsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *AgentsService {
 }
 
 // newRequest creates a new request for a Agents operation
-func (c *AgentsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AgentsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *AgentsService) GetAgentsCommand(input *GetAgentsCommandInput) (output *
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAgentsCommandInput - Inputs for GetAgentsCommand
 type GetAgentsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *AgentsService) AddAgentCommand(input *AddAgentCommandInput) (output *mo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAgentCommandInput - Inputs for AddAgentCommand
 type AddAgentCommandInput struct {
 	Body models.AgentView
 }
@@ -127,6 +139,7 @@ func (s *AgentsService) GetAgentCertificatesCommand(input *GetAgentCertificatesC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAgentCertificatesCommandInput - Inputs for GetAgentCertificatesCommand
 type GetAgentCertificatesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -158,6 +171,7 @@ func (s *AgentsService) GetAgentCertificateCommand(input *GetAgentCertificateCom
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAgentCertificateCommandInput - Inputs for GetAgentCertificateCommand
 type GetAgentCertificateCommandInput struct {
 	Id string
 }
@@ -186,6 +200,7 @@ func (s *AgentsService) GetAgentFileCommand(input *GetAgentFileCommandInput) (re
 	return req.HTTPResponse, req.Error
 }
 
+// GetAgentFileCommandInput - Inputs for GetAgentFileCommand
 type GetAgentFileCommandInput struct {
 	AgentId        string
 	SharedSecretId string
@@ -213,6 +228,7 @@ func (s *AgentsService) DeleteAgentCommand(input *DeleteAgentCommandInput) (resp
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteAgentCommandInput - Inputs for DeleteAgentCommand
 type DeleteAgentCommandInput struct {
 	Id string
 }
@@ -239,6 +255,7 @@ func (s *AgentsService) GetAgentCommand(input *GetAgentCommandInput) (output *mo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAgentCommandInput - Inputs for GetAgentCommand
 type GetAgentCommandInput struct {
 	Id string
 }
@@ -265,6 +282,7 @@ func (s *AgentsService) UpdateAgentCommand(input *UpdateAgentCommandInput) (outp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAgentCommandInput - Inputs for UpdateAgentCommand
 type UpdateAgentCommandInput struct {
 	Body models.AgentView
 	Id   string

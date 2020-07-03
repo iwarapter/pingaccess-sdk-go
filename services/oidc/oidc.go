@@ -17,10 +17,20 @@ const (
 	ServiceName = "Oidc"
 )
 
+//OidcService provides the API operations for making requests to
+// Oidc endpoint.
 type OidcService struct {
 	*client.Client
 }
 
+//New createa a new instance of the OidcService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a OidcService from the configuration
+//   svc := oidc.New(cfg)
+//
 func New(cfg *config.Config) *OidcService {
 
 	return &OidcService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *OidcService {
 }
 
 // newRequest creates a new request for a Oidc operation
-func (c *OidcService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *OidcService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -98,6 +108,7 @@ func (s *OidcService) UpdateOIDCProviderCommand(input *UpdateOIDCProviderCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateOIDCProviderCommandInput - Inputs for UpdateOIDCProviderCommand
 type UpdateOIDCProviderCommandInput struct {
 	Body models.OIDCProviderView
 }
@@ -143,6 +154,7 @@ func (s *OidcService) GetOIDCProviderPluginDescriptorCommand(input *GetOIDCProvi
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetOIDCProviderPluginDescriptorCommandInput - Inputs for GetOIDCProviderPluginDescriptorCommand
 type GetOIDCProviderPluginDescriptorCommandInput struct {
 	PluginType string
 }

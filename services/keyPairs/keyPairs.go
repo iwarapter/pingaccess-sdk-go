@@ -17,10 +17,20 @@ const (
 	ServiceName = "KeyPairs"
 )
 
+//KeyPairsService provides the API operations for making requests to
+// KeyPairs endpoint.
 type KeyPairsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the KeyPairsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a KeyPairsService from the configuration
+//   svc := keyPairs.New(cfg)
+//
 func New(cfg *config.Config) *KeyPairsService {
 
 	return &KeyPairsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *KeyPairsService {
 }
 
 // newRequest creates a new request for a KeyPairs operation
-func (c *KeyPairsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *KeyPairsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *KeyPairsService) GetKeyPairsCommand(input *GetKeyPairsCommandInput) (ou
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetKeyPairsCommandInput - Inputs for GetKeyPairsCommand
 type GetKeyPairsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *KeyPairsService) GenerateKeyPairCommand(input *GenerateKeyPairCommandIn
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GenerateKeyPairCommandInput - Inputs for GenerateKeyPairCommand
 type GenerateKeyPairCommandInput struct {
 	Body models.NewKeyPairConfigView
 }
@@ -120,6 +132,7 @@ func (s *KeyPairsService) ImportKeyPairCommand(input *ImportKeyPairCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// ImportKeyPairCommandInput - Inputs for ImportKeyPairCommand
 type ImportKeyPairCommandInput struct {
 	Body models.PKCS12FileImportDocView
 }
@@ -184,6 +197,7 @@ func (s *KeyPairsService) DeleteKeyPairCommand(input *DeleteKeyPairCommandInput)
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteKeyPairCommandInput - Inputs for DeleteKeyPairCommand
 type DeleteKeyPairCommandInput struct {
 	Id string
 }
@@ -210,6 +224,7 @@ func (s *KeyPairsService) GetKeyPairCommand(input *GetKeyPairCommandInput) (outp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetKeyPairCommandInput - Inputs for GetKeyPairCommand
 type GetKeyPairCommandInput struct {
 	Id string
 }
@@ -236,6 +251,7 @@ func (s *KeyPairsService) PatchKeyPairCommand(input *PatchKeyPairCommandInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// PatchKeyPairCommandInput - Inputs for PatchKeyPairCommand
 type PatchKeyPairCommandInput struct {
 	Body models.ChainCertificatesDocView
 	Id   string
@@ -263,6 +279,7 @@ func (s *KeyPairsService) UpdateKeyPairCommand(input *UpdateKeyPairCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateKeyPairCommandInput - Inputs for UpdateKeyPairCommand
 type UpdateKeyPairCommandInput struct {
 	Body models.PKCS12FileImportDocView
 	Id   string
@@ -290,6 +307,7 @@ func (s *KeyPairsService) ExportKeyPairCert(input *ExportKeyPairCertInput) (resp
 	return req.HTTPResponse, req.Error
 }
 
+// ExportKeyPairCertInput - Inputs for ExportKeyPairCert
 type ExportKeyPairCertInput struct {
 	Id string
 }
@@ -316,6 +334,7 @@ func (s *KeyPairsService) GenerateCsrCommand(input *GenerateCsrCommandInput) (re
 	return req.HTTPResponse, req.Error
 }
 
+// GenerateCsrCommandInput - Inputs for GenerateCsrCommand
 type GenerateCsrCommandInput struct {
 	Id string
 }
@@ -342,6 +361,7 @@ func (s *KeyPairsService) ImportCSRResponseCommand(input *ImportCSRResponseComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// ImportCSRResponseCommandInput - Inputs for ImportCSRResponseCommand
 type ImportCSRResponseCommandInput struct {
 	Body models.CSRResponseImportDocView
 	Id   string
@@ -369,6 +389,7 @@ func (s *KeyPairsService) ExportKeyPair(input *ExportKeyPairInput) (resp *http.R
 	return req.HTTPResponse, req.Error
 }
 
+// ExportKeyPairInput - Inputs for ExportKeyPair
 type ExportKeyPairInput struct {
 	Body models.ExportParameters
 	Id   string
@@ -398,6 +419,7 @@ func (s *KeyPairsService) DeleteChainCertificateCommand(input *DeleteChainCertif
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteChainCertificateCommandInput - Inputs for DeleteChainCertificateCommand
 type DeleteChainCertificateCommandInput struct {
 	KeyPairId          string
 	ChainCertificateId string

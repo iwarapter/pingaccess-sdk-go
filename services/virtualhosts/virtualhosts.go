@@ -17,10 +17,20 @@ const (
 	ServiceName = "Virtualhosts"
 )
 
+//VirtualhostsService provides the API operations for making requests to
+// Virtualhosts endpoint.
 type VirtualhostsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the VirtualhostsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a VirtualhostsService from the configuration
+//   svc := virtualhosts.New(cfg)
+//
 func New(cfg *config.Config) *VirtualhostsService {
 
 	return &VirtualhostsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *VirtualhostsService {
 }
 
 // newRequest creates a new request for a Virtualhosts operation
-func (c *VirtualhostsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *VirtualhostsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *VirtualhostsService) GetVirtualHostsCommand(input *GetVirtualHostsComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetVirtualHostsCommandInput - Inputs for GetVirtualHostsCommand
 type GetVirtualHostsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *VirtualhostsService) AddVirtualHostCommand(input *AddVirtualHostCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddVirtualHostCommandInput - Inputs for AddVirtualHostCommand
 type AddVirtualHostCommandInput struct {
 	Body models.VirtualHostView
 }
@@ -122,6 +134,7 @@ func (s *VirtualhostsService) DeleteVirtualHostCommand(input *DeleteVirtualHostC
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteVirtualHostCommandInput - Inputs for DeleteVirtualHostCommand
 type DeleteVirtualHostCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *VirtualhostsService) GetVirtualHostCommand(input *GetVirtualHostCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetVirtualHostCommandInput - Inputs for GetVirtualHostCommand
 type GetVirtualHostCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *VirtualhostsService) UpdateVirtualHostCommand(input *UpdateVirtualHostC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateVirtualHostCommandInput - Inputs for UpdateVirtualHostCommand
 type UpdateVirtualHostCommandInput struct {
 	Body models.VirtualHostView
 	Id   string

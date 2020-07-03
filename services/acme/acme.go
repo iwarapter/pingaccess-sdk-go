@@ -17,10 +17,20 @@ const (
 	ServiceName = "Acme"
 )
 
+//AcmeService provides the API operations for making requests to
+// Acme endpoint.
 type AcmeService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AcmeService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AcmeService from the configuration
+//   svc := acme.New(cfg)
+//
 func New(cfg *config.Config) *AcmeService {
 
 	return &AcmeService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *AcmeService {
 }
 
 // newRequest creates a new request for a Acme operation
-func (c *AcmeService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AcmeService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *AcmeService) GetAcmeServersCommand(input *GetAcmeServersCommandInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeServersCommandInput - Inputs for GetAcmeServersCommand
 type GetAcmeServersCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *AcmeService) AddAcmeServerCommand(input *AddAcmeServerCommandInput) (ou
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAcmeServerCommandInput - Inputs for AddAcmeServerCommand
 type AddAcmeServerCommandInput struct {
 	Body models.AcmeServerView
 }
@@ -139,6 +151,7 @@ func (s *AcmeService) UpdateDefaultAcmeServerCommand(input *UpdateDefaultAcmeSer
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateDefaultAcmeServerCommandInput - Inputs for UpdateDefaultAcmeServerCommand
 type UpdateDefaultAcmeServerCommandInput struct {
 	Body models.LinkView
 }
@@ -165,6 +178,7 @@ func (s *AcmeService) DeleteAcmeServerCommand(input *DeleteAcmeServerCommandInpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// DeleteAcmeServerCommandInput - Inputs for DeleteAcmeServerCommand
 type DeleteAcmeServerCommandInput struct {
 	AcmeServerId string
 }
@@ -191,6 +205,7 @@ func (s *AcmeService) GetAcmeServerCommand(input *GetAcmeServerCommandInput) (ou
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeServerCommandInput - Inputs for GetAcmeServerCommand
 type GetAcmeServerCommandInput struct {
 	AcmeServerId string
 }
@@ -222,6 +237,7 @@ func (s *AcmeService) GetAcmeAccountsCommand(input *GetAcmeAccountsCommandInput)
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeAccountsCommandInput - Inputs for GetAcmeAccountsCommand
 type GetAcmeAccountsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -253,6 +269,7 @@ func (s *AcmeService) AddAcmeAccountCommand(input *AddAcmeAccountCommandInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAcmeAccountCommandInput - Inputs for AddAcmeAccountCommand
 type AddAcmeAccountCommandInput struct {
 	Body         models.AcmeAccountView
 	AcmeServerId string
@@ -282,6 +299,7 @@ func (s *AcmeService) DeleteAcmeAccountCommand(input *DeleteAcmeAccountCommandIn
 	return nil, req.HTTPResponse, req.Error
 }
 
+// DeleteAcmeAccountCommandInput - Inputs for DeleteAcmeAccountCommand
 type DeleteAcmeAccountCommandInput struct {
 	AcmeServerId  string
 	AcmeAccountId string
@@ -311,6 +329,7 @@ func (s *AcmeService) GetAcmeAccountCommand(input *GetAcmeAccountCommandInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeAccountCommandInput - Inputs for GetAcmeAccountCommand
 type GetAcmeAccountCommandInput struct {
 	AcmeServerId  string
 	AcmeAccountId string
@@ -346,6 +365,7 @@ func (s *AcmeService) GetAcmeCertificateRequestsCommand(input *GetAcmeCertificat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeCertificateRequestsCommandInput - Inputs for GetAcmeCertificateRequestsCommand
 type GetAcmeCertificateRequestsCommandInput struct {
 	KeyPairId     string
 	Page          string
@@ -381,6 +401,7 @@ func (s *AcmeService) AddAcmeCertificateRequestCommand(input *AddAcmeCertificate
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAcmeCertificateRequestCommandInput - Inputs for AddAcmeCertificateRequestCommand
 type AddAcmeCertificateRequestCommandInput struct {
 	Body          models.AcmeCertificateRequestView
 	AcmeServerId  string
@@ -413,6 +434,7 @@ func (s *AcmeService) DeleteAcmeCertificateRequestCommand(input *DeleteAcmeCerti
 	return nil, req.HTTPResponse, req.Error
 }
 
+// DeleteAcmeCertificateRequestCommandInput - Inputs for DeleteAcmeCertificateRequestCommand
 type DeleteAcmeCertificateRequestCommandInput struct {
 	AcmeServerId             string
 	AcmeAccountId            string
@@ -445,6 +467,7 @@ func (s *AcmeService) GetAcmeCertificateRequestCommand(input *GetAcmeCertificate
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAcmeCertificateRequestCommandInput - Inputs for GetAcmeCertificateRequestCommand
 type GetAcmeCertificateRequestCommandInput struct {
 	AcmeServerId             string
 	AcmeAccountId            string

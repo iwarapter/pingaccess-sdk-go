@@ -16,10 +16,20 @@ const (
 	ServiceName = "Pingone"
 )
 
+//PingoneService provides the API operations for making requests to
+// Pingone endpoint.
 type PingoneService struct {
 	*client.Client
 }
 
+//New createa a new instance of the PingoneService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a PingoneService from the configuration
+//   svc := pingone.New(cfg)
+//
 func New(cfg *config.Config) *PingoneService {
 
 	return &PingoneService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *PingoneService {
 }
 
 // newRequest creates a new request for a Pingone operation
-func (c *PingoneService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *PingoneService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *PingoneService) UpdatePingOne4CCommand(input *UpdatePingOne4CCommandInp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdatePingOne4CCommandInput - Inputs for UpdatePingOne4CCommand
 type UpdatePingOne4CCommandInput struct {
 	Body models.PingOne4CView
 }

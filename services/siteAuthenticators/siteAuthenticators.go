@@ -17,10 +17,20 @@ const (
 	ServiceName = "SiteAuthenticators"
 )
 
+//SiteAuthenticatorsService provides the API operations for making requests to
+// SiteAuthenticators endpoint.
 type SiteAuthenticatorsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the SiteAuthenticatorsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a SiteAuthenticatorsService from the configuration
+//   svc := siteAuthenticators.New(cfg)
+//
 func New(cfg *config.Config) *SiteAuthenticatorsService {
 
 	return &SiteAuthenticatorsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *SiteAuthenticatorsService {
 }
 
 // newRequest creates a new request for a SiteAuthenticators operation
-func (c *SiteAuthenticatorsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *SiteAuthenticatorsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorsCommand(input *GetSiteA
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSiteAuthenticatorsCommandInput - Inputs for GetSiteAuthenticatorsCommand
 type GetSiteAuthenticatorsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *SiteAuthenticatorsService) AddSiteAuthenticatorCommand(input *AddSiteAu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddSiteAuthenticatorCommandInput - Inputs for AddSiteAuthenticatorCommand
 type AddSiteAuthenticatorCommandInput struct {
 	Body models.SiteAuthenticatorView
 }
@@ -141,6 +153,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorDescriptorCommand(input 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSiteAuthenticatorDescriptorCommandInput - Inputs for GetSiteAuthenticatorDescriptorCommand
 type GetSiteAuthenticatorDescriptorCommandInput struct {
 	SiteAuthenticatorType string
 }
@@ -167,6 +180,7 @@ func (s *SiteAuthenticatorsService) DeleteSiteAuthenticatorCommand(input *Delete
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteSiteAuthenticatorCommandInput - Inputs for DeleteSiteAuthenticatorCommand
 type DeleteSiteAuthenticatorCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *SiteAuthenticatorsService) GetSiteAuthenticatorCommand(input *GetSiteAu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSiteAuthenticatorCommandInput - Inputs for GetSiteAuthenticatorCommand
 type GetSiteAuthenticatorCommandInput struct {
 	Id string
 }
@@ -219,6 +234,7 @@ func (s *SiteAuthenticatorsService) UpdateSiteAuthenticatorCommand(input *Update
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateSiteAuthenticatorCommandInput - Inputs for UpdateSiteAuthenticatorCommand
 type UpdateSiteAuthenticatorCommandInput struct {
 	Body models.SiteAuthenticatorView
 	Id   string

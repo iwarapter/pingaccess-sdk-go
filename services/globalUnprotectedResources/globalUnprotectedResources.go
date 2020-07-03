@@ -17,10 +17,20 @@ const (
 	ServiceName = "GlobalUnprotectedResources"
 )
 
+//GlobalUnprotectedResourcesService provides the API operations for making requests to
+// GlobalUnprotectedResources endpoint.
 type GlobalUnprotectedResourcesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the GlobalUnprotectedResourcesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a GlobalUnprotectedResourcesService from the configuration
+//   svc := globalUnprotectedResources.New(cfg)
+//
 func New(cfg *config.Config) *GlobalUnprotectedResourcesService {
 
 	return &GlobalUnprotectedResourcesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *GlobalUnprotectedResourcesService {
 }
 
 // newRequest creates a new request for a GlobalUnprotectedResources operation
-func (c *GlobalUnprotectedResourcesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *GlobalUnprotectedResourcesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *GlobalUnprotectedResourcesService) GetGlobalUnprotectedResourcesCommand
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetGlobalUnprotectedResourcesCommandInput - Inputs for GetGlobalUnprotectedResourcesCommand
 type GetGlobalUnprotectedResourcesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *GlobalUnprotectedResourcesService) AddGlobalUnprotectedResourceCommand(
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddGlobalUnprotectedResourceCommandInput - Inputs for AddGlobalUnprotectedResourceCommand
 type AddGlobalUnprotectedResourceCommandInput struct {
 	Body models.GlobalUnprotectedResourceView
 }
@@ -122,6 +134,7 @@ func (s *GlobalUnprotectedResourcesService) DeleteGlobalUnprotectedResourceComma
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteGlobalUnprotectedResourceCommandInput - Inputs for DeleteGlobalUnprotectedResourceCommand
 type DeleteGlobalUnprotectedResourceCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *GlobalUnprotectedResourcesService) GetGlobalUnprotectedResourceCommand(
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetGlobalUnprotectedResourceCommandInput - Inputs for GetGlobalUnprotectedResourceCommand
 type GetGlobalUnprotectedResourceCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *GlobalUnprotectedResourcesService) UpdateGlobalUnprotectedResourceComma
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateGlobalUnprotectedResourceCommandInput - Inputs for UpdateGlobalUnprotectedResourceCommand
 type UpdateGlobalUnprotectedResourceCommandInput struct {
 	Body models.GlobalUnprotectedResourceView
 	Id   string

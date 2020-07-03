@@ -16,10 +16,20 @@ const (
 	ServiceName = "License"
 )
 
+//LicenseService provides the API operations for making requests to
+// License endpoint.
 type LicenseService struct {
 	*client.Client
 }
 
+//New createa a new instance of the LicenseService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a LicenseService from the configuration
+//   svc := license.New(cfg)
+//
 func New(cfg *config.Config) *LicenseService {
 
 	return &LicenseService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *LicenseService {
 }
 
 // newRequest creates a new request for a License operation
-func (c *LicenseService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *LicenseService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -78,6 +88,7 @@ func (s *LicenseService) ImportLicenseCommand(input *ImportLicenseCommandInput) 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// ImportLicenseCommandInput - Inputs for ImportLicenseCommand
 type ImportLicenseCommandInput struct {
 	Body models.LicenseImportDocView
 }

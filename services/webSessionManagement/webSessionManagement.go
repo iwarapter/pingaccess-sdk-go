@@ -16,10 +16,20 @@ const (
 	ServiceName = "WebSessionManagement"
 )
 
+//WebSessionManagementService provides the API operations for making requests to
+// WebSessionManagement endpoint.
 type WebSessionManagementService struct {
 	*client.Client
 }
 
+//New createa a new instance of the WebSessionManagementService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a WebSessionManagementService from the configuration
+//   svc := webSessionManagement.New(cfg)
+//
 func New(cfg *config.Config) *WebSessionManagementService {
 
 	return &WebSessionManagementService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *WebSessionManagementService {
 }
 
 // newRequest creates a new request for a WebSessionManagement operation
-func (c *WebSessionManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *WebSessionManagementService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *WebSessionManagementService) UpdateWebSessionManagementCommand(input *U
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateWebSessionManagementCommandInput - Inputs for UpdateWebSessionManagementCommand
 type UpdateWebSessionManagementCommandInput struct {
 	Body models.WebSessionManagementView
 }
@@ -178,6 +189,7 @@ func (s *WebSessionManagementService) UpdateWebSessionKeySetCommand(input *Updat
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateWebSessionKeySetCommandInput - Inputs for UpdateWebSessionKeySetCommand
 type UpdateWebSessionKeySetCommandInput struct {
 	Body models.KeySetView
 }
@@ -223,6 +235,7 @@ func (s *WebSessionManagementService) GetOidcScopesCommand(input *GetOidcScopesC
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetOidcScopesCommandInput - Inputs for GetOidcScopesCommand
 type GetOidcScopesCommandInput struct {
 	ClientId string
 }

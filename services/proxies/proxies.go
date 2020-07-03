@@ -17,10 +17,20 @@ const (
 	ServiceName = "Proxies"
 )
 
+//ProxiesService provides the API operations for making requests to
+// Proxies endpoint.
 type ProxiesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the ProxiesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a ProxiesService from the configuration
+//   svc := proxies.New(cfg)
+//
 func New(cfg *config.Config) *ProxiesService {
 
 	return &ProxiesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *ProxiesService {
 }
 
 // newRequest creates a new request for a Proxies operation
-func (c *ProxiesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *ProxiesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *ProxiesService) GetProxiesCommand(input *GetProxiesCommandInput) (outpu
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetProxiesCommandInput - Inputs for GetProxiesCommand
 type GetProxiesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *ProxiesService) AddProxyCommand(input *AddProxyCommandInput) (output *m
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddProxyCommandInput - Inputs for AddProxyCommand
 type AddProxyCommandInput struct {
 	Body models.HttpClientProxyView
 }
@@ -122,6 +134,7 @@ func (s *ProxiesService) DeleteProxyCommand(input *DeleteProxyCommandInput) (res
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteProxyCommandInput - Inputs for DeleteProxyCommand
 type DeleteProxyCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *ProxiesService) GetProxyCommand(input *GetProxyCommandInput) (output *m
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetProxyCommandInput - Inputs for GetProxyCommand
 type GetProxyCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *ProxiesService) UpdateProxyCommand(input *UpdateProxyCommandInput) (out
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateProxyCommandInput - Inputs for UpdateProxyCommand
 type UpdateProxyCommandInput struct {
 	Body models.HttpClientProxyView
 	Id   string

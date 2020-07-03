@@ -17,10 +17,20 @@ const (
 	ServiceName = "AccessTokenValidators"
 )
 
+//AccessTokenValidatorsService provides the API operations for making requests to
+// AccessTokenValidators endpoint.
 type AccessTokenValidatorsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AccessTokenValidatorsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AccessTokenValidatorsService from the configuration
+//   svc := accessTokenValidators.New(cfg)
+//
 func New(cfg *config.Config) *AccessTokenValidatorsService {
 
 	return &AccessTokenValidatorsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *AccessTokenValidatorsService {
 }
 
 // newRequest creates a new request for a AccessTokenValidators operation
-func (c *AccessTokenValidatorsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AccessTokenValidatorsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *AccessTokenValidatorsService) GetAccessTokenValidatorsCommand(input *Ge
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAccessTokenValidatorsCommandInput - Inputs for GetAccessTokenValidatorsCommand
 type GetAccessTokenValidatorsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *AccessTokenValidatorsService) AddAccessTokenValidatorCommand(input *Add
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddAccessTokenValidatorCommandInput - Inputs for AddAccessTokenValidatorCommand
 type AddAccessTokenValidatorCommandInput struct {
 	Body models.AccessTokenValidatorView
 }
@@ -141,6 +153,7 @@ func (s *AccessTokenValidatorsService) DeleteAccessTokenValidatorCommand(input *
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteAccessTokenValidatorCommandInput - Inputs for DeleteAccessTokenValidatorCommand
 type DeleteAccessTokenValidatorCommandInput struct {
 	Id string
 }
@@ -167,6 +180,7 @@ func (s *AccessTokenValidatorsService) GetAccessTokenValidatorCommand(input *Get
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetAccessTokenValidatorCommandInput - Inputs for GetAccessTokenValidatorCommand
 type GetAccessTokenValidatorCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *AccessTokenValidatorsService) UpdateAccessTokenValidatorCommand(input *
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateAccessTokenValidatorCommandInput - Inputs for UpdateAccessTokenValidatorCommand
 type UpdateAccessTokenValidatorCommandInput struct {
 	Body models.AccessTokenValidatorView
 	Id   string

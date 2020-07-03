@@ -17,10 +17,20 @@ const (
 	ServiceName = "IdentityMappings"
 )
 
+//IdentityMappingsService provides the API operations for making requests to
+// IdentityMappings endpoint.
 type IdentityMappingsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the IdentityMappingsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a IdentityMappingsService from the configuration
+//   svc := identityMappings.New(cfg)
+//
 func New(cfg *config.Config) *IdentityMappingsService {
 
 	return &IdentityMappingsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *IdentityMappingsService {
 }
 
 // newRequest creates a new request for a IdentityMappings operation
-func (c *IdentityMappingsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *IdentityMappingsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *IdentityMappingsService) GetIdentityMappingsCommand(input *GetIdentityM
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetIdentityMappingsCommandInput - Inputs for GetIdentityMappingsCommand
 type GetIdentityMappingsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *IdentityMappingsService) AddIdentityMappingCommand(input *AddIdentityMa
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddIdentityMappingCommandInput - Inputs for AddIdentityMappingCommand
 type AddIdentityMappingCommandInput struct {
 	Body models.IdentityMappingView
 }
@@ -141,6 +153,7 @@ func (s *IdentityMappingsService) GetIdentityMappingDescriptorCommand(input *Get
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetIdentityMappingDescriptorCommandInput - Inputs for GetIdentityMappingDescriptorCommand
 type GetIdentityMappingDescriptorCommandInput struct {
 	IdentityMappingType string
 }
@@ -167,6 +180,7 @@ func (s *IdentityMappingsService) DeleteIdentityMappingCommand(input *DeleteIden
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteIdentityMappingCommandInput - Inputs for DeleteIdentityMappingCommand
 type DeleteIdentityMappingCommandInput struct {
 	Id string
 }
@@ -193,6 +207,7 @@ func (s *IdentityMappingsService) GetIdentityMappingCommand(input *GetIdentityMa
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetIdentityMappingCommandInput - Inputs for GetIdentityMappingCommand
 type GetIdentityMappingCommandInput struct {
 	Id string
 }
@@ -219,6 +234,7 @@ func (s *IdentityMappingsService) UpdateIdentityMappingCommand(input *UpdateIden
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateIdentityMappingCommandInput - Inputs for UpdateIdentityMappingCommand
 type UpdateIdentityMappingCommandInput struct {
 	Body models.IdentityMappingView
 	Id   string

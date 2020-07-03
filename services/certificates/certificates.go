@@ -17,10 +17,20 @@ const (
 	ServiceName = "Certificates"
 )
 
+//CertificatesService provides the API operations for making requests to
+// Certificates endpoint.
 type CertificatesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the CertificatesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a CertificatesService from the configuration
+//   svc := certificates.New(cfg)
+//
 func New(cfg *config.Config) *CertificatesService {
 
 	return &CertificatesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *CertificatesService {
 }
 
 // newRequest creates a new request for a Certificates operation
-func (c *CertificatesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *CertificatesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *CertificatesService) GetTrustedCerts(input *GetTrustedCertsInput) (outp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetTrustedCertsInput - Inputs for GetTrustedCerts
 type GetTrustedCertsInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *CertificatesService) ImportTrustedCert(input *ImportTrustedCertInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// ImportTrustedCertInput - Inputs for ImportTrustedCert
 type ImportTrustedCertInput struct {
 	Body models.X509FileImportDocView
 }
@@ -122,6 +134,7 @@ func (s *CertificatesService) DeleteTrustedCertCommand(input *DeleteTrustedCertC
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteTrustedCertCommandInput - Inputs for DeleteTrustedCertCommand
 type DeleteTrustedCertCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *CertificatesService) GetTrustedCert(input *GetTrustedCertInput) (output
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetTrustedCertInput - Inputs for GetTrustedCert
 type GetTrustedCertInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *CertificatesService) UpdateTrustedCert(input *UpdateTrustedCertInput) (
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateTrustedCertInput - Inputs for UpdateTrustedCert
 type UpdateTrustedCertInput struct {
 	Body models.X509FileImportDocView
 	Id   string
@@ -201,6 +216,7 @@ func (s *CertificatesService) ExportTrustedCert(input *ExportTrustedCertInput) (
 	return req.HTTPResponse, req.Error
 }
 
+// ExportTrustedCertInput - Inputs for ExportTrustedCert
 type ExportTrustedCertInput struct {
 	Id string
 }

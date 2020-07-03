@@ -17,10 +17,20 @@ const (
 	ServiceName = "Redirects"
 )
 
+//RedirectsService provides the API operations for making requests to
+// Redirects endpoint.
 type RedirectsService struct {
 	*client.Client
 }
 
+//New createa a new instance of the RedirectsService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a RedirectsService from the configuration
+//   svc := redirects.New(cfg)
+//
 func New(cfg *config.Config) *RedirectsService {
 
 	return &RedirectsService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *RedirectsService {
 }
 
 // newRequest creates a new request for a Redirects operation
-func (c *RedirectsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *RedirectsService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -68,6 +78,7 @@ func (s *RedirectsService) GetRedirectsCommand(input *GetRedirectsCommandInput) 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRedirectsCommandInput - Inputs for GetRedirectsCommand
 type GetRedirectsCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -98,6 +109,7 @@ func (s *RedirectsService) AddRedirectCommand(input *AddRedirectCommandInput) (o
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddRedirectCommandInput - Inputs for AddRedirectCommand
 type AddRedirectCommandInput struct {
 	Body models.RedirectView
 }
@@ -124,6 +136,7 @@ func (s *RedirectsService) DeleteRedirectCommand(input *DeleteRedirectCommandInp
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteRedirectCommandInput - Inputs for DeleteRedirectCommand
 type DeleteRedirectCommandInput struct {
 	Id string
 }
@@ -150,6 +163,7 @@ func (s *RedirectsService) GetRedirectCommand(input *GetRedirectCommandInput) (o
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetRedirectCommandInput - Inputs for GetRedirectCommand
 type GetRedirectCommandInput struct {
 	Id string
 }
@@ -176,6 +190,7 @@ func (s *RedirectsService) UpdateRedirectCommand(input *UpdateRedirectCommandInp
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateRedirectCommandInput - Inputs for UpdateRedirectCommand
 type UpdateRedirectCommandInput struct {
 	Body models.RedirectView
 	Id   string

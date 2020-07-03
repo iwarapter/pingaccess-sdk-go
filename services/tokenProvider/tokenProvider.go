@@ -16,10 +16,20 @@ const (
 	ServiceName = "TokenProvider"
 )
 
+//TokenProviderService provides the API operations for making requests to
+// TokenProvider endpoint.
 type TokenProviderService struct {
 	*client.Client
 }
 
+//New createa a new instance of the TokenProviderService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a TokenProviderService from the configuration
+//   svc := tokenProvider.New(cfg)
+//
 func New(cfg *config.Config) *TokenProviderService {
 
 	return &TokenProviderService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *TokenProviderService {
 }
 
 // newRequest creates a new request for a TokenProvider operation
-func (c *TokenProviderService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *TokenProviderService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *TokenProviderService) UpdateTokenProviderSettingCommand(input *UpdateTo
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateTokenProviderSettingCommandInput - Inputs for UpdateTokenProviderSettingCommand
 type UpdateTokenProviderSettingCommandInput struct {
 	Body models.TokenProviderSettingView
 }

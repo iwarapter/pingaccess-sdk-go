@@ -17,10 +17,20 @@ const (
 	ServiceName = "Sites"
 )
 
+//SitesService provides the API operations for making requests to
+// Sites endpoint.
 type SitesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the SitesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a SitesService from the configuration
+//   svc := sites.New(cfg)
+//
 func New(cfg *config.Config) *SitesService {
 
 	return &SitesService{Client: client.New(
@@ -34,8 +44,8 @@ func New(cfg *config.Config) *SitesService {
 }
 
 // newRequest creates a new request for a Sites operation
-func (c *SitesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *SitesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -67,6 +77,7 @@ func (s *SitesService) GetSitesCommand(input *GetSitesCommandInput) (output *mod
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSitesCommandInput - Inputs for GetSitesCommand
 type GetSitesCommandInput struct {
 	Page          string
 	NumberPerPage string
@@ -96,6 +107,7 @@ func (s *SitesService) AddSiteCommand(input *AddSiteCommandInput) (output *model
 	return nil, req.HTTPResponse, req.Error
 }
 
+// AddSiteCommandInput - Inputs for AddSiteCommand
 type AddSiteCommandInput struct {
 	Body models.SiteView
 }
@@ -122,6 +134,7 @@ func (s *SitesService) DeleteSiteCommand(input *DeleteSiteCommandInput) (resp *h
 	return req.HTTPResponse, req.Error
 }
 
+// DeleteSiteCommandInput - Inputs for DeleteSiteCommand
 type DeleteSiteCommandInput struct {
 	Id string
 }
@@ -148,6 +161,7 @@ func (s *SitesService) GetSiteCommand(input *GetSiteCommandInput) (output *model
 	return nil, req.HTTPResponse, req.Error
 }
 
+// GetSiteCommandInput - Inputs for GetSiteCommand
 type GetSiteCommandInput struct {
 	Id string
 }
@@ -174,6 +188,7 @@ func (s *SitesService) UpdateSiteCommand(input *UpdateSiteCommandInput) (output 
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateSiteCommandInput - Inputs for UpdateSiteCommand
 type UpdateSiteCommandInput struct {
 	Body models.SiteView
 	Id   string

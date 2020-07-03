@@ -16,10 +16,20 @@ const (
 	ServiceName = "UnknownResources"
 )
 
+//UnknownResourcesService provides the API operations for making requests to
+// UnknownResources endpoint.
 type UnknownResourcesService struct {
 	*client.Client
 }
 
+//New createa a new instance of the UnknownResourcesService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a UnknownResourcesService from the configuration
+//   svc := unknownResources.New(cfg)
+//
 func New(cfg *config.Config) *UnknownResourcesService {
 
 	return &UnknownResourcesService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *UnknownResourcesService {
 }
 
 // newRequest creates a new request for a UnknownResources operation
-func (c *UnknownResourcesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *UnknownResourcesService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
@@ -97,6 +107,7 @@ func (s *UnknownResourcesService) Update(input *UpdateInput) (output *models.Unk
 	return nil, req.HTTPResponse, req.Error
 }
 
+// UpdateInput - Inputs for Update
 type UpdateInput struct {
 	Body models.UnknownResourceSettingsView
 }

@@ -16,10 +16,20 @@ const (
 	ServiceName = "AdminSessionInfo"
 )
 
+//AdminSessionInfoService provides the API operations for making requests to
+// AdminSessionInfo endpoint.
 type AdminSessionInfoService struct {
 	*client.Client
 }
 
+//New createa a new instance of the AdminSessionInfoService client.
+//
+// Example:
+//   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())
+//
+//   //Create a AdminSessionInfoService from the configuration
+//   svc := adminSessionInfo.New(cfg)
+//
 func New(cfg *config.Config) *AdminSessionInfoService {
 
 	return &AdminSessionInfoService{Client: client.New(
@@ -33,8 +43,8 @@ func New(cfg *config.Config) *AdminSessionInfoService {
 }
 
 // newRequest creates a new request for a AdminSessionInfo operation
-func (c *AdminSessionInfoService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
-	req := c.NewRequest(op, params, data)
+func (s *AdminSessionInfoService) newRequest(op *request.Operation, params, data interface{}) *request.Request {
+	req := s.NewRequest(op, params, data)
 
 	return req
 }
