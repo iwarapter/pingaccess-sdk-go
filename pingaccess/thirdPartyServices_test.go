@@ -1,37 +1,27 @@
-package pingaccess
+package pingaccess_test
 
 import (
-	"io/ioutil"
-	"net/http"
-	"net/http/httptest"
-	"net/url"
 	"testing"
+
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/services/thirdPartyServices"
 )
 
 func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
-	// Start a local HTTP server
-	dat, _ := ioutil.ReadFile("test_data/example_thirdPartyServices.json")
-	server := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		// Test request parameters
-		equals(t, req.URL.String(), "/pa-admin-api/v3/thirdPartyServices?filter=demo&name=demo2&numberPerPage=1&order=ASC&page=1&sortKey=audience")
-		// Send response to be tested
-		rw.Write(dat)
-	}))
-	// Close the server when test finishes
-	defer server.Close()
-	url, _ := url.Parse(server.URL)
-	svc := config(url)
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(true))
 
-	input1 := GetThirdPartyServicesCommandInput{
+	input1 := thirdPartyServices.GetThirdPartyServicesCommandInput{
 		Page:          "1",
 		NumberPerPage: "1",
 		Filter:        "demo",
 		Name:          "demo2",
-		SortKey:       "audience",
+		SortKey:       "hostValue",
 		Order:         "ASC",
 	}
 
-	result1, resp1, err1 := svc.ThirdPartyServices.GetThirdPartyServicesCommand(&input1)
+	result1, resp1, err1 := svc.GetThirdPartyServicesCommand(&input1)
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -44,42 +34,41 @@ func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
 
 }
 func TestVThirdPartyServicesErrorHandling(t *testing.T) {
-	url, _ := url.Parse("wrong")
-	svc := config(url)
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint("wrong").WithDebug(false))
 
-	_, _, err := svc.ThirdPartyServices.GetThirdPartyServicesCommand(&GetThirdPartyServicesCommandInput{})
+	_, _, err := svc.GetThirdPartyServicesCommand(&thirdPartyServices.GetThirdPartyServicesCommandInput{})
 	if err == nil {
 		t.Errorf("This should go bang")
 	}
-	_, _, err = svc.ThirdPartyServices.AddThirdPartyServiceCommand(&AddThirdPartyServiceCommandInput{})
+	_, _, err = svc.AddThirdPartyServiceCommand(&thirdPartyServices.AddThirdPartyServiceCommandInput{})
 	if err == nil {
 		t.Errorf("This should go bang")
 	}
-	_, err = svc.ThirdPartyServices.DeleteThirdPartyServiceCommand(&DeleteThirdPartyServiceCommandInput{})
+	_, err = svc.DeleteThirdPartyServiceCommand(&thirdPartyServices.DeleteThirdPartyServiceCommandInput{})
 	if err == nil {
 		t.Errorf("This should go bang")
 	}
-	_, _, err = svc.ThirdPartyServices.GetThirdPartyServiceCommand(&GetThirdPartyServiceCommandInput{})
+	_, _, err = svc.GetThirdPartyServiceCommand(&thirdPartyServices.GetThirdPartyServiceCommandInput{})
 	if err == nil {
 		t.Errorf("This should go bang")
 	}
-	_, _, err = svc.ThirdPartyServices.UpdateThirdPartyServiceCommand(&UpdateThirdPartyServiceCommandInput{})
+	_, _, err = svc.UpdateThirdPartyServiceCommand(&thirdPartyServices.UpdateThirdPartyServiceCommandInput{})
 	if err == nil {
 		t.Errorf("This should go bang")
 	}
 }
 
 func TestThirdPartyServicesMethods(t *testing.T) {
-	svc := config(paURL)
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
 
 	// add a new ThirdPartyService
-	input1 := AddThirdPartyServiceCommandInput{
-		Body: ThirdPartyServiceView{
-			Name:                  String("bar"),
-			Targets:               &[]*string{String("localhost:1234")},
-			AvailabilityProfileId: Int(1),
+	input1 := thirdPartyServices.AddThirdPartyServiceCommandInput{
+		Body: pa.ThirdPartyServiceView{
+			Name:                  pingaccess.String("bar"),
+			Targets:               &[]*string{pingaccess.String("localhost:1234")},
+			AvailabilityProfileId: pingaccess.Int(1),
 		}}
-	result1, resp1, err1 := svc.ThirdPartyServices.AddThirdPartyServiceCommand(&input1)
+	result1, resp1, err1 := svc.AddThirdPartyServiceCommand(&input1)
 	if err1 != nil {
 		t.Errorf("Unable to execute command: %s", err1.Error())
 	}
@@ -91,8 +80,8 @@ func TestThirdPartyServicesMethods(t *testing.T) {
 	}
 
 	//do a get on all ThirdPartyServices
-	input2 := GetThirdPartyServicesCommandInput{}
-	result2, resp2, err2 := svc.ThirdPartyServices.GetThirdPartyServicesCommand(&input2)
+	input2 := thirdPartyServices.GetThirdPartyServicesCommandInput{}
+	result2, resp2, err2 := svc.GetThirdPartyServicesCommand(&input2)
 	if err2 != nil {
 		t.Errorf("Unable to retrieve ThirdPartyServices: %s", err2)
 	}
@@ -104,14 +93,14 @@ func TestThirdPartyServicesMethods(t *testing.T) {
 	}
 
 	//update the ThirdPartyService
-	input3 := UpdateThirdPartyServiceCommandInput{
+	input3 := thirdPartyServices.UpdateThirdPartyServiceCommandInput{
 		Id: *result1.Id,
-		Body: ThirdPartyServiceView{
-			Name:                  String("bar"),
-			Targets:               &[]*string{String("localhost:1234"), String("localhost:1235")},
-			AvailabilityProfileId: Int(1),
+		Body: pa.ThirdPartyServiceView{
+			Name:                  pingaccess.String("bar"),
+			Targets:               &[]*string{pingaccess.String("localhost:1234"), pingaccess.String("localhost:1235")},
+			AvailabilityProfileId: pingaccess.Int(1),
 		}}
-	result3, resp3, err3 := svc.ThirdPartyServices.UpdateThirdPartyServiceCommand(&input3)
+	result3, resp3, err3 := svc.UpdateThirdPartyServiceCommand(&input3)
 	if err3 != nil {
 		t.Errorf("Unable to update ThirdPartyService: %s", err3)
 	}
@@ -123,10 +112,10 @@ func TestThirdPartyServicesMethods(t *testing.T) {
 	}
 
 	//get the ThirdPartyService and check the update
-	input4 := GetThirdPartyServiceCommandInput{
+	input4 := thirdPartyServices.GetThirdPartyServiceCommandInput{
 		Id: *result1.Id,
 	}
-	result4, resp4, err4 := svc.ThirdPartyServices.GetThirdPartyServiceCommand(&input4)
+	result4, resp4, err4 := svc.GetThirdPartyServiceCommand(&input4)
 	if err4 != nil {
 		t.Errorf("Unable to get ThirdPartyService: %s", err4)
 	}
@@ -138,10 +127,10 @@ func TestThirdPartyServicesMethods(t *testing.T) {
 	}
 
 	//delete our initial ThirdPartyService
-	input5 := DeleteThirdPartyServiceCommandInput{
+	input5 := thirdPartyServices.DeleteThirdPartyServiceCommandInput{
 		Id: *result1.Id,
 	}
-	resp5, err5 := svc.ThirdPartyServices.DeleteThirdPartyServiceCommand(&input5)
+	resp5, err5 := svc.DeleteThirdPartyServiceCommand(&input5)
 	if err5 != nil {
 		t.Errorf("Unable to delete ThirdPartyService: %s", err5)
 	}
