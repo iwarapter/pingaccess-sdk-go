@@ -11,6 +11,7 @@ import (
 	"net/http/httputil"
 	"net/url"
 	"reflect"
+	"regexp"
 	"runtime"
 	"strings"
 	"time"
@@ -80,7 +81,7 @@ func New(cfg config.Config, clientInfo metadata.ClientInfo, operation *Operation
 	httpReq, _ := http.NewRequest(method, "", buf)
 
 	httpReq.SetBasicAuth(*cfg.Username, *cfg.Password)
-	httpReq.Header.Add("X-Xsrf-Header", "pingfederate")
+	httpReq.Header.Add("X-Xsrf-Header", "pingaccess")
 	httpReq.Header.Add("User-Agent", fmt.Sprintf("%s/%s (%s; %s; %s)", pingaccess.SDKName, pingaccess.SDKVersion, runtime.Version(), runtime.GOOS, runtime.GOARCH))
 
 	if params != nil {
@@ -123,25 +124,18 @@ func New(cfg config.Config, clientInfo metadata.ClientInfo, operation *Operation
 
 // Send will send the request, returning error if errors are encountered.
 //
-// Send will sign the request prior to sending. All Send Handlers will
-// be executed in the order they were set.
-//
-// Canceling a request is non-deterministic. If a request has been canceled,
-// then the transport will choose, randomly, one of the state channels during
-// reads or getting the connection.
-//
-// readLoop() and getConn(req *Request, cm connectMethod)
-// https://github.com/golang/go/blob/master/src/net/http/transport.go
-//
-// Send will not close the request.Request's body.
 func (r *Request) Send() error {
-	//for {
 	if *r.Config.LogDebug {
 		requestDump, err := httputil.DumpRequest(r.HTTPRequest, true)
+		requestDumpStr := string(requestDump)
+		if *r.Config.MaskAuthorization {
+			r, _ := regexp.Compile(`Authorization: (.*)`)
+			requestDumpStr = r.ReplaceAllString(requestDumpStr, "Authorization: ********")
+		}
 		if err != nil {
 			fmt.Println(err)
 		}
-		log.Printf(logReqMsg, r.ClientInfo.ServiceName, r.Operation.Name, r.RequestID, string(requestDump))
+		log.Printf(logReqMsg, r.ClientInfo.ServiceName, r.Operation.Name, r.RequestID, requestDumpStr)
 	}
 	r.AttemptTime = time.Now()
 
@@ -164,22 +158,7 @@ func (r *Request) Send() error {
 	if r.Error != nil {
 		return r.Error
 	}
-	//r.Handlers.ValidateResponse.Run(r)
-	//if r.Error != nil {
-	//	r.Handlers.UnmarshalError.Run(r)
-	//	err := r.Error
-	//
-	//	r.Handlers.Retry.Run(r)
-	//	r.Handlers.AfterRetry.Run(r)
-	//	if r.Error != nil {
-	//		debugLogReqError(r, "Validate Response", false, err)
-	//		return r.Error
-	//	}
-	//	debugLogReqError(r, "Validate Response", true, err)
-	//	continue
-	//}
 
-	//r.Handlers.Unmarshal.Run(r)
 	if r.DataFilled() {
 		//v := reflect.Indirect(reflect.ValueOf(r.Data))
 		defer r.HTTPResponse.Body.Close()
@@ -193,9 +172,6 @@ func (r *Request) Send() error {
 			}
 		}
 	}
-
-	//	break
-	//}
 
 	return nil
 }
