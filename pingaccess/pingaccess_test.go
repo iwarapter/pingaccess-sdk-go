@@ -121,6 +121,9 @@ func TestClientParsesApiErrorViewCorrect(t *testing.T) {
 	if err == nil {
 		t.Fatalf("expected err, got nil")
 	}
+	if strings.Contains(err.Error(), "{") || strings.Contains(err.Error(), "}") {
+		t.Error("unexpected json in message")
+	}
 	if !strings.Contains(err.Error(), "host contains 2 validation failures:") {
 		t.Error("expected error message missing")
 	}

@@ -194,7 +194,7 @@ func (r *Request) CheckResponse() {
 		return
 	}
 	r.Data = nil
-	errorResponse := models.ApiErrorView{}
+	errorResponse := PingAccessError{}
 	data, err := ioutil.ReadAll(r.HTTPResponse.Body)
 	if err == nil && data != nil {
 		err = json.Unmarshal(data, &errorResponse)
@@ -203,12 +203,7 @@ func (r *Request) CheckResponse() {
 			return
 		}
 	}
-	errorResponse.Flash = &[]*string{
-		pingaccess.String(string(data)),
-	}
-	r.Error = &PingAccessError{
-		ApiErrorView: errorResponse,
-	}
+	r.Error = &errorResponse
 }
 
 // PingFederateError occurs when PingFederate returns a non 2XX response
