@@ -8,13 +8,14 @@ import (
 	"crypto/x509/pkix"
 	"encoding/base64"
 	"encoding/pem"
+	"log"
+	"math/big"
+	"time"
+
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
 	"github.com/iwarapter/pingaccess-sdk-go/services/keyPairs"
-	"log"
-	"math/big"
-	"time"
 
 	"testing"
 )
