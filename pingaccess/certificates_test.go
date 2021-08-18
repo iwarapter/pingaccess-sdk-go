@@ -23,7 +23,7 @@ import (
 )
 
 func TestCertificatesMethods(t *testing.T) {
-	svc := certificates.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := certificates.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	key, _ := rsa.GenerateKey(rand.Reader, 2048)
 	ca := &x509.Certificate{

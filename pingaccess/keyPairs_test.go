@@ -21,7 +21,7 @@ import (
 )
 
 func TestKeyPairsMethods(t *testing.T) {
-	svc := keyPairs.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := keyPairs.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new site authenticator
 	input1 := keyPairs.GenerateCsrCommandInput{Id: "1"}

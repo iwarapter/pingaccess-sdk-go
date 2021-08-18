@@ -1,6 +1,8 @@
 package pingaccess_test
 
 import (
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
 
@@ -11,7 +13,7 @@ import (
 )
 
 func TestAccessTokenValidatorMethods(t *testing.T) {
-	svc := accessTokenValidators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := accessTokenValidators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 	input1 := accessTokenValidators.AddAccessTokenValidatorCommandInput{
 		Body: pa.AccessTokenValidatorView{
 			Name:      pingaccess.String("foo"),
@@ -26,9 +28,9 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 		}}
 
 	result1, resp1, err1 := svc.AddAccessTokenValidatorCommand(&input1)
-	ok(t, err1)
-	equals(t, http.StatusOK, resp1.StatusCode)
-	assert(t, *result1.Name == "foo", "name was not as expected")
+	require.NoError(t, err1)
+	assert.Equal(t, http.StatusOK, resp1.StatusCode)
+	assert.Equal(t, "foo", *result1.Name)
 
 	//do a get on all access token validator
 	input2 := accessTokenValidators.GetAccessTokenValidatorCommandInput{}

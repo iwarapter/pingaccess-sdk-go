@@ -10,7 +10,7 @@ import (
 )
 
 func TestSiteAuthenticatorDescriptors(t *testing.T) {
-	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	result1, resp1, err1 := svc.GetSiteAuthenticatorDescriptorsCommand()
 	if err1 != nil {
@@ -39,7 +39,7 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 }
 
 func TestSiteAuthenticatorMethods(t *testing.T) {
-	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new site authenticator
 	input1 := siteAuthenticators.AddSiteAuthenticatorCommandInput{

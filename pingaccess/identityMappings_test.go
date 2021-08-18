@@ -1,6 +1,9 @@
 package pingaccess_test
 
 import (
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+	"net/http"
 	"testing"
 
 	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
@@ -10,17 +13,11 @@ import (
 )
 
 func TestIdentityMappingDescriptors(t *testing.T) {
-	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 	result1, resp1, err1 := svc.GetIdentityMappingDescriptorsCommand()
-	if err1 != nil {
-		t.Errorf("Unable to execute command: %s", err1.Error())
-	}
-	if resp1.StatusCode != 200 {
-		t.Errorf("Invalid response code: %d", resp1.StatusCode)
-	}
-	if len(result1.Items) != 2 {
-		t.Errorf("Unable the marshall results")
-	}
+	require.NoError(t, err1)
+	assert.Equal(t, http.StatusOK, resp1.StatusCode)
+	assert.Len(t, result1.Items, 2)
 
 	input2 := identityMappings.GetIdentityMappingDescriptorCommandInput{
 		IdentityMappingType: "jwtidentitymapping",
@@ -38,7 +35,7 @@ func TestIdentityMappingDescriptors(t *testing.T) {
 }
 
 func TestIdentityMappingMethods(t *testing.T) {
-	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := identityMappings.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new identity mapping
 	input1 := identityMappings.AddIdentityMappingCommandInput{

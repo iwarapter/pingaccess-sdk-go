@@ -10,7 +10,7 @@ import (
 )
 
 func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(true))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(true))
 
 	input1 := thirdPartyServices.GetThirdPartyServicesCommandInput{
 		Page:          "1",
@@ -34,7 +34,7 @@ func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
 
 }
 func TestVThirdPartyServicesErrorHandling(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint("wrong").WithDebug(false))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint("wrong").WithDebug(false))
 
 	_, _, err := svc.GetThirdPartyServicesCommand(&thirdPartyServices.GetThirdPartyServicesCommandInput{})
 	if err == nil {
@@ -59,7 +59,7 @@ func TestVThirdPartyServicesErrorHandling(t *testing.T) {
 }
 
 func TestThirdPartyServicesMethods(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new ThirdPartyService
 	input1 := thirdPartyServices.AddThirdPartyServiceCommandInput{
