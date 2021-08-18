@@ -1,15 +1,36 @@
 on:  [push, pull_request]
 name: ci
 jobs:
-  build:
-    name: build
+  getdate:
+    name: get date
     runs-on: ubuntu-latest
     steps:
-
-    - name: Set up Go 1.14
+      - name: Get current date
+        id: getdate
+        run: echo "::set-output name=date::$(date +'%y%m%d')"
+    outputs:
+      date: ${{ steps.getdate.outputs.date }}
+  build:
+    name: build
+    needs: getdate
+    runs-on: ubuntu-latest
+    services:
+      pingaccess:
+        image: pingidentity/pingaccess:6.2.2-edge
+        env:
+          PING_IDENTITY_ACCEPT_EULA: YES
+          IMAGE_VERSION: pingaccess-alpine-az11-6.2.2-${{ needs.getdate.outputs.date }}-b5f4
+          PING_IDENTITY_DEVOPS_USER: ${{ secrets.PING_IDENTITY_DEVOPS_USER }}
+          PING_IDENTITY_DEVOPS_KEY: ${{ secrets.PING_IDENTITY_DEVOPS_KEY }}
+        ports:
+          - 9000:9000
+    env:
+      GO111MODULE: on
+    steps:
+    - name: Set up Go 1.16
       uses: actions/setup-go@v1
       with:
-        go-version: 1.14
+        go-version: 1.16
       id: go
 
     - name: Install tools
