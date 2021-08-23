@@ -1,15 +1,16 @@
 package pingaccess_test
 
 import (
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
 	"net/http"
 	"testing"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/accessTokenValidators"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/services/accessTokenValidators"
 )
 
 func TestAccessTokenValidatorMethods(t *testing.T) {

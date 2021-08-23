@@ -3,7 +3,7 @@ package config
 import (
 	"net/http"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/models"
 )
 
 type ConfigAPI interface {

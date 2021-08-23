@@ -1,6 +1,6 @@
-module github.com/iwarapter/pingaccess-sdk-go
+module github.com/iwarapter/pingaccess-sdk-go/v62
 
-go 1.16
+go 1.14
 
 require (
 	github.com/google/uuid v1.1.1

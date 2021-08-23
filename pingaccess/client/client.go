@@ -3,9 +3,9 @@ package client
 import (
 	"io"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client/metadata"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/request"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/client/metadata"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/request"
 )
 
 type Options struct {

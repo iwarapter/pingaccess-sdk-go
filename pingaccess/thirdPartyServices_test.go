@@ -3,10 +3,10 @@ package pingaccess_test
 import (
 	"testing"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/thirdPartyServices"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/services/thirdPartyServices"
 )
 
 func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {

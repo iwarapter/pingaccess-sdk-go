@@ -3,12 +3,12 @@ package version
 import (
 	"net/http"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client/metadata"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/request"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/client"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/client/metadata"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v62/pingaccess/request"
 )
 
 const (
