@@ -96,7 +96,7 @@ type AdminWebSessionOidcConfigurationView struct {
 type AgentCertificateView struct {
 	Alias                   *string        `json:"alias"`
 	ChainCertificate        *bool          `json:"chainCertificate"`
-	Expires                 *string        `json:"expires"`
+	Expires                 *int           `json:"expires"`
 	Id                      *int           `json:"id,omitempty"`
 	IssuerDn                *string        `json:"issuerDn"`
 	KeyPair                 *bool          `json:"keyPair"`
@@ -109,7 +109,7 @@ type AgentCertificateView struct {
 	SubjectCn               *string        `json:"subjectCn,omitempty"`
 	SubjectDn               *string        `json:"subjectDn"`
 	TrustedCertificate      *bool          `json:"trustedCertificate"`
-	ValidFrom               *string        `json:"validFrom"`
+	ValidFrom               *int           `json:"validFrom"`
 }
 
 //AgentCertificatesView - A collection of agent certificates.
@@ -359,7 +359,7 @@ type DescriptorsView struct {
 type EngineCertificateView struct {
 	Alias                   *string        `json:"alias"`
 	ChainCertificate        *bool          `json:"chainCertificate"`
-	Expires                 *string        `json:"expires"`
+	Expires                 *int           `json:"expires"`
 	Id                      *int           `json:"id,omitempty"`
 	IssuerDn                *string        `json:"issuerDn"`
 	KeyPair                 *bool          `json:"keyPair"`
@@ -372,7 +372,7 @@ type EngineCertificateView struct {
 	SubjectCn               *string        `json:"subjectCn,omitempty"`
 	SubjectDn               *string        `json:"subjectDn"`
 	TrustedCertificate      *bool          `json:"trustedCertificate"`
-	ValidFrom               *string        `json:"validFrom"`
+	ValidFrom               *int           `json:"validFrom"`
 }
 
 //EngineHealthStatusView

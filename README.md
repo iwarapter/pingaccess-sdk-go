@@ -6,9 +6,29 @@ PingAccess SDK Go
   [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=github.com.iwarapter.pingaccess-sdk-go&metric=alert_status)](https://sonarcloud.io/dashboard?id=github.com.iwarapter.pingaccess-sdk-go)
   [![Build Status](https://travis-ci.org/iwarapter/pingaccess-sdk-go.svg?branch=master)](https://travis-ci.org/iwarapter/pingaccess-sdk-go)
 
-This project was created to support the [terraform-provider-pingaccess](https://github.com/iwarapter/pingaccess-sdk-go) and other experimental projects.
+This project was created to support the [terraform-provider-pingaccess](https://github.com/iwarapter/terraform-provider-pingaccess) and other experimental projects.
 
 The SDK is currently generated, however the PingAccess API docs have several mistakes which are handled and documented below
+
+The PingAccess Admin API introduces breaking changes between minor product updates, to handle this each major/minor version is published as its own module version.
+
+For example `github.com/iwarapter/pingaccess-sdk-go/v60@6.0` is PingAccess version 6.0 and is tracked on the 6.0 branch.
+
+Using the SDK
+----------------------
+
+```
+go get github.com/iwarapter/pingaccess-sdk-go/v60@6.0
+```
+
+Testing the SDK
+---------------------------
+
+In order to test the provider, you can run `make test`.
+
+```sh
+$ make test
+```
 
 Missing Models
 --------------
@@ -88,22 +108,3 @@ Incorrent Model Fields
 - `TrustedCertView`
 - - `expires` Type: `int` not `string`
 - - `validFrom` Type: `int` not `string`
-
-
-Using the SDK
-----------------------
-
-```
-go get github.com/iwarapter/pingaccess-sdk-go@master
-```
-
-Testing the SDK
----------------------------
-
-In order to test the provider, you can run `make test`.
-
-```sh
-$ make test
-```
-
-This will run the acceptance tests by initializing a local docker container to execute the functional tests against.

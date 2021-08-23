@@ -16,12 +16,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
 
 	"github.com/google/uuid"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client/metadata"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/client/metadata"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
 )
 
 const logReqMsg = `DEBUG: Request %s/%s: %s

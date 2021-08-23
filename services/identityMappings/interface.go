@@ -3,7 +3,7 @@ package identityMappings
 import (
 	"net/http"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
 )
 
 type IdentityMappingsAPI interface {

@@ -4,12 +4,12 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/client/metadata"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/request"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/client"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/client/metadata"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/request"
 )
 
 const (
@@ -23,7 +23,7 @@ type ThirdPartyServicesService struct {
 	*client.Client
 }
 
-//New createa a new instance of the ThirdPartyServicesService client.
+//New creates a new instance of the ThirdPartyServicesService client.
 //
 // Example:
 //   cfg := config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String())

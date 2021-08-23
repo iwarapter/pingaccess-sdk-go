@@ -1,16 +1,16 @@
 package pingaccess_test
 
 import (
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/siteAuthenticators"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/services/siteAuthenticators"
 
 	"testing"
 )
 
 func TestSiteAuthenticatorDescriptors(t *testing.T) {
-	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	result1, resp1, err1 := svc.GetSiteAuthenticatorDescriptorsCommand()
 	if err1 != nil {
@@ -39,7 +39,7 @@ func TestSiteAuthenticatorDescriptors(t *testing.T) {
 }
 
 func TestSiteAuthenticatorMethods(t *testing.T) {
-	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := siteAuthenticators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new site authenticator
 	input1 := siteAuthenticators.AddSiteAuthenticatorCommandInput{

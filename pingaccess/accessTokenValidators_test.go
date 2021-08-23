@@ -4,14 +4,17 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/accessTokenValidators"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/services/accessTokenValidators"
 )
 
 func TestAccessTokenValidatorMethods(t *testing.T) {
-	svc := accessTokenValidators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := accessTokenValidators.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 	input1 := accessTokenValidators.AddAccessTokenValidatorCommandInput{
 		Body: pa.AccessTokenValidatorView{
 			Name:      pingaccess.String("foo"),
@@ -26,9 +29,9 @@ func TestAccessTokenValidatorMethods(t *testing.T) {
 		}}
 
 	result1, resp1, err1 := svc.AddAccessTokenValidatorCommand(&input1)
-	ok(t, err1)
-	equals(t, http.StatusOK, resp1.StatusCode)
-	assert(t, *result1.Name == "foo", "name was not as expected")
+	require.NoError(t, err1)
+	assert.Equal(t, http.StatusOK, resp1.StatusCode)
+	assert.Equal(t, "foo", *result1.Name)
 
 	//do a get on all access token validator
 	input2 := accessTokenValidators.GetAccessTokenValidatorCommandInput{}

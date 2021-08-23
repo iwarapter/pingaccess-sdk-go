@@ -3,14 +3,14 @@ package pingaccess_test
 import (
 	"testing"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	pa "github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/thirdPartyServices"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	pa "github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/services/thirdPartyServices"
 )
 
 func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(true))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(true))
 
 	input1 := thirdPartyServices.GetThirdPartyServicesCommandInput{
 		Page:          "1",
@@ -34,7 +34,7 @@ func TestThirdPartyServicesRequestQueryParamsAreUsed(t *testing.T) {
 
 }
 func TestVThirdPartyServicesErrorHandling(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint("wrong").WithDebug(false))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint("wrong").WithDebug(false))
 
 	_, _, err := svc.GetThirdPartyServicesCommand(&thirdPartyServices.GetThirdPartyServicesCommandInput{})
 	if err == nil {
@@ -59,7 +59,7 @@ func TestVThirdPartyServicesErrorHandling(t *testing.T) {
 }
 
 func TestThirdPartyServicesMethods(t *testing.T) {
-	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := thirdPartyServices.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new ThirdPartyService
 	input1 := thirdPartyServices.AddThirdPartyServiceCommandInput{

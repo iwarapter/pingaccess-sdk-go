@@ -12,16 +12,16 @@ import (
 	"math/big"
 	"time"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/keyPairs"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/services/keyPairs"
 
 	"testing"
 )
 
 func TestKeyPairsMethods(t *testing.T) {
-	svc := keyPairs.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := keyPairs.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	// add a new site authenticator
 	input1 := keyPairs.GenerateCsrCommandInput{Id: "1"}

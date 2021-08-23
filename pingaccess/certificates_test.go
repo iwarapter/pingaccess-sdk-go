@@ -14,16 +14,19 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/config"
-	"github.com/iwarapter/pingaccess-sdk-go/pingaccess/models"
-	"github.com/iwarapter/pingaccess-sdk-go/services/certificates"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
+
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/config"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/pingaccess/models"
+	"github.com/iwarapter/pingaccess-sdk-go/v60/services/certificates"
 
 	"testing"
 )
 
 func TestCertificatesMethods(t *testing.T) {
-	svc := certificates.New(config.NewConfig().WithUsername("Administrator").WithPassword("2FederateM0re").WithEndpoint(paURL.String()).WithDebug(false))
+	svc := certificates.New(config.NewConfig().WithUsername("Administrator").WithPassword("2Access").WithEndpoint(paURL).WithDebug(false))
 
 	key, _ := rsa.GenerateKey(rand.Reader, 2048)
 	ca := &x509.Certificate{
@@ -54,28 +57,23 @@ func TestCertificatesMethods(t *testing.T) {
 		},
 	}
 	result1, resp1, err1 := svc.ImportTrustedCert(&input2)
-	if err1 != nil {
-		t.Errorf("Unable to execute command: %s", err1.Error())
-	}
-	if resp1 == nil || resp1.StatusCode != http.StatusOK {
-		t.Errorf("Invalid response code: %d", resp1.StatusCode)
-	}
-	if result1 == nil {
-		t.Fatalf("Unable the marshall results")
-	}
+	defer func() {
+		if result1 != nil {
+			_, _ = svc.DeleteTrustedCertCommand(&certificates.DeleteTrustedCertCommandInput{Id: strconv.Itoa(*result1.Id)})
+		}
+	}()
+	require.Nil(t, err1)
+	require.NotNil(t, resp1)
+	assert.Equal(t, http.StatusOK, resp1.StatusCode)
+	require.NotNil(t, result1)
 
 	result2, resp2, err2 := svc.ExportTrustedCert(&certificates.ExportTrustedCertInput{Id: strconv.Itoa(*result1.Id)})
-	if err2 != nil {
-		t.Errorf("Unable to execute command: %s", err2.Error())
-	}
-	if resp2 == nil || resp2.StatusCode != http.StatusOK {
-		t.Errorf("Invalid response code: %d", resp2.StatusCode)
-	}
-	if result2 == nil {
-		t.Fatalf("Unable the marshall results")
-	}
+	require.Nil(t, err2)
+	require.NotNil(t, resp2)
+	assert.Equal(t, http.StatusOK, resp2.StatusCode)
+	require.NotNil(t, result2)
 	b, _ := pem.Decode([]byte(*result2))
-	if _, err := x509.ParseCertificate(b.Bytes); err != nil {
-		t.Fatalf("response is not a valid certificate: %s", *result2)
-	}
+	require.NotNil(t, b)
+	_, err = x509.ParseCertificate(b.Bytes)
+	assert.NoError(t, err)
 }
